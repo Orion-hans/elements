@@ -1,0 +1,2150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>국악관현악을 위한 요소</title>
+<link href="https://cdn.jsdelivr.net/npm/pretendard@latest/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep:#F8F6F3;--bg-surface:#FFFFFF;--bg-card:#F2F0ED;--bg-hover:#EBE8E4;--bg-active:#E3E0DB;
+  --border-subtle:rgba(0,0,0,0.06);--border-medium:rgba(0,0,0,0.1);--border-strong:rgba(0,0,0,0.18);
+  --text-primary:#1A1A1A;--text-secondary:#4A4545;--text-muted:#8A8080;
+  --accent-inst:#9A7B4F;--accent-inst-dim:rgba(154,123,79,0.1);--accent-inst-glow:rgba(154,123,79,0.2);
+  --accent-scale:#3D8B6E;--accent-scale-dim:rgba(61,139,110,0.1);--accent-scale-glow:rgba(61,139,110,0.2);
+  --accent-rhythm:#9B5C7A;--accent-rhythm-dim:rgba(155,92,122,0.1);--accent-rhythm-glow:rgba(155,92,122,0.2);
+  --accent-term:#5B7BA5;--accent-term-dim:rgba(91,123,165,0.1);--accent-term-glow:rgba(91,123,165,0.2);
+  --accent-stick:#A86B3D;--accent-stick-dim:rgba(168,107,61,0.1);--accent-stick-glow:rgba(168,107,61,0.2);
+  --radius-sm:6px;--radius-md:10px;--radius-lg:14px;--radius-xl:20px;
+  --font:'Pretendard Variable','Pretendard','Noto Sans KR',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic','맑은 고딕',system-ui,Roboto,'Helvetica Neue',sans-serif;
+  --fast:0.15s ease;--med:0.3s ease;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body,button,input,select,textarea,table,td,th,div,span,p,h1,h2,h3,h4,li{font-family:var(--font);}
+html{font-size:18px;}
+body{font-family:var(--font);background:var(--bg-deep);color:var(--text-primary);min-height:100vh;overflow-x:hidden;}
+.header{padding:2.5rem 2rem 1.8rem;text-align:center;position:relative;}
+.header::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60px;height:1px;background:var(--border-medium);}
+.header h1{font-size:1.5rem;font-weight:600;letter-spacing:0.08em;}
+.header p{font-size:0.8rem;color:var(--text-muted);margin-top:0.4rem;letter-spacing:0.04em;}
+.tab-nav{display:flex;justify-content:center;gap:4px;padding:1.5rem 2rem 0;}
+.tab-btn{padding:0.65rem 1.8rem;border:none;background:transparent;color:var(--text-muted);font-family:var(--font);font-size:0.86rem;font-weight:500;cursor:pointer;border-radius:var(--radius-md);transition:all var(--med);letter-spacing:0.03em;}
+.tab-btn:hover{color:var(--text-secondary);background:var(--bg-hover);}
+.tab-btn.active{color:var(--text-primary);background:var(--bg-surface);box-shadow:0 1px 3px rgba(0,0,0,0.08),0 0 0 1px var(--border-medium);}
+.tab-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:8px;vertical-align:middle;opacity:0.5;transition:opacity var(--med);}
+.tab-btn.active .tab-dot{opacity:1;}
+[data-tab="sound"] .tab-dot{background:#534AB7;}
+[data-tab="instruments"] .tab-dot{background:var(--accent-inst);}
+[data-tab="scales"] .tab-dot{background:var(--accent-scale);}
+[data-tab="rhythm"] .tab-dot{background:var(--accent-rhythm);}
+[data-tab="terms"] .tab-dot{background:var(--accent-term);}
+.tab-panel{display:none;padding:1.5rem;max-width:1400px;margin:0 auto;}
+.tab-panel.active{display:block;animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* Intro box */
+.intro-box{background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:1.4rem 1.6rem;margin-bottom:1.5rem;line-height:1.85;font-size:0.84rem;color:var(--text-secondary);}
+.intro-box .intro-title{font-weight:600;font-size:0.92rem;color:var(--accent-inst);margin-bottom:0.8rem;display:flex;align-items:center;gap:8px;}
+.intro-box .intro-title::before{content:'';display:inline-block;width:4px;height:16px;border-radius:2px;background:var(--accent-inst);}
+.intro-box ul{list-style:none;padding:0;}
+.intro-box li{position:relative;padding-left:1rem;margin-bottom:0.5rem;}
+.intro-box li::before{content:'·';position:absolute;left:0;color:var(--accent-inst);font-weight:700;}
+
+/* Accordion */
+.acc-group{margin-bottom:1rem;}
+.acc-group-header{padding:0.7rem 1.2rem;font-weight:600;font-size:0.84rem;border-radius:var(--radius-md);cursor:pointer;user-select:none;display:flex;align-items:center;gap:10px;transition:background var(--fast);}
+.acc-group-header:hover{filter:brightness(1.15);}
+.g-icon{font-size:0.6rem;transition:transform var(--med);flex-shrink:0;}
+.acc-group-header.collapsed .g-icon{transform:rotate(-90deg);}
+.inst-group .acc-group-header{background:var(--accent-inst-dim);color:var(--accent-inst);}
+.scale-group .acc-group-header{background:var(--accent-scale-dim);color:var(--accent-scale);}
+.stick-group .acc-group-header{background:var(--accent-stick-dim);color:var(--accent-stick);}
+.stick-group .acc-item-kr{font-size:0.82rem;}
+.stick-group .acc-item-en{font-size:0.68rem;display:block;margin-left:0;margin-top:2px;}
+.stick-group .acc-item.open .acc-item-arrow{color:var(--accent-stick);}
+.stick-group .inner-tab.active::after{background:var(--accent-stick);}
+.acc-item{border:1px solid var(--border-subtle);border-radius:var(--radius-md);margin:4px 0;overflow:hidden;background:var(--bg-surface);transition:border-color var(--fast);box-shadow:0 1px 2px rgba(0,0,0,0.04);}
+.acc-item:hover{border-color:var(--border-medium);box-shadow:0 2px 4px rgba(0,0,0,0.06);}
+.acc-item.open{border-color:var(--border-strong);box-shadow:0 2px 8px rgba(0,0,0,0.08);}
+.acc-group-body{display:none;}
+.acc-group.open>.acc-group-body{display:block;}
+/* Instrument grid layout */
+.inst-group .acc-group-body{display:none;grid-template-columns:repeat(3,1fr);gap:6px;padding:4px;}.inst-group.open .acc-group-body{display:grid;}
+.stick-group .acc-group-body{display:none;grid-template-columns:repeat(2,1fr);gap:6px;padding:4px;}.stick-group.open .acc-group-body{display:grid;}
+@media(max-width:900px){.inst-group .acc-group-body{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:500px){.inst-group .acc-group-body{grid-template-columns:repeat(2,1fr);}.stick-group .acc-group-body{grid-template-columns:repeat(2,1fr);}}
+.inst-group .acc-item{margin:0;}
+.inst-group .acc-item-header{padding:0.6rem 0.8rem;gap:8px;}
+.inst-group .acc-item-kr{font-size:0.82rem;}
+.inst-group .acc-item-en{font-size:0.68rem;display:block;margin-left:0;margin-top:2px;}
+.inst-group .acc-item.open{grid-column:1/-1;}
+.stick-group .acc-item.open{grid-column:1/-1;}
+.acc-item-header{display:flex;align-items:center;padding:0.7rem 1rem;cursor:pointer;gap:12px;transition:background var(--fast);user-select:none;}
+.acc-item-header:hover{background:var(--bg-hover);}
+.acc-item-arrow{font-size:0.55rem;color:var(--text-muted);transition:transform var(--med);flex-shrink:0;width:14px;text-align:center;}
+.acc-item.open .acc-item-arrow{transform:rotate(90deg);}
+.inst-group .acc-item.open .acc-item-arrow{color:var(--accent-inst);}
+.scale-group .acc-item.open .acc-item-arrow{color:var(--accent-scale);}
+.acc-item-name{flex:1;}
+.acc-item-kr{font-size:0.88rem;font-weight:500;color:var(--text-primary);}
+.acc-item-en{font-size:0.72rem;color:var(--text-muted);margin-left:8px;}
+/* Scale sub-nav */
+.scale-nav{display:flex;gap:4px;padding:0 0 1rem;border-bottom:1px solid var(--border-subtle);margin-bottom:1rem;}
+.scale-nav-btn{padding:0.5rem 1.4rem;border:none;background:transparent;color:var(--text-muted);font-family:var(--font);font-size:0.82rem;font-weight:500;cursor:pointer;border-radius:var(--radius-md);transition:all var(--med);}
+.scale-nav-btn:hover{color:var(--text-secondary);background:var(--bg-hover);}
+.scale-nav-btn.active{color:var(--accent-scale);background:var(--accent-scale-dim);}
+.scale-sub-panel{display:none;}
+.scale-sub-panel.active{display:block;animation:fadeIn .25s ease;}
+/* Scale info tables */
+.sc-table-wrap{overflow-x:auto;margin:0.5rem 0 1rem;border-radius:var(--radius-md);border:1px solid var(--border-subtle);}
+.sc-table{width:100%;border-collapse:collapse;font-size:0.8rem;}
+.sc-table thead th{padding:0.55rem 0.7rem;font-weight:500;font-size:0.72rem;color:var(--accent-scale);background:var(--accent-scale-dim);border-bottom:1px solid var(--border-medium);text-align:left;white-space:nowrap;}
+.sc-table tbody td{padding:0.45rem 0.7rem;border-bottom:1px solid var(--border-subtle);color:var(--text-secondary);vertical-align:top;}
+.sc-table tbody tr:hover{background:var(--bg-hover);}
+.sc-desc{font-size:0.82rem;color:var(--text-secondary);line-height:1.8;padding:0.8rem 0;}
+.sc-desc-title{font-weight:600;color:var(--accent-scale);margin-bottom:0.4rem;font-size:0.86rem;}
+.acc-item-body{display:none;border-top:1px solid var(--border-subtle);}
+.acc-item.open .acc-item-body{display:block;animation:fadeIn .25s ease;}
+.inner-tabs{display:flex;border-bottom:1px solid var(--border-subtle);background:var(--bg-card);}
+.inner-tab{flex:1;padding:0.55rem 0.5rem;text-align:center;font-size:0.76rem;color:var(--text-muted);cursor:pointer;border:none;background:transparent;font-family:var(--font);transition:all var(--fast);position:relative;font-weight:400;letter-spacing:0.02em;}
+.inner-tab:hover{color:var(--text-secondary);background:var(--bg-hover);}
+.inner-tab.active{color:var(--text-primary);font-weight:500;}
+.inner-tab.active::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:2px;border-radius:1px;}
+.inst-group .inner-tab.active::after{background:var(--accent-inst);}
+.scale-group .inner-tab.active::after{background:var(--accent-scale);}
+.inner-content{display:none;padding:1.2rem 1.4rem;min-height:80px;font-size:0.84rem;line-height:1.8;color:var(--text-secondary);}
+.inner-content.active{display:block;}
+.placeholder{color:var(--text-muted);font-style:italic;font-size:0.8rem;opacity:0.6;text-align:center;padding:1.5rem 0;}
+
+/* ─── 큰 화면 (패드·노트북) 최적화 ─── */
+@media(min-width:1024px){
+  .tab-panel{padding:2rem 2.5rem;}
+  .acc-item-kr{font-size:1.05rem;}
+  .acc-item-en{font-size:0.85rem;}
+  .acc-group-header{font-size:1.05rem !important;}
+  .inner-tab{font-size:0.95rem;padding:0.7rem 0.5rem;}
+  .inner-content{font-size:1.02rem;line-height:1.9;padding:1.4rem 1.6rem;min-height:90px;}
+  .intro-box{font-size:1rem;line-height:1.85;}
+  .tree-node{font-size:1rem;}
+  .tree-branch-header{font-size:1.02rem;}
+  .tree-leaf{font-size:0.95rem;}
+  .sc-table{font-size:0.95rem;}
+  .sc-table thead th{font-size:0.85rem;}
+  .sc-desc{font-size:0.98rem;}
+  .tm-table{font-size:1rem;}
+  .tm-table thead th{font-size:0.88rem;}
+  .term-group-header{font-size:1.02rem;}
+  .detail-value{font-size:1rem;}
+  .inst-group .acc-group-body{grid-template-columns:repeat(3,1fr);gap:8px;}
+  .stick-group .acc-group-body{grid-template-columns:repeat(3,1fr);gap:8px;}
+}
+@media(min-width:1400px){
+  .inst-group .acc-group-body{grid-template-columns:repeat(4,1fr);}
+  .acc-item-kr{font-size:1.1rem;}
+  .inner-content{font-size:1.05rem;}
+}
+
+/* Tree */
+.tree-container{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+@media(max-width:768px){.tree-container{grid-template-columns:1fr;}}
+.tree-branch{background:var(--bg-surface);border-radius:var(--radius-lg);border:1px solid var(--border-subtle);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-bottom:1rem;}
+.tree-branch-header{padding:0.9rem 1.2rem;font-weight:600;font-size:0.86rem;border-bottom:1px solid var(--border-subtle);display:flex;align-items:center;gap:10px;color:var(--accent-rhythm);background:var(--accent-rhythm-dim);cursor:pointer;user-select:none;}.tree-branch-body{display:none;}.tree-branch.open .tree-branch-body{display:block;}.tree-branch-body{padding:0.6rem;}.tree-branch-body>.tree-node{margin:0.5rem 0 0 0;border:1px solid var(--border-subtle);border-radius:var(--radius-lg);background:var(--accent-rhythm-dim);color:var(--accent-rhythm);font-weight:600;padding:0.7rem 1rem;}.tree-branch-body>.tree-node:first-child{margin-top:0;}.tree-branch-body>.tree-sub{border:1px solid var(--border-subtle);border-top:none;border-radius:0 0 var(--radius-lg) var(--radius-lg);margin-bottom:0.8rem;background:var(--bg-surface);overflow:hidden;}
+.branch-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--accent-rhythm-glow);font-size:0.72rem;color:var(--accent-rhythm);}
+.tree-node{padding:0.6rem 1.2rem;border-bottom:1px solid var(--border-subtle);cursor:pointer;transition:all var(--fast);display:flex;align-items:center;justify-content:space-between;font-size:0.84rem;color:var(--text-secondary);}
+.tree-node:hover{background:var(--bg-hover);color:var(--text-primary);}
+.tree-node.expanded{background:var(--bg-hover);color:var(--text-primary);font-weight:500;}
+.node-arrow{font-size:0.6rem;color:var(--text-muted);transition:transform var(--med);}
+.tree-node.expanded .node-arrow{transform:rotate(90deg);color:var(--accent-rhythm);}
+.tree-sub{display:none;background:var(--bg-card);}
+.tree-sub.open{display:block;}
+.tree-leaf{padding:0.5rem 1.2rem 0.5rem 2.2rem;border-bottom:1px solid var(--border-subtle);font-size:0.8rem;color:var(--text-muted);cursor:pointer;transition:all var(--fast);display:flex;align-items:center;gap:8px;}
+.tree-leaf:last-child{border-bottom:none;}
+.tree-leaf:hover{background:var(--bg-hover);color:var(--text-secondary);}
+.tree-leaf::before{content:'·';color:var(--accent-rhythm);font-size:1.2rem;line-height:1;}
+.tree-leaf.selected{color:var(--accent-rhythm);background:var(--accent-rhythm-dim);}
+.detail-panel{margin-top:1.5rem;background:var(--bg-surface);border-radius:var(--radius-lg);border:1px solid var(--border-subtle);overflow:hidden;display:none;}
+.detail-panel.open{display:block;animation:fadeIn .3s ease;}
+.detail-header{padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border-subtle);}
+.detail-title{font-weight:600;font-size:1rem;color:var(--accent-rhythm);}
+.detail-close{background:none;border:none;color:var(--text-muted);font-size:1.2rem;cursor:pointer;padding:4px 8px;border-radius:var(--radius-sm);transition:all var(--fast);font-family:var(--font);}
+.detail-close:hover{background:var(--bg-hover);color:var(--text-primary);}
+.detail-body{padding:1.2rem 1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;}
+.detail-field{background:var(--bg-card);border-radius:var(--radius-md);padding:0.9rem;}
+.detail-field.full{grid-column:1/-1;}
+.detail-label{font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;}
+.detail-value{font-size:0.84rem;color:var(--text-secondary);line-height:1.6;}
+.footer{text-align:center;padding:2rem;color:var(--text-muted);font-size:0.6rem;letter-spacing:0.04em;line-height:1.6;}
+/* Jangdan table styles */
+.jd-table-wrap{overflow-x:auto;margin-top:0.5rem;}
+.jd-table{width:100%;border-collapse:collapse;font-size:0.78rem;}
+.jd-table thead th{padding:0.5rem 0.6rem;font-weight:500;font-size:0.72rem;color:var(--accent-rhythm);background:var(--accent-rhythm-dim);border-bottom:1px solid var(--border-medium);text-align:left;white-space:nowrap;letter-spacing:0.04em;}
+.jd-table tbody td{padding:0.45rem 0.6rem;border-bottom:1px solid var(--border-subtle);color:var(--text-secondary);vertical-align:top;}
+.jd-table tbody tr:hover{background:var(--bg-hover);}
+.jd-section-header td{font-weight:600;color:var(--accent-rhythm);background:rgba(184,136,158,0.06);font-size:0.8rem;padding:0.6rem!important;}
+.jd-note{font-size:0.72rem;color:var(--text-muted);font-style:italic;padding:0.6rem 0.8rem;border-top:1px solid var(--border-subtle);line-height:1.6;}
+.jd-score{background:var(--bg-card);border:1px dashed var(--border-medium);border-radius:var(--radius-md);padding:1rem;margin:0.5rem 0.8rem 0.8rem;text-align:center;color:var(--text-muted);font-size:0.78rem;font-style:italic;min-height:60px;display:flex;align-items:center;justify-content:center;}
+.jd-score-icon{margin-right:6px;opacity:0.5;}
+.jd-row-clickable{cursor:pointer;transition:background var(--fast);}
+.jd-row-clickable:hover{background:var(--accent-rhythm-dim);}
+.jd-row-clickable td:first-child{position:relative;padding-left:1.4rem;}
+.jd-row-clickable td:first-child::before{content:"▶";position:absolute;left:0.4rem;top:50%;transform:translateY(-50%);font-size:0.5rem;color:var(--accent-rhythm);opacity:0.6;transition:transform var(--med);}
+.jd-row-clickable.jd-open td:first-child::before{transform:translateY(-50%) rotate(90deg);}
+.jd-inline-score{display:none;background:var(--bg-card);border-bottom:1px solid var(--border-subtle);}
+.jd-inline-score.open{display:table-row;}
+.jd-inline-score td{padding:0.8rem 1rem;text-align:center;color:var(--text-muted);font-style:italic;font-size:0.78rem;}
+/* Scale sub-tabs */
+.scale-sub-nav{display:flex;gap:4px;padding:0.8rem 1rem;background:var(--bg-surface);border-bottom:1px solid var(--border-subtle);border-radius:var(--radius-lg) var(--radius-lg) 0 0;}
+.scale-sub-btn{padding:0.5rem 1.4rem;border:none;background:transparent;color:var(--text-muted);font-family:var(--font);font-size:0.82rem;font-weight:500;cursor:pointer;border-radius:var(--radius-sm);transition:all var(--med);}
+.scale-sub-btn:hover{color:var(--text-secondary);background:var(--bg-hover);}
+.scale-sub-btn.active{color:var(--accent-scale);background:var(--accent-scale-dim);}
+.scale-sub-panel{display:none;}
+.scale-sub-panel.active{display:block;animation:fadeIn .25s ease;}
+/* Scale data table */
+.sc-table{width:100%;border-collapse:collapse;font-size:0.78rem;margin-bottom:0.5rem;}
+.sc-table thead th{padding:0.5rem 0.6rem;font-weight:500;font-size:0.72rem;color:var(--accent-scale);background:var(--accent-scale-dim);border-bottom:1px solid var(--border-medium);text-align:left;white-space:nowrap;}
+.sc-table tbody td{padding:0.45rem 0.6rem;border-bottom:1px solid var(--border-subtle);color:var(--text-secondary);vertical-align:top;}
+.sc-table tbody tr:hover{background:var(--bg-hover);}
+.sc-section{background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:1rem;}
+.sc-section-header{padding:0.8rem 1.2rem;font-weight:600;font-size:0.86rem;color:var(--accent-scale);background:var(--accent-scale-dim);cursor:pointer;display:flex;align-items:center;gap:10px;user-select:none;}
+.sc-section-header:hover{filter:brightness(1.15);}
+.sc-section-header .g-icon{font-size:0.6rem;transition:transform var(--med);}
+.sc-section-header.collapsed .g-icon{transform:rotate(-90deg);}
+.sc-section-body{padding:0.8rem;display:none;}.sc-section.open .sc-section-body{display:block;}
+.ja-tab-bar{display:flex;gap:0;margin-bottom:0.8rem;border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--accent-scale);}
+.ja-tab-btn{flex:1;padding:0.6rem 0.8rem;border:none;background:var(--bg-surface);color:var(--accent-scale);font-weight:600;font-size:0.82rem;cursor:pointer;transition:all var(--fast);}
+.ja-tab-btn.active{background:var(--accent-scale);color:#fff;}
+.ja-tab-btn:hover:not(.active){background:var(--accent-scale-dim);}
+.ja-panel{display:none;}
+.ja-panel.active{display:block;}
+.ja-inner-tabs{display:flex;gap:0.4rem;margin-bottom:0.8rem;flex-wrap:wrap;}
+.ja-inner-btn{padding:0.45rem 0.9rem;border:1px solid var(--border-subtle);border-radius:var(--radius-md);background:var(--bg-card);color:var(--text-secondary);font-size:0.78rem;font-weight:500;cursor:pointer;transition:all var(--fast);}
+.ja-inner-btn.active{background:var(--accent-scale-dim);color:var(--accent-scale);border-color:var(--accent-scale);}
+.ja-inner-btn:hover:not(.active){background:var(--bg-hover);}
+.ja-inner-panel{display:none;}
+.ja-inner-panel.active{display:block;}
+.ja-scale-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:0.8rem;margin-bottom:0.6rem;}
+.ja-scale-title{font-weight:600;font-size:0.85rem;color:var(--accent-scale);margin-bottom:0.4rem;}
+.ja-scale-info{font-size:0.8rem;color:var(--text-secondary);margin-bottom:0.5rem;}
+.ja-mode-tabs{margin-top:0.8rem;}
+.ja-mode-tab{padding:0.5rem 0.9rem;background:var(--bg-card);color:var(--text-secondary);font-weight:500;font-size:0.78rem;cursor:pointer;border:1px solid var(--border-subtle);border-radius:var(--radius-md);margin-bottom:0.3rem;display:flex;align-items:center;gap:8px;}
+.ja-mode-tab:hover{filter:brightness(1.1);}
+.ja-mode-tab .t-arrow{font-size:0.6rem;transition:transform var(--med);}
+.ja-mode-tab.open .t-arrow{transform:rotate(90deg);}
+.ja-mode-body{display:none;padding:0.5rem 1rem;border:1px solid var(--border-subtle);border-top:none;border-radius:0 0 var(--radius-md) var(--radius-md);margin-bottom:0.5rem;background:var(--bg-surface);}
+.ja-mode-tab.open+.ja-mode-body{display:block;}
+
+
+.sc-desc{font-size:0.82rem;color:var(--text-secondary);line-height:1.8;padding:0.6rem 0.8rem;margin-bottom:0.8rem;}
+.sc-tori-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-md);margin-bottom:0.5rem;overflow:hidden;}
+.sc-tori-header{padding:0.6rem 1rem;cursor:pointer;display:flex;align-items:center;gap:10px;font-size:0.84rem;color:var(--text-primary);font-weight:500;transition:background var(--fast);}
+.sc-tori-header:hover{background:var(--bg-hover);}
+.sc-tori-header .t-arrow{font-size:0.5rem;color:var(--text-muted);transition:transform var(--med);}
+.sc-tori-card.open .t-arrow{transform:rotate(90deg);color:var(--accent-scale);}
+.sc-tori-body{display:none;border-top:1px solid var(--border-subtle);padding:0.8rem 1rem;font-size:0.82rem;color:var(--text-secondary);line-height:1.8;}
+.sc-tori-card.open .sc-tori-body{display:block;}
+.sc-tori-body .sc-field{margin-bottom:0.5rem;}
+.sc-tori-body .sc-label{font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.2rem;}
+.sc-tori-body .sc-val{color:var(--text-secondary);}
+.sc-score-placeholder{background:var(--bg-surface);border:1px dashed var(--border-medium);border-radius:var(--radius-sm);padding:0.7rem;margin-top:0.5rem;text-align:center;color:var(--text-muted);font-size:0.76rem;font-style:italic;}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.15);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,0.25);}
+
+/* ─── Mobile Responsive ─── */
+@media(max-width:1024px){
+  .intro-box{font-size:0.92rem;}
+  .intro-box .intro-title{font-size:1rem;}
+  .acc-group-header{font-size:0.92rem;}
+  .acc-item-kr{font-size:0.96rem;}
+  .acc-item-en{font-size:0.8rem;}
+  .inner-tab{font-size:0.84rem;}
+  .inner-content{font-size:0.92rem;line-height:1.9;}
+  .tree-node{font-size:0.92rem;}
+  .tree-branch-header{font-size:0.94rem;}
+  .tree-leaf{font-size:0.88rem;}
+  .detail-value{font-size:0.92rem;}
+  .detail-label{font-size:0.78rem;}
+  .sc-table{font-size:0.86rem;}
+  .sc-table thead th{font-size:0.8rem;}
+  .sc-desc{font-size:0.9rem;}
+  .jd-table{font-size:0.86rem;}
+  .jd-table thead th{font-size:0.8rem;}
+  .scale-sub-btn{font-size:0.9rem;}
+  .sc-section-header{font-size:0.94rem;}
+  .sc-tori-header{font-size:0.92rem;}
+  .sc-tori-body{font-size:0.9rem;}
+  .ja-tab-btn{font-size:0.9rem;}
+  .ja-inner-btn{font-size:0.86rem;}
+  .ja-scale-title{font-size:0.93rem;}
+  .ja-scale-info{font-size:0.88rem;}
+  .ja-mode-tab{font-size:0.86rem;}
+  .jd-score{font-size:0.86rem;}
+  .jd-note{font-size:0.8rem;}
+  .placeholder{font-size:0.88rem;}
+  .footer{font-size:0.7rem;}
+}
+
+/* ─── 태블릿 세로 (768~1023px) 전용 최적화 ─── */
+@media(min-width:768px) and (max-width:1023px){
+  .tab-panel{padding:1.6rem 1.4rem;}
+  .header h1{font-size:1.5rem;}
+  .header p{font-size:0.95rem;}
+  .tab-btn{font-size:1rem;padding:0.65rem 1.3rem;}
+  .search-input{font-size:1rem;}
+  .search-input::placeholder{font-size:0.95rem;}
+
+  /* 본문 가독성: 글자 + 줄간격 + 여백 동시 확대 */
+  .intro-box{font-size:1.05rem;line-height:1.95;padding:1.3rem 1.5rem;}
+  .intro-box .intro-title{font-size:1.12rem;margin-bottom:0.6rem;}
+  .acc-group-header{font-size:1.08rem;padding:0.95rem 1.2rem;}
+  .acc-item-header{padding:0.85rem 1rem;}
+  .acc-item-kr{font-size:1.08rem;}
+  .acc-item-en{font-size:0.88rem;}
+  .inner-tab{font-size:0.95rem;padding:0.7rem 0.5rem;}
+  .inner-content{font-size:1.06rem;line-height:2.0;padding:1.4rem 1.5rem;min-height:90px;}
+
+  /* 카드가 좁아 답답하지 않도록 2열 + 넉넉한 간격 */
+  .inst-group .acc-group-body{grid-template-columns:repeat(2,1fr);gap:10px;padding:8px;}
+  .stick-group .acc-group-body{grid-template-columns:repeat(2,1fr);gap:10px;padding:8px;}
+
+  /* 장단 */
+  .tree-node{font-size:1.05rem;padding:0.75rem 1rem;}
+  .tree-branch-header{font-size:1.06rem;padding:0.9rem 1rem;}
+  .tree-leaf{font-size:1rem;padding:0.65rem 1rem 0.65rem 1.9rem;}
+  .jd-table{font-size:0.98rem;}
+  .jd-table thead th{font-size:0.88rem;padding:0.6rem 0.7rem;}
+  .jd-table tbody td{padding:0.6rem 0.7rem;line-height:1.8;}
+  .jd-score{font-size:0.95rem;}
+  .jd-note{font-size:0.88rem;}
+
+  /* 음계 */
+  .sc-table{font-size:0.98rem;}
+  .sc-table thead th{font-size:0.88rem;padding:0.6rem 0.7rem;}
+  .sc-table tbody td{padding:0.6rem 0.7rem;line-height:1.8;}
+  .sc-desc{font-size:1.02rem;line-height:1.9;}
+  .scale-sub-btn{font-size:1rem;padding:0.6rem 1.2rem;}
+  .sc-section-header{font-size:1.06rem;padding:0.85rem 1.1rem;}
+  .sc-tori-header{font-size:1.04rem;padding:0.75rem 1rem;}
+  .sc-tori-body{font-size:1.02rem;line-height:1.9;padding:0.9rem 1.1rem;}
+  .ja-tab-btn{font-size:1rem;}
+  .ja-inner-btn{font-size:0.95rem;}
+  .ja-scale-title{font-size:1.05rem;}
+  .ja-scale-info{font-size:0.98rem;line-height:1.85;}
+  .ja-mode-tab{font-size:0.95rem;}
+
+  /* 음악용어 */
+  .term-sub-btn{font-size:1rem;padding:0.6rem 1.2rem;}
+  .term-group-header{font-size:1.06rem;padding:0.85rem 1.1rem;}
+  .tm-table{font-size:1rem;}
+  .tm-table thead th{font-size:0.9rem;padding:0.65rem 0.8rem;}
+  .tm-table tbody td{padding:0.65rem 0.8rem;line-height:1.85;}
+
+  .detail-value{font-size:1.02rem;line-height:1.85;}
+  .detail-label{font-size:0.88rem;}
+  .placeholder{font-size:1rem;}
+  .footer{font-size:0.8rem;}
+}
+@media(max-width:600px){
+  .header{padding:1.5rem 1rem 1.2rem;}
+  .header h1{font-size:1.3rem;}
+  .header p{font-size:0.85rem;}
+  .tab-nav{padding:1rem 0.8rem 0;gap:2px;}
+  .tab-btn{padding:0.5rem 1rem;font-size:0.88rem;}
+  .tab-dot{width:6px;height:6px;margin-right:5px;}
+  .tab-panel{padding:0.8rem;}
+  .intro-box{font-size:0.9rem;}
+  .intro-box .intro-title{font-size:0.98rem;}
+  .acc-group-header{padding:0.6rem 0.8rem;font-size:0.9rem;}
+  .acc-item-header{padding:0.6rem 0.8rem;gap:8px;}
+  .acc-item-kr{font-size:0.92rem;}
+  .acc-item-en{font-size:0.76rem;}
+  .inner-tabs{flex-wrap:wrap;}
+  .inner-tab{padding:0.45rem 0.3rem;font-size:0.8rem;min-width:0;}
+  .inner-content{padding:0.8rem;min-height:60px;font-size:0.9rem;line-height:1.8;}
+  .tree-node{padding:0.5rem 0.8rem;font-size:0.9rem;}
+  .tree-branch-header{padding:0.7rem 0.8rem;font-size:0.9rem;}
+  .tree-leaf{padding:0.45rem 0.8rem 0.45rem 1.6rem;font-size:0.86rem;}
+  .detail-value{font-size:0.9rem;}
+  .detail-label{font-size:0.76rem;}
+  .jd-table{font-size:0.82rem;}
+  .jd-table thead th{padding:0.4rem 0.4rem;font-size:0.76rem;}
+  .jd-table tbody td{padding:0.35rem 0.4rem;}
+  .sc-table{font-size:0.82rem;}
+  .sc-table thead th{padding:0.4rem 0.4rem;font-size:0.76rem;}
+  .sc-table tbody td{padding:0.35rem 0.4rem;}
+  .scale-sub-nav{padding:0.5rem 0.6rem;gap:2px;}
+  .scale-sub-btn{padding:0.4rem 0.8rem;font-size:0.84rem;}
+  .sc-section-header{padding:0.6rem 0.8rem;font-size:0.9rem;}
+  .sc-section-body{padding:0.5rem;}
+  .sc-tori-header{padding:0.5rem 0.8rem;font-size:0.9rem;}
+  .sc-tori-body{padding:0.6rem 0.8rem;font-size:0.86rem;}
+  .sc-desc{font-size:0.86rem;padding:0.4rem 0.4rem;}
+  .detail-body{grid-template-columns:1fr;padding:0.8rem;}
+  .jd-score{padding:0.7rem;margin:0.4rem;font-size:0.82rem;min-height:45px;}
+  .jd-note{font-size:0.78rem;}
+  .placeholder{font-size:0.86rem;}
+  .ja-tab-btn{font-size:0.88rem;}
+  .ja-inner-btn{font-size:0.84rem;}
+  .ja-scale-title{font-size:0.9rem;}
+  .ja-scale-info{font-size:0.86rem;}
+  .ja-mode-tab{font-size:0.84rem;}
+  .footer{padding:1.2rem;font-size:0.68rem;}
+}
+@media(max-width:400px){
+  .header h1{font-size:1.15rem;letter-spacing:0.04em;}
+  .tab-btn{padding:0.45rem 0.7rem;font-size:0.84rem;}
+  .inst-group .acc-item-header{padding:0.5rem 0.6rem;}
+  .inst-group .acc-item-kr{font-size:0.88rem;}
+}
+
+.inst-photo-thumb{width:40px;height:40px;border-radius:6px;object-fit:cover;margin-right:8px;flex-shrink:0;border:1px solid rgba(255,255,255,0.15);}
+.inst-photo-med{width:100%;max-width:300px;border-radius:10px;object-fit:cover;display:block;margin:0 auto 12px;box-shadow:0 2px 12px rgba(0,0,0,0.2);}
+
+.eb-tone-tabs{display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap;}
+.eb-tone-btn{padding:6px 14px;border:1.5px solid var(--border);border-radius:16px;background:var(--card);color:var(--text);cursor:pointer;font-size:0.82rem;transition:all .2s;}
+.eb-tone-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.eb-tone-panel{display:none;}
+.eb-tone-panel.active{display:block;}
+
+/* ─── 음악용어 Term Tab ─── */
+.term-sub-nav{display:flex;gap:4px;padding:0.8rem 1rem;background:var(--bg-surface);border-bottom:1px solid var(--border-subtle);border-radius:var(--radius-lg) var(--radius-lg) 0 0;margin-bottom:1rem;}
+.term-sub-btn{padding:0.5rem 1.4rem;border:none;background:transparent;color:var(--text-muted);font-family:var(--font);font-size:0.82rem;font-weight:500;cursor:pointer;border-radius:var(--radius-sm);transition:all var(--med);}
+.term-sub-btn:hover{color:var(--text-secondary);background:var(--bg-hover);}
+.term-sub-btn.active{color:var(--accent-term);background:var(--accent-term-dim);}
+.term-sub-panel{display:none;padding:0.5rem 0;max-width:1400px;margin:0 auto;}
+.term-sub-panel.active{display:block;animation:fadeIn .25s ease;}
+.term-group{background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:1rem;box-shadow:0 1px 3px rgba(0,0,0,0.05);}
+.term-group-header{padding:0.8rem 1.2rem;font-weight:600;font-size:0.86rem;color:var(--accent-term);background:var(--accent-term-dim);cursor:pointer;display:flex;align-items:center;gap:10px;user-select:none;}
+.term-group-header:hover{filter:brightness(1.15);}
+.term-group-header .g-icon{font-size:0.6rem;transition:transform var(--med);}
+.term-group.open .term-group-header .g-icon{transform:rotate(90deg);}
+.term-group-body{display:none;}.term-group.open .term-group-body{display:block;}
+.tm-table{width:100%;border-collapse:collapse;font-size:0.8rem;}
+.tm-table thead th{padding:0.55rem 0.7rem;font-weight:500;font-size:0.72rem;color:var(--accent-term);background:var(--accent-term-dim);border-bottom:1px solid var(--border-medium);text-align:left;white-space:nowrap;letter-spacing:0.04em;}
+.tm-table tbody td{padding:0.45rem 0.7rem;border-bottom:1px solid var(--border-subtle);color:var(--text-secondary);vertical-align:top;}
+.tm-table tbody tr:hover{background:var(--bg-hover);}
+@media(max-width:1024px){
+  .term-sub-btn{font-size:0.9rem;}
+  .term-group-header{font-size:0.94rem;}
+  .tm-table{font-size:0.88rem;}
+  .tm-table thead th{font-size:0.8rem;}
+}
+@media(max-width:600px){
+  .term-sub-nav{padding:0.5rem 0.6rem;gap:2px;flex-wrap:wrap;}
+  .term-sub-btn{padding:0.4rem 0.8rem;font-size:0.84rem;}
+  .term-group-header{padding:0.6rem 0.8rem;font-size:0.9rem;}
+  .tm-table{font-size:0.82rem;}
+  .tm-table thead th{padding:0.4rem 0.4rem;font-size:0.76rem;}
+  .tm-table tbody td{padding:0.35rem 0.4rem;}
+}
+
+/* ── 음의 원리 ── */
+
+#sound-panel .sm-panel, #sound-panel .sub-panel{text-align:center;}
+#sound-panel .info-row{max-width:480px;margin-left:auto;margin-right:auto;text-align:left;}
+#sound-panel .overtone-bar{max-width:480px;margin-left:auto;margin-right:auto;}
+#sound-panel .note-text{max-width:480px;margin-left:auto;margin-right:auto;}
+#sound-panel .key-row{justify-content:center;}
+#sound-panel .adsr-desc{text-align:center;}
+#sound-panel .connector,
+#sound-panel .sub-connector{
+  width:auto;height:auto;background:none;
+  display:flex;justify-content:center;align-items:center;
+  padding:4px 0;margin:0 auto;
+  color:var(--accent);font-size:14px;opacity:0.6;
+}
+#sound-panel .connector::after,
+#sound-panel .sub-connector::after{content:"▼";}
+
+#sound-panel{
+--bg:#f5f0e8;--card:#fffdf7;--border:#ddd5c8;--text:#2c2a25;--text2:#6a6560;--text3:#9a9590;
+--accent:#534AB7;--accent-bg:#eeedfe;--teal:#0F6E56;--teal-bg:#e1f5ee;--coral:#993C1D;--coral-bg:#faece7;
+}
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+
+
+
+
+.hidden{display:none}
+#sound-panel .tab-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;justify-content:center}
+#sound-panel .tab{padding:9px 22px;border-radius:20px;border:1.5px solid var(--border);background:var(--card);color:var(--text3);font-size:13px;font-weight:600;cursor:pointer;transition:all .25s;font-family:inherit}
+#sound-panel .tab:hover{border-color:#b0a898;color:var(--text2)}
+#sound-panel .tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+#sound-panel .connector{width:1.5px;height:14px;background:var(--border);margin:0 auto}
+#sound-panel .panel{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:18px;margin-bottom:14px;animation:fadeIn .3s ease;max-width:640px;margin-left:auto;margin-right:auto}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}
+to{opacity:1;transform:translateY(0)}
+#sound-panel }
+.three-inline{display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap}
+#sound-panel .three-inline .item{font-size:13px;font-weight:600}
+#sound-panel .three-inline .sep{color:var(--border);font-size:14px}
+#sound-panel .info-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #ece7de}
+#sound-panel .info-row:last-child{border:none}
+#sound-panel .info-label{font-size:13px;color:var(--text3);min-width:72px;font-weight:600}
+#sound-panel .info-value{font-size:14px;font-weight:500;color:var(--text)}
+#sound-panel .overtone-bar{display:flex;align-items:center;gap:8px;padding:7px 14px;border-radius:8px;margin-bottom:4px;font-size:13px;font-weight:600}
+#sound-panel .ov-purple{background:rgba(83,74,183,.08);color:#3C3489;border-left:3px solid var(--accent)}
+#sound-panel .ov-teal{background:rgba(15,110,86,.07);color:#085041;border-left:3px solid var(--teal)}
+#sound-panel .ov-coral{background:rgba(216,90,48,.06);color:#712B13;border-left:3px solid #D85A30}
+#sound-panel .ov-gray{background:rgba(136,135,128,.06);color:#444441;border-left:3px solid #888780}
+#sound-panel .ov-right{margin-left:auto;font-size:10px;opacity:.6;font-weight:400}
+#sound-panel .note-text{font-size:11px;color:var(--text3);margin-top:12px;padding:8px 12px;border-left:2px solid var(--border);line-height:1.7}
+#sound-panel .circle-wrap{display:flex;justify-content:center;margin:14px 0}
+#sound-panel .key-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;justify-content:center}
+#sound-panel .key-pill{padding:6px 14px;border-radius:8px;font-size:13px;font-weight:600}
+#sound-panel .key-sharp{background:var(--accent-bg);color:#3C3489;border:1.5px solid #c4bef0}
+#sound-panel .key-flat{background:var(--teal-bg);color:#085041;border:1.5px solid #a8d8c4}
+#sound-panel .section-label{font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px}
+#sound-panel .section-sub{font-size:12px;color:var(--text2);margin-bottom:10px;line-height:1.6}
+#sound-panel .adsr-desc{font-size:13px;color:var(--text);text-align:center;font-weight:500}
+#sound-panel .sub-connector{width:1.5px;height:10px;background:var(--border);margin:0 auto}
+#sound-panel .sub-tab{padding:7px 16px;border-radius:16px;border:1.5px solid var(--border);background:var(--card);color:var(--text3);font-size:12px;font-weight:600;cursor:pointer;transition:all .25s;font-family:inherit}
+#sound-panel .sub-tab:hover{border-color:#b0a898;color:var(--text2)}
+#sound-panel .sub-tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+#sound-panel .sub-panel{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:8px;animation:fadeIn .3s ease;max-width:580px}
+
+#sound-panel .panel,
+#sound-panel .sub-panel{margin-left:auto;margin-right:auto;text-align:left;}
+#sound-panel .tab-row,
+#sound-panel .connector,
+#sound-panel .sub-connector,
+#sound-panel .circle-wrap,
+#sound-panel .key-row,
+#sound-panel .note-text,
+#sound-panel .three-inline,
+#sound-panel .adsr-desc,
+#sound-panel .section-label,
+#sound-panel .section-sub{text-align:center;}
+
+#sound-panel .connector,
+#sound-panel .sub-connector{
+  width:auto;height:auto;background:none;
+  display:flex;justify-content:center;align-items:center;
+  margin:4px auto;
+}
+#sound-panel .connector::after,
+#sound-panel .sub-connector::after{
+  content:"▼";
+  font-size:14px;
+  color:var(--accent);
+  animation:smBounce 1.5s infinite;
+}
+@keyframes smBounce{
+  0%,100%{transform:translateY(0);opacity:0.6;}
+  50%{transform:translateY(4px);opacity:1;}
+}
+
+
+.gut-info{background:var(--card-bg,#faf8f4);border:1.5px solid #ddd5c8;border-radius:12px;padding:16px;margin-bottom:14px;margin-top:24px;}
+.gut-info:first-child{margin-top:0;}
+.gut-info-title{font-size:1rem;font-weight:700;color:var(--accent-rhythm);margin-bottom:10px;letter-spacing:-0.3px;}
+.gut-info-row{display:flex;gap:10px;margin-bottom:8px;font-size:0.82rem;line-height:1.65;}
+.gut-info-row:last-child{margin-bottom:0;}
+.gut-info-label{flex-shrink:0;width:36px;font-weight:700;color:var(--text,#333);padding:2px 0;}
+.gut-info-value{color:var(--text-sec,#555);}
+
+.rhy-tab-bar{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+.rhy-tab-btn{padding:7px 14px;border:1.5px solid var(--border,#ddd5c8);border-radius:18px;background:var(--card-bg,#faf8f4);color:var(--text-sec,#555);cursor:pointer;font-size:0.8rem;font-weight:600;transition:all .2s;font-family:inherit;}
+.rhy-tab-btn.active{background:var(--accent-rhythm,#9B5C7A);color:#fff;border-color:var(--accent-rhythm,#9B5C7A);}
+.rhy-tab-panel{display:none;}
+.rhy-tab-panel.active{display:block;}
+.rhy-sub-tabs{display:flex;gap:4px;margin-bottom:12px;}
+.rhy-sub-btn{padding:5px 12px;border:1.5px solid var(--border,#ddd5c8);border-radius:14px;background:transparent;color:var(--text-sec,#555);cursor:pointer;font-size:0.78rem;font-weight:600;transition:all .2s;font-family:inherit;}
+.rhy-sub-btn.active{background:var(--accent-rhythm,#9B5C7A);color:#fff;border-color:var(--accent-rhythm,#9B5C7A);}
+.rhy-sub-panel{display:none;}
+.rhy-sub-panel.active{display:block;}
+
+.rhy-tab-panel.active{border-top:1.5px solid var(--border,#ddd5c8);padding-top:14px;margin-top:10px;}
+
+.jd-clickable tbody tr:not(.score-row){cursor:pointer;}
+.jd-clickable tbody tr:not(.score-row):hover td{background:rgba(155,92,122,0.1);}
+.jd-clickable tbody tr.score-active td{background:rgba(155,92,122,0.08);}
+.score-row{display:none;}
+.score-row.open{display:table-row;}
+.score-area{text-align:center;color:var(--text-sec,#888);padding:20px 10px;font-size:0.85rem;background:var(--card-bg,#faf8f4);border-radius:8px;}
+/* Search */
+.search-wrap{max-width:1400px;margin:1rem auto 0;padding:0 1.5rem;position:relative;}
+.search-box{display:flex;align-items:center;background:var(--bg-surface);border:1px solid var(--border-medium);border-radius:var(--radius-lg);padding:0.5rem 1rem;gap:8px;transition:border-color var(--fast),box-shadow var(--fast);}
+.search-box:focus-within{border-color:var(--accent-inst);box-shadow:0 0 0 3px var(--accent-inst-dim);}
+.search-icon{font-size:0.85rem;opacity:0.5;flex-shrink:0;}
+.search-input{flex:1;border:none;background:transparent;font-family:var(--font);font-size:0.88rem;color:var(--text-primary);outline:none;}
+.search-input::placeholder{color:var(--text-muted);font-size:0.84rem;}
+.search-clear{border:none;background:transparent;color:var(--text-muted);font-size:0.9rem;cursor:pointer;padding:2px 6px;border-radius:50%;transition:all var(--fast);}
+.search-clear:hover{background:var(--bg-hover);color:var(--text-primary);}
+.search-results{position:absolute;top:100%;left:1.5rem;right:1.5rem;background:var(--bg-surface);border:1px solid var(--border-medium);border-radius:var(--radius-lg);margin-top:4px;max-height:60vh;overflow-y:auto;display:none;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,0.12);}
+.search-results.active{display:block;}
+.sr-item{padding:0.7rem 1rem;cursor:pointer;border-bottom:1px solid var(--border-subtle);transition:background var(--fast);}
+.sr-item:last-child{border-bottom:none;}
+.sr-item:hover{background:var(--bg-hover);}
+.sr-name{font-weight:600;font-size:0.86rem;color:var(--text-primary);}
+.sr-name em{font-style:normal;font-weight:400;font-size:0.72rem;color:var(--text-muted);margin-left:6px;}
+.sr-tag{display:inline-block;font-size:0.65rem;padding:1px 6px;border-radius:10px;margin-left:6px;font-weight:500;vertical-align:middle;}
+.sr-snippet{font-size:0.78rem;color:var(--text-muted);margin-top:3px;line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+.sr-snippet mark{background:rgba(154,123,79,0.25);color:var(--text-primary);border-radius:2px;padding:0 1px;}
+.sr-empty{padding:1.5rem;text-align:center;color:var(--text-muted);font-size:0.84rem;}
+@media(max-width:600px){.search-wrap{padding:0 0.8rem;}.search-input{font-size:0.86rem;}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>국악관현악을 위한 요소</h1>
+  <p>Elements for Gugak Orchestra</p>
+</div>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" data-tab="sound" onclick="switchTab('sound')"><span class="tab-dot"></span>음의 원리</button>
+  <button class="tab-btn" data-tab="instruments" onclick="switchTab('instruments')"><span class="tab-dot"></span>악기</button>
+  <button class="tab-btn" data-tab="scales" onclick="switchTab('scales')"><span class="tab-dot"></span>음계</button>
+  <button class="tab-btn" data-tab="rhythm" onclick="switchTab('rhythm')"><span class="tab-dot"></span>장단</button>
+  <button class="tab-btn" data-tab="terms" onclick="switchTab('terms')"><span class="tab-dot"></span>음악용어</button>
+</nav>
+
+<div class="search-wrap">
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" class="search-input" placeholder="악기, 음계, 장단, 용어 검색..." oninput="doSearch(this.value)">
+    <button class="search-clear" id="searchClear" onclick="clearSearch()" style="display:none;">✕</button>
+  </div>
+  <div class="search-results" id="searchResults"></div>
+</div>
+
+<!-- ════════════════ 악기 TAB ════════════════ -->
+<div id="sound-panel" class="tab-panel active">
+  <!-- TOP LEVEL: 두 갈래 -->
+<div class="tab-row">
+<button class="tab" id="T_main_a" onclick="openBranch('a')">음의 구조</button>
+<button class="tab" id="T_main_b" onclick="openBranch('b')">발생 형태</button>
+</div>
+
+<!-- ========== BRANCH A: 음의 3요소 ========== -->
+<div id="branchA" class="hidden">
+
+<div class="panel" id="PA0">
+<div class="three-inline">
+<span class="item" style="color:var(--coral)">주파수→음높이</span>
+<span class="sep">·</span>
+<span class="item" style="color:var(--teal)">진폭→음량</span>
+<span class="sep">·</span>
+<span class="item" style="color:var(--accent)">파형→음색</span>
+</div>
+</div>
+
+<div class="connector hidden" id="CA1"></div>
+<div class="hidden" id="LA1">
+<div class="tab-row"><button class="tab" id="TA1" onclick="toggleA(1)">옥타브 / Hz / Cent</button></div>
+<div class="panel hidden" id="PA1">
+<div class="info-row"><span class="info-label">옥타브</span><span class="info-value">주파수 ×2 = 1200 cents</span></div>
+<div class="info-row"><span class="info-label">반음</span><span class="info-value">100 cents (12반음 = 1옥타브)</span></div>
+<div class="info-row"><span class="info-label">A4 기준</span><span class="info-value">1Hz ≈ 4 cents</span></div>
+<div class="note-text">Hz는 절대 물리량(지수적), Cent는 상대 음정(로그) — 어느 옥타브든 반음 간격 동일</div>
+</div>
+</div>
+
+<div class="connector hidden" id="CA2"></div>
+<div class="hidden" id="LA2">
+<div class="tab-row"><button class="tab" id="TA2" onclick="toggleA(2)">배음렬 (피타고라스 음렬)</button></div>
+<div class="panel hidden" id="PA2">
+<div class="section-sub">하나의 음은 많은 배음이 쌓여서 만들어짐</div>
+<div class="overtone-bar ov-purple">×1  C  기본음<span class="ov-right">(발현음을 C라고 할 때)</span></div>
+<div class="overtone-bar ov-purple" style="opacity:.8">×2  C  옥타브<span class="ov-right">2:1</span></div>
+<div class="overtone-bar ov-teal">×3  G  완전5도<span class="ov-right">3:2 · 처음 출현한 다른 음 · 가장 협화음(절대 정수비)</span></div>
+<div class="overtone-bar ov-purple" style="opacity:.6">×4  C  옥타브<span class="ov-right">2:1</span></div>
+<div class="overtone-bar ov-coral">×5  E  장3도<span class="ov-right">5:4</span></div>
+<div class="overtone-bar ov-teal" style="opacity:.7">×6  G  완전5도<span class="ov-right">3:2</span></div>
+<div class="overtone-bar ov-gray">×7  Bb<span class="ov-right">7:4</span></div>
+<div class="note-text">※ 배음 정수비와 평균율의 간격이 달라서 음이 쌓일수록 오차가 생김<br>(평균율의 1:5에 비해 피타고라스 음률이 더 협화하게 들림)</div>
+</div>
+</div>
+
+<div class="connector hidden" id="CA3"></div>
+<div class="hidden" id="LA3">
+<div class="tab-row"><button class="tab" id="TA3" onclick="toggleA(3)">5도권 → 조표 순서</button></div>
+<div class="panel hidden" id="PA3">
+<div class="section-sub">배음렬에서 처음 나온 다른 음 = 완전5도, 이걸 계속 쌓으면 12조 순환</div>
+<div class="circle-wrap">
+<svg width="240" height="240" viewBox="0 0 240 240">
+<circle cx="120" cy="120" r="90" fill="none" stroke="#ddd5c8" stroke-width="1" stroke-dasharray="3 3"/>
+<circle cx="120" cy="30" r="16" fill="#eeedfe" stroke="#534AB7" stroke-width="1.5"/><text x="120" y="30" text-anchor="middle" dominant-baseline="central" fill="#3C3489" style="font-size:11px;font-weight:700;font-family:Pretendard">C</text>
+<circle cx="165" cy="37.2" r="16" fill="#e1f5ee" stroke="#0F6E56" stroke-width="1.5"/><text x="165" y="37.2" text-anchor="middle" dominant-baseline="central" fill="#085041" style="font-size:11px;font-weight:700;font-family:Pretendard">G</text>
+<circle cx="197.8" cy="75" r="16" fill="#e1f5ee" stroke="#0F6E56" stroke-width="1.5"/><text x="197.8" y="75" text-anchor="middle" dominant-baseline="central" fill="#085041" style="font-size:11px;font-weight:700;font-family:Pretendard">D</text>
+<circle cx="210" cy="120" r="16" fill="#e1f5ee" stroke="#0F6E56" stroke-width="1.5"/><text x="210" y="120" text-anchor="middle" dominant-baseline="central" fill="#085041" style="font-size:11px;font-weight:700;font-family:Pretendard">A</text>
+<circle cx="197.8" cy="165" r="16" fill="#e1f5ee" stroke="#0F6E56" stroke-width="1.5"/><text x="197.8" y="165" text-anchor="middle" dominant-baseline="central" fill="#085041" style="font-size:11px;font-weight:700;font-family:Pretendard">E</text>
+<circle cx="165" cy="202.8" r="16" fill="#e1f5ee" stroke="#0F6E56" stroke-width="1.5"/><text x="165" y="202.8" text-anchor="middle" dominant-baseline="central" fill="#085041" style="font-size:11px;font-weight:700;font-family:Pretendard">B</text>
+<circle cx="120" cy="210" r="18" fill="#f1efe8" stroke="#888780" stroke-width="1.5"/><text x="120" y="210" text-anchor="middle" dominant-baseline="central" fill="#444441" style="font-size:8px;font-weight:700;font-family:Pretendard">F#/Gb</text>
+<circle cx="75" cy="202.8" r="16" fill="#faece7" stroke="#993C1D" stroke-width="1.5"/><text x="75" y="202.8" text-anchor="middle" dominant-baseline="central" fill="#712B13" style="font-size:11px;font-weight:700;font-family:Pretendard">Db</text>
+<circle cx="42.2" cy="165" r="16" fill="#faece7" stroke="#993C1D" stroke-width="1.5"/><text x="42.2" y="165" text-anchor="middle" dominant-baseline="central" fill="#712B13" style="font-size:11px;font-weight:700;font-family:Pretendard">Ab</text>
+<circle cx="30" cy="120" r="16" fill="#faece7" stroke="#993C1D" stroke-width="1.5"/><text x="30" y="120" text-anchor="middle" dominant-baseline="central" fill="#712B13" style="font-size:11px;font-weight:700;font-family:Pretendard">Eb</text>
+<circle cx="42.2" cy="75" r="16" fill="#faece7" stroke="#993C1D" stroke-width="1.5"/><text x="42.2" y="75" text-anchor="middle" dominant-baseline="central" fill="#712B13" style="font-size:11px;font-weight:700;font-family:Pretendard">Bb</text>
+<circle cx="75" cy="37.2" r="16" fill="#faece7" stroke="#993C1D" stroke-width="1.5"/><text x="75" y="37.2" text-anchor="middle" dominant-baseline="central" fill="#712B13" style="font-size:11px;font-weight:700;font-family:Pretendard">F</text>
+<path d="M133 33 Q146 25,152 36" fill="none" stroke="#0F6E56" stroke-width="1.2"/>
+<text x="158" y="27" fill="#0F6E56" style="font-size:11px;font-weight:700;font-family:Pretendard">♯</text>
+<path d="M107 33 Q94 25,88 36" fill="none" stroke="#993C1D" stroke-width="1.2"/>
+<text x="76" y="27" fill="#993C1D" style="font-size:11px;font-weight:700;font-family:Pretendard">♭</text>
+</svg>
+</div>
+<div class="section-label">조표 순서</div>
+<div class="section-sub">5도씩 올려 조가 변경될 때마다 음 하나를 반음 올림(♯) / 내림(♭)해야 장음계를 유지함</div>
+<div class="key-row">
+<span class="key-pill key-sharp">♯  파 도 솔 레 라 미 시</span>
+<span class="key-pill key-flat">♭  시 미 라 레 솔 도 파</span>
+</div>
+<div class="note-text" style="text-align:center;border:none;margin-top:14px">♯과 ♭은 서로 역순 — 둘 다 완전5도(3:2) 연쇄의 산물</div>
+</div>
+</div>
+
+</div>
+
+<!-- ========== BRANCH B: ADSR ========== -->
+<div id="branchB" class="hidden">
+
+<div class="panel" id="PB0">
+<div class="adsr-desc">음의 시간적 형태 — 같은 음이라도 ADSR이 다르면 다른 소리</div>
+
+<div style="margin-top:12px">
+<div class="sub-connector"></div>
+<div class="tab-row"><button class="sub-tab" id="SB1" onclick="toggleB(1)">Attack</button></div>
+<div class="sub-panel hidden" id="PB1">
+<div class="adsr-desc" style="color:var(--coral)">음이 시작되어 최대 음량까지 도달하는 시간</div>
+</div>
+
+<div class="hidden" id="LB2">
+<div class="sub-connector"></div>
+<div class="tab-row"><button class="sub-tab" id="SB2" onclick="toggleB(2)">Decay</button></div>
+<div class="sub-panel hidden" id="PB2">
+<div class="adsr-desc" style="color:var(--teal)">최대 음량에서 지속 레벨로 감쇠하는 시간</div>
+</div>
+</div>
+
+<div class="hidden" id="LB3">
+<div class="sub-connector"></div>
+<div class="tab-row"><button class="sub-tab" id="SB3" onclick="toggleB(3)">Sustain</button></div>
+<div class="sub-panel hidden" id="PB3">
+<div class="adsr-desc" style="color:var(--accent)">유지 음량 — 연주자가 유지하는 동안의 레벨</div>
+</div>
+</div>
+
+<div class="hidden" id="LB4">
+<div class="sub-connector"></div>
+<div class="tab-row"><button class="sub-tab" id="SB4" onclick="toggleB(4)">Release</button></div>
+<div class="sub-panel hidden" id="PB4">
+<div class="adsr-desc" style="color:#888780">음이 사라지는 시간</div>
+</div>
+</div>
+
+<div class="hidden" id="LB5">
+<div class="sub-connector"></div>
+<div class="tab-row"><button class="sub-tab" id="SB5" onclick="toggleB(5)">전체 구조</button></div>
+<div class="sub-panel hidden" id="PB5">
+<svg width="100%" viewBox="0 0 560 200" style="display:block">
+<line x1="40" y1="150" x2="530" y2="150" stroke="#ddd5c8" stroke-width="0.5"/>
+<line x1="40" y1="150" x2="40" y2="16" stroke="#ddd5c8" stroke-width="0.5"/>
+<text x="36" y="14" text-anchor="end" style="font-size:10px;fill:#9a9590;font-family:Pretendard">음량</text>
+<text x="530" y="166" text-anchor="end" style="font-size:10px;fill:#9a9590;font-family:Pretendard">시간</text>
+<path d="M40 150 L120 30 L200 80 L370 80 L480 150" fill="none" stroke="#534AB7" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="40" cy="150" r="3" fill="#534AB7"/>
+<circle cx="120" cy="30" r="3" fill="#534AB7"/>
+<circle cx="200" cy="80" r="3" fill="#534AB7"/>
+<circle cx="370" cy="80" r="3" fill="#534AB7"/>
+<circle cx="480" cy="150" r="3" fill="#534AB7"/>
+<line x1="120" y1="30" x2="120" y2="150" stroke="#ddd5c8" stroke-width="0.5" stroke-dasharray="3 3"/>
+<line x1="200" y1="80" x2="200" y2="150" stroke="#ddd5c8" stroke-width="0.5" stroke-dasharray="3 3"/>
+<line x1="370" y1="80" x2="370" y2="150" stroke="#ddd5c8" stroke-width="0.5" stroke-dasharray="3 3"/>
+<line x1="40" y1="80" x2="370" y2="80" stroke="#ddd5c8" stroke-width="0.5" stroke-dasharray="2 4"/>
+<text x="34" y="84" text-anchor="end" style="font-size:9px;fill:#9a9590;font-family:Pretendard">S level</text>
+<text x="80" y="118" text-anchor="middle" style="font-size:10px;fill:#993C1D;font-family:Pretendard">최대 음량까지</text>
+<text x="80" y="130" text-anchor="middle" style="font-size:10px;fill:#993C1D;font-family:Pretendard">도달 시간</text>
+<text x="160" y="62" text-anchor="middle" style="font-size:10px;fill:#0F6E56;font-family:Pretendard">지속 레벨로</text>
+<text x="160" y="74" text-anchor="middle" style="font-size:10px;fill:#0F6E56;font-family:Pretendard">감쇠 시간</text>
+<text x="285" y="68" text-anchor="middle" style="font-size:10px;fill:#534AB7;font-family:Pretendard">유지 음량</text>
+<text x="425" y="108" text-anchor="middle" style="font-size:10px;fill:#888780;font-family:Pretendard">음이 사라지는</text>
+<text x="425" y="120" text-anchor="middle" style="font-size:10px;fill:#888780;font-family:Pretendard">시간</text>
+<text x="80" y="180" text-anchor="middle" style="font-size:12px;fill:#993C1D;font-weight:600;font-family:Pretendard">A</text>
+<text x="80" y="194" text-anchor="middle" style="font-size:10px;fill:#993C1D;font-family:Pretendard">attack</text>
+<text x="160" y="180" text-anchor="middle" style="font-size:12px;fill:#0F6E56;font-weight:600;font-family:Pretendard">D</text>
+<text x="160" y="194" text-anchor="middle" style="font-size:10px;fill:#0F6E56;font-family:Pretendard">decay</text>
+<text x="285" y="180" text-anchor="middle" style="font-size:12px;fill:#534AB7;font-weight:600;font-family:Pretendard">S</text>
+<text x="285" y="194" text-anchor="middle" style="font-size:10px;fill:#534AB7;font-family:Pretendard">sustain</text>
+<text x="425" y="180" text-anchor="middle" style="font-size:12px;fill:#888780;font-weight:600;font-family:Pretendard">R</text>
+<text x="425" y="194" text-anchor="middle" style="font-size:10px;fill:#888780;font-family:Pretendard">release</text>
+</svg>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+<div id="instruments-panel" class="tab-panel">
+
+  <!-- 기본적 특징 -->
+  <div class="acc-group" style="margin-bottom:1rem">
+    <div class="acc-group-header" style="background:var(--accent-inst-dim);color:var(--accent-inst)" onclick="toggleAccGroup(this)"><span class="g-icon">▶</span>기본적 특징</div>
+    <div class="acc-group-body">
+      <div style="padding:1rem 1.4rem;font-size:0.84rem;line-height:1.85;color:var(--text-secondary);">
+        <p style="margin-bottom:0.5rem">· 금속, 명주실, 가죽, 나무, 흙 등의 재질 및 종류에 따라 소리의 성격이 다르게 나타남.</p>
+        <p style="margin-bottom:0.5rem">· 크기와 두께가 크고 두꺼울수록 저음과 긴 잔향을 가지며, 작고 얇을수록 고음과 빠른 반응속도를 가짐.</p>
+        <p style="margin-bottom:0.5rem">· 타점이 중앙에 가까울수록 소리가 깊고 묵직하며 안정적이고, 주변부로 갈수록 고주파 배음이 강조되어 거칠고 날카로우며 어택이 강렬해짐.</p>
+        <p>· 타격의 방식에 따라 명확한 점의 소리, 확산되는 면의 소리로 달라짐.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 발현악기 ─── -->
+  <div class="acc-group inst-group">
+    <div class="acc-group-header" onclick="toggleAccGroup(this)"><span class="g-icon">▶</span>발현악기 Plucked Strings</div>
+    <div class="acc-group-body">
+
+      <div class="acc-item">
+        <div class="acc-item-header" onclick="toggleAccItem(event,this)"><span class="acc-item-arrow">▶</span><div class="acc-item-name"><img class="inst-photo-thumb" style="cursor:pointer;" onclick="event.stopPropagation();showPhoto(this.dataset.full||this.src)" src="data:image/jpeg;base64,__IMAGE_001__" alt="25현 가야금" data-full="data:image/jpeg;base64,__IMAGE_002__"><span class="acc-item-kr">25현 가야금</span><span class="acc-item-en">Gayageum</span></div></div>
+        <div class="acc-item-body">
+          <div class="inner-tabs"><button class="inner-tab active" onclick="switchInner(event,this,0)">특징</button><button class="inner-tab" onclick="switchInner(event,this,1)">주법</button><button class="inner-tab" onclick="switchInner(event,this,2)">음색</button><button class="inner-tab" onclick="switchInner(event,this,3)">음역</button></div>
+          <div class="inner-content active">저음부터 고음까지 모든 음을 고루 사용하는 발현악기.</div>
+          <div class="inner-content">양손을 활용한 화성 및 분산화음 아르페지오 연주가 가능하며, 연튕김과 전성을 통한 화려한 기교 구현이 가능함. 전통주법인 싸랭이 특징적이며 폭넓은 연주주법 사용이 가능.</div>
+          <div class="inner-content">안족과 현침 사이 현의 중앙부는 풍성한 울림을, 우측(현침 쪽)은 날카롭고 강렬한 금속성을 내며, 안족 왼쪽 글리산도, 하모닉스 등을 통해 어두우면서 몽환적인 특수 효과를 연출할 수 있음.</div>
+          <div class="inner-content"><img src="data:image/jpeg;base64,__IMAGE_003__" alt="25현 가야금 음역" style="width:100%;max-width:800px;display:block;margin:0 auto;"></div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-item-header" onclick="toggleAccItem(event,this)"><span class="acc-item-arrow">▶</span><div class="acc-item-name"><img class="inst-photo-thumb" src="data:image/jpeg;base64,__IMAGE_004__" alt="산조 가야금" data-full="data:image/jpeg;base64,__IMAGE_005__" style="cursor:pointer;" onclick="event.stopPropagation();showPhoto(this.dataset.full||this.src)"><span class="acc-item-kr">산조 가야금</span><span class="acc-item-en">Sanjo Gayageum</span></div></div>
+        <div class="acc-item-body">
+          <div class="inner-tabs"><button class="inner-tab active" onclick="switchInner(event,this,0)">특징</button><button class="inner-tab" onclick="switchInner(event,this,1)">주법</button><button class="inner-tab" onclick="switchInner(event,this,2)">음색</button><button class="inner-tab" onclick="switchInner(event,this,3)">음역</button></div>
+          <div class="inner-content active">줄이 가늘고 탄성이 강해 줄을 누르고 흔드는 농현의 폭과 표현을 극대화할 수 있어, 세밀하게 표현 가능.</div>
+          <div class="inner-content">오른손으로 현을 튕기거나 뜯고, 왼손으로 음정을 조절하며 표현을 함. 연튕김, 싸랭, 말발굽과 같은 표현이 가능.</div>
+          <div class="inner-content">단단하고 탄력있는 현의 음색으로 선명도가 높음.</div>
+          <div class="inner-content"><img src="data:image/jpeg;base64,__IMAGE_006__" alt="산조 가야금 음역" style="width:100%;max-width:800px;display:block;margin:0 auto;"></div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-item-header" onclick="toggleAccItem(event,this)"><span class="acc-item-arrow">▶</span><div class="acc-item-name"><img class="inst-photo-thumb" style="cursor:pointer;" onclick="event.stopPropagation();showPhoto(this.dataset.full||this.src)" src="data:image/jpeg;base64,__IMAGE_007__" alt="거문고" data-full="data:image/jpeg;base64,__IMAGE_008__"><span class="acc-item-kr">거문고</span><span class="acc-item-en">Geomungo</span></div></div>
+        <div class="acc-item-body">
+          <div class="inner-tabs"><button class="inner-tab active" onclick="switchInner(event,this,0)">특징</button><button class="inner-tab" onclick="switchInner(event,this,1)">주법</button><button class="inner-tab" onclick="switchInner(event,this,2)">음색</button><button class="inner-tab" onclick="switchInner(event,this,3)">음역</button></div>
+          <div class="inner-content active">저음을 중심으로 한 묵직하고 힘찬 음색이 특징. 괘를 짚어 고음역까지 폭넓은 음정 활용이 가능하며, 타악성과 선율성이 결합된 독특한 표현력이 특징.</div>
+          <div class="inner-content">술대를 사용해 현을 치고 뜯는 타점 중심의 연주. 왼손으로 괘를 짚어 연주하며, 추성·퇴성·전성 등을 통해 음의 흐름과 선율을 완성함. 또한 악기 통을 긁거나 치는 물리적 마찰음이 음정과 함께 발현되는 특징이 있음. 소·중·대점(술대를 안쪽에서 바깥쪽으로 밀어 치는 주법), 뜰(바깥쪽에서 몸쪽으로 뜯는 주법), 살갱, 싸랭, 슬기둥, 스르렁 등의 주법이 있음.</div>
+          <div class="inner-content">강한 타격감을 지닌 대점과 괘 위에서 나는 유성음의 대비가 뚜렷함. 여러 현을 동시에 긁는 '스르렁'(괘상청, 괘하청, 무현 동시 연주, 아르페지오 효과) 주법을 통해 독특한 공간감과 울림을 형성.</div>
+          <div class="inner-content"><img src="data:image/jpeg;base64,__IMAGE_009__" alt="거문고 음역" style="width:100%;max-width:800px;display:block;margin:0 auto;"></div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-item-header" onclick="toggleAccItem(event,this)"><span class="acc-item-arrow">▶</span><div class="acc-item-name"><img class="inst-photo-thumb" style="cursor:pointer;" onclick="event.stopPropagation();showPhoto(this.dataset.full||this.src)" src="data:image/jpeg;base64,__IMAGE_010__" alt="양금" data-full="data:image/jpeg;base64,__IMAGE_011__"><span class="acc-item-kr">양금</span><span class="acc-item-en">Yanggeum</span></div></div>
+        <div class="acc-item-body">
+          <div class="inner-tabs"><button class="inner-tab active" onclick="switchInner(event,this,0)">특징</button><button class="inner-tab" onclick="switchInner(event,this,1)">주법</button><button class="inner-tab" onclick="switchInner(event,this,2)">음색</button><button class="inner-tab" onclick="switchInner(event,this,3)">음역</button></div>
+          <div class="inner-content active">전 음역을 고루 사용하되, 정악양금은 음색적 존재감과 음향적 배경 역할이 강조되며, 개량양금은 선율·화성·리듬을 포함한 적극적인 음악적 표현이 가능. 개량양금은 평균율 기반으로 전조와 화성 진행이 용이함.</div>
+          <div class="inner-content">채로 철사 줄을 두드려 연주하며, 양손 교차를 활용한 속주와 트레몰로를 통해 화려한 선율을 구사. 전통적인 의미의 농현은 제한적이나, 채를 이용한 롤링, 뮤트, 압현 등을 통해 다양한 음색 변화가 가능함. 또한 잔향이 긴 특성상 댐핑을 통한 음 길이 조절이 중요한 표현적 특징.</div>
+          <div class="inner-content">금속현 특유의 맑고 높은 배음을 지니며, 타격 시의 명확한 어택과 이후 지속되는 잔향의 대비가 특징. 채의 재질에 따라 음색의 선명도와 부드러움이 달라짐.</div>
+          <div class="inner-content"><img src="data:image/jpeg;base64,__IMAGE_012__" alt="양금 음역" style="width:100%;max-width:800px;display:block;margin:0 auto;"></div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-item-header" onclick="toggleAccItem(event,this)"><span class="acc-item-arrow">▶</span><div class="acc-item-name"><img class="inst-photo-thumb" src="data:image/jpeg;base64,__IMAGE_013__" alt="철현금" data-full="data:image/jpeg;base64,__IMAGE_014__" style="cursor:pointer;" onclick="event.stopPropagation();showPhoto(this.dataset.full||this.src)"><span class="acc-item-kr">철현금</span><span class="acc-item-en">Cheolhyeongeum</span></div></div>
+        <div class="acc-item-body">
+          <div class="inner-tabs"><button class="inner-tab active" onclick="switchInner(event,this,0)">특징</button><button class="inner-tab" onclick="switchInner(event,this,1)">주법</button><button class="inner-tab" onclick="switchInner(event,this,2)">음색</button><button class="inner-tab" onclick="switchInner(event,this,3)">음역</button></div>
+          <div class="inner-content active">8개의 철사 줄을 사용하는 발현악기로, 거문고의 술대 주법과 서양 슬라이드 기타의 메커니즘이 결합된 형태. 금속성 줄이 가진 몽환적인 감각과 농현의 독특한 음색이 특징.</div>
+          <div class="inner-content">오른손은 술대로 현을 타격하거나 뜯어 에너지를 발생시키고, 왼손은 둥근 막대인 '농옥'을 현 위에서 누르거나 미끄러뜨리며 음정과 농현을 조절. 특히 농옥을 미끄러뜨리는 슬라이딩 기법을 통해 극적인 추성과 퇴성을 구현.</div>
+          <div class="inner-content">철사 줄 특유의 금속성 울림과 긴 잔향으로 공간감 깊은 여운을 주며 비장하거나 몽환적인 질감이 특징.</div>
+          <div class="inner-content"><img src="data:image/jpeg;base64,__IMAGE_015__" style="width:100%;max-width:900px;display:block;margin:8px auto;"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── 찰현악기 ─── -->
+  <div class="acc-group inst-group">
+    <div class="acc-group-header" onclick="toggleAccGroup(this)"><span class="g-icon">▶</span>찰현악기 Bowed Strings</div>
+    <div class="acc-group-body">
+
+      <div class="acc-item">
+        <div class="acc-item-header" onclick="toggleAccItem(event,this)"><span class="acc-item-arrow">▶</span><div class="acc-item-name"><img class="inst-photo-thumb" style="cursor:pointer;" onclick="event.stopPropagation();showPhoto(this.dataset.full||this.src)" src="data:image/jpeg;base64,__IMAGE_016__" alt="해금" data-full="data:image/jpeg;base64,__IMAGE_017__"><span class="acc-item-kr">해금</span><span class="acc-item-en">Haegeum</span></div></div>
+        <div class="acc-item-body">
+          <div class="inner-tabs"><button class="inner-tab active" onclick="switchInner(event,this,0)">특징</button><button class="inner-tab" onclick="switchInner(event,this,1)">주법</button><button class="inner-tab" onclick="switchInner(event,this,2)">음색</button><button class="inner-tab" onclick="switchInner(event,this,3)">음역</button></div>
+          <div class="inner-content active">중·고음역대를 담당하며, 고정된 지판(Fret)이 없는 구조 덕분에 극도로 유연한 표현과 자유로운 전조(Modulation)가 가능함.</div>
+          <div class="inner-content">활의 마찰로 발음하며, '역안' 주법으로 음정과 농현을 조절함. 잉어질, 탄현, 동물 울음소리 모사 등 기교의 스펙트럼이 매우 넓음. 울림통을 활대로 치거나, 트레몰로와 같은 활을 이용한 특수 주법을 효과적으로 활용.</div>
+          <div class="inner-content">말총 활과 명주실의 마찰에서 오는 애절한 소리가 특징. 현의 장력, 활의 압력, 송진의 양, 운지에 따라 애절함부터 파괴적인 질감까지 극명한 대비를 이룸. 특히 왼손 운지 또는 각 활 사용의 선택에 따라 선율의 뉘앙스가 달라짐. 악기 구조상 음정에 민감하므로 파트 전체의 피치 일치와 보잉의 통일감 조절이 중요.</div>
+          <div class="inner-content"><img src="data:image/jpeg;base64,__IMAGE_018__" alt="해금 음역" style="width:100%;max-width:800px;display:block;margin:0 auto;"></div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-item-header" onclick="toggleAccItem(event,this)"><span class="acc-item-arrow">▶</span><div class="acc-item-name"><img class="inst-photo-thumb" src="data:image/jpeg;base64,__IMAGE_019__" alt="대해금" data-full="data:image/jpeg;base64,__IMAGE_020__" style="cursor:pointer;" onclick="event.stopPropagation();showPhoto(this.dataset.full||this.src)"><span class="acc-item-kr">대해금</span><span class="acc-item-en">Daehaegeum</span></div></div>
+        <div class="acc-item-body">
+          <div class="inner-tabs"><button class="inner-tab active" onclick="switchInner(event,this,0)">특징</button><button class="inner-tab" onclick="switchInner(event,this,1)">주법</button><button class="inner-tab" onclick="switchInner(event,this,2)">음색</button><button class="inner-tab" onclick="switchInner(event,this,3)">음역</button></div>
+          <div class="inner-content active">일반 해금보다 한 옥타브 낮은 중저음역대를 담당하며, 관현악의 선율선에 두께감과 무게중심을 더함.</div>
+          <div class="inner-content">해금과 동일하게 활의 마찰과 '역안' 주법을 사용하지만, 철사줄을 사용할 경우 '경안' 주법이 빈번하게 사용될 수 있음. 줄이 굵고 울림통이 커서 더 깊은 호흡의 보잉과 묵직한 농현이 필요함.</div>
+          <div class="inner-content">현의 재질(철사/명주실)에 따라 음색이 달라지며, 활의 압력 조절을 통해 거친 질감부터 부드러운 저음까지 폭넓게 구사함.</div>
+          <div class="inner-content"><img src="data:image/jpeg;base64,__IMAGE_021__" alt="대해금 음역" style="width:100%;max-width:800px;display:block;margin:0 auto;"></div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-item-header" onclick="toggleAccItem(event,this)"><span class="acc-item-arrow">▶</span><div class="acc-item-name"><img class="inst-photo-thumb" src="data:image/jpeg;base64,__IMAGE_022__" alt="소아쟁" data-full="data:image/jpeg;base64,__IMAGE_023__" style="cursor:pointer;" onclick="event.stopPropagation();showPhoto(this.dataset.full||this.src)"><span class="acc-item-kr">소아쟁</span><span class="acc-item-en">Soajaeng</span></div></div>
+        <div class="acc-item-body">
+          <div class="inner-tabs"><button class="inner-tab active" onclick="switchInner(event,this,0)">특징</button><button class="inner-tab" onclick="switchInner(event,this,1)">주법</button><button class="inner-tab" onclick="switchInner(event,this,2)">음색</button><button class="inner-tab" onclick="switchInner(event,this,3)">음역</button></div>
+          <div class="inner-content active">중·고음역대를 담당하며, 거칠고 표현력이 풍부한 강한 찰현의 느낌이 특징적.</div>
+          <div class="inner-content">깊은 전성과 농현으로 감정적 사운드를 발현함. Arco, Pizzicato 주법이 가능하여 질감 대비 효과를 극대화 할 수 있음.</div>
+          <div class="inner-content">거친 찰현의 자극적인 음색으로 애절함이 특징. 활의 압력, 위치, 속도에 따라 강렬한 음색까지 조절이 가능. 특히 활의 방향 교체시의 마찰음을 리듬감 형성의 요소로 활용 가능.</div>
+          <div class="inner-content"><img src="data:image/jpeg;base64,__IMAGE_024__" alt="소아쟁 음역" style="width:100%;max-width:800px;display:block;margin:0 auto;"></div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-item-header" onclick="toggleAccItem(event,this)"><span class="acc-item-arrow">▶</span><div class="acc-item-name"><img class="inst-photo-thumb" src="data:image/jpeg;base64,__IMAGE_025__" alt="대아쟁" data-full="data:image/jpeg;base64,__IMAGE_026__" style="cursor:pointer;" onclick="event.stopPropagation();showPhoto(this.dataset.full||this.src)"><span class="acc-item-kr">대아쟁</span><span class="acc-item-en">Daeajaeng</span></div></div>
+        <div class="acc-item-body">
+          <div class="inner-tabs"><button class="inner-tab active" onclick="switchInner(event,this,0)">특징</button><button class="inner-tab" onclick="switchInner(event,this,1)">주법</button><button class="inner-tab" onclick="switchInner(event,this,2)">음색</button><button class="inner-tab" onclick="switchInner(event,this,3)">음역</button></div>
+          <div class="inner-content active">최저음역대를 담당하며, 육중한 공명과 압도적인 음압으로 관현악 전체 사운드의 기반을 형성함.</div>
+          <div class="inner-content">굵은 활대의 강렬한 찰현 연주를 통해 명주실 특유의 묵직한 마찰 에너지가 발생. 구조적 특성상 안족의 변화가 적어서 관현악 전체의 피치(Pitch) 안정화에 기여함. Arco, Pizzicato 주법이 가능하여 질감 대비 효과를 극대화 할 수 있음.</div>
+          <div class="inner-content">활의 재질(말총/개나리 활대)과 압력, 속도에 따라 거친 질감부터 포근한 질감까지 조절이 가능. 저음역의 느린 반응 속도를 고려한 명확한 어택이 필수적임.</div>
+          <div class="inner-content"><img src="data:image/jpeg;base64,__IMAGE_027__" alt="대아쟁 음역" style="width:100%;max-width:800px;display:block;margin:0 auto;"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── 관악기 ─── -->
+  <div class="acc-group inst-group">
+    <div class="acc-group-header" onclick="toggleAccGroup(this)"><span class="g-icon">▶</span>관악기 Wind</div>
+    <div class="acc-group-body" id="wind-body"></div>
+  </div>
+
+  <!-- ─── 타악기 ─── -->
+  <div class="acc-group inst-group">
+    <div class="acc-group-header" onclick="toggleAccGroup(this)"><span class="g-icon">▶</span>타악기 Percussion</div>
+    <div class="acc-group-body" id="perc-body"></div>
+  </div>
+
+  <!-- ─── 보조악기 ─── -->
+  <div class="acc-group inst-group">
+    <div class="acc-group-header" onclick="toggleAccGroup(this)"><span class="g-icon">▶</span>보조악기 Auxiliary</div>
+    <div class="acc-group-body" id="aux-body"></div>
+  </div>
+
+  <!-- ─── 채 · 스틱 · 말렛 · 활 ─── -->
+  <div class="acc-group stick-group">
+    <div class="acc-group-header" onclick="toggleAccGroup(this)"><span class="g-icon">▶</span>채 · 스틱 · 말렛 · 활</div>
+    <div class="acc-group-body" id="stick-all-body"></div>
+  </div>
+
+</div>
+
+<!-- ════════════════ 음계 TAB ════════════════ -->
+<div id="scales-panel" class="tab-panel">
+  <div class="scale-sub-nav">
+    <button class="scale-sub-btn active" onclick="switchScaleSub(0)">국악</button>
+    <button class="scale-sub-btn" onclick="switchScaleSub(1)">동양</button>
+    <button class="scale-sub-btn" onclick="switchScaleSub(2)">서양</button>
+  </div>
+  <div id="scale-sub-0" class="scale-sub-panel active"></div>
+  <div id="scale-sub-1" class="scale-sub-panel" style="padding:1rem;max-width:1400px;margin:0 auto"></div>
+  <div id="scale-sub-2" class="scale-sub-panel" style="padding:1rem;max-width:1400px;margin:0 auto"></div>
+</div>
+
+<!-- ════════════════ 장단 TAB ════════════════ -->
+<div id="rhythm-panel" class="tab-panel" id="rhythm-panel-content"></div>
+
+<!-- ════════════════ 음악용어 TAB ════════════════ -->
+<div id="terms-panel" class="tab-panel">
+  <div class="term-sub-nav">
+    <button class="term-sub-btn active" onclick="switchTermSub(0)">빠르기</button>
+    <button class="term-sub-btn" onclick="switchTermSub(1)">셈여림</button>
+    <button class="term-sub-btn" onclick="switchTermSub(2)">표현·아티큘레이션</button>
+    <button class="term-sub-btn" onclick="switchTermSub(3)">구조·형식</button>
+    <button class="term-sub-btn" onclick="switchTermSub(4)">수식어</button>
+  </div>
+  <div id="term-sub-0" class="term-sub-panel active"></div>
+  <div id="term-sub-1" class="term-sub-panel"></div>
+  <div id="term-sub-2" class="term-sub-panel"></div>
+  <div id="term-sub-3" class="term-sub-panel"></div>
+  <div id="term-sub-4" class="term-sub-panel"></div>
+</div>
+
+<div class="footer">박천지 Class 지휘 전공실기<br><span style="font-size:0.65rem;opacity:0.7;">-HOS-</span></div>
+
+<script>
+var windData = [{kr:"대금",thumb:"data:image/jpeg;base64,__IMAGE_028__",photo:"data:image/jpeg;base64,__IMAGE_029__",en:"Daegeum",hasRange:true,r:"<img src=\"data:image/jpeg;base64,__IMAGE_030__\" alt=\"대금 음역\" style=\"width:100%;max-width:800px;display:block;margin:0 auto;\">",t:"저취부터 역취까지 폭넓게 활용하며, 고음역에서 청공의 울림을 통해 관현악 상단의 스펙트럼을 강력하게 채움.",j:"텅잉과 손가락 기교(타음 등)로 화려한 선율을 만들며, 대금 특유의 '떠이어' 주법으로 극적인 표현력을 더함.",s:"입김의 조절로 청아함과 파괴적인 사운드를 오가며, 청의 떨림으로 음색의 농도를 조절함. 속주는 가능하나 물리적 구조상 소금보다 선명도는 낮음."},
+  {kr:"소금",thumb:"data:image/jpeg;base64,__IMAGE_031__",photo:"data:image/jpeg;base64,__IMAGE_032__",en:"Sogeum",hasRange:true,r:"<img src=\"data:image/jpeg;base64,__IMAGE_033__\" alt=\"소금 음역\" style=\"width:100%;max-width:800px;display:block;margin:0 auto;\">",t:"국악기 중 가장 높은 음역대를 담당하며, 청공이 없어 대금에 비해 소리가 맑고 투명하며 직진성이 강함.",j:"텅잉을 활용한 정교한 아티큘레이션과 빠른 속주에 최적화되어 있으며, 옥타브 도약이나 화려한 꾸밈음을 민첩하게 연주.",s:"전체 사운드의 최상단을 뚫고 나오는 '뚫림성'이 좋아, 주선율을 강조하거나 전체 음색에 색을 입히는데 효과적인 악기."},
+  {kr:"단소",thumb:"data:image/jpeg;base64,__IMAGE_034__",photo:"data:image/jpeg;base64,__IMAGE_035__",en:"Danso",hasRange:true,r:"<img src=\"data:image/jpeg;base64,__IMAGE_036__\" alt=\"단소 음역\" style=\"width:100%;max-width:800px;display:block;margin:0 auto;\">",t:"중·고음역대를 담당하며, 음량이 작지만 배음이 맑아 합주 시 선율의 윤곽을 부드럽게 감싸는 역할을 함.",j:"호흡을 사용하는 요성과 손가락 기교(치기, 흘리기 등)를 통해 많은 장식음을 구사하며, 음의 끝을 흐리거나 살짝 올리는 특유의 여운이 특징. 전통 주법을 활용하여 장식음을 많이 사용.",s:"취구의 각도에 따라 맑은 소리부터 공기가 섞인 듯한 포근한 소리(숨소리)까지 조절 가능함. 소금에 비해 소리가 부드럽고 따뜻하여 서정적인 솔로 대목에 효과적이지만 음량이 작음. 대편성에는 묻히기 쉬우므로 실내악적 구성이나 고요한 대목에서 사용."},
+  {kr:"훈",thumb:"data:image/jpeg;base64,__IMAGE_037__",photo:"data:image/jpeg;base64,__IMAGE_038__",en:"Hun",hasRange:true,r:"<img src=\"data:image/jpeg;base64,__IMAGE_039__\" alt=\"훈 음역\" style=\"width:100%;max-width:800px;display:block;margin:0 auto;\">",t:"저음역 중심의 좁은 음역대를 가지나, 낮게 깔리는 특유의 울림으로 실제보다 깊은 공간적 입체감을 부여함.",j:"취구에 입술을 대고 바람을 불어넣는 방식으로, 손가락으로 지공을 막아 음을 조절함. 폐쇄관 악기 특성상 호흡의 세기에 따라 피치(Pitch)가 민감하게 변하므로 정교한 호흡 조절이 필수.",s:"흙(도자기) 재질 특유의 탁하고 따뜻하며 어두운 음색. 배음이 적은 순음 형태의 소리로 안개 낀 듯한 몽환적 분위기가 특징. 음량이 작고 직진성이 약하므로 악기 편성이 적은 투명한 텍스처(Thin texture) 내에서 솔로 혹은 포인트 악기로 활용."},
+  {kr:"피리",thumb:"data:image/jpeg;base64,__IMAGE_040__",photo:"data:image/jpeg;base64,__IMAGE_041__",en:"Piri",hasRange:true,r:"<img src=\"data:image/jpeg;base64,__IMAGE_042__\" alt=\"피리 음역\" style=\"width:100%;max-width:800px;display:block;margin:0 auto;\">",t:"중음역이 주축이나 '비청' 주법으로 밀도 높은 고음을 구사함. 태평소를 제외하면 관악기 중 가장 압도적인 음량과 직진성을 가짐.",j:"서(Reed)의 압력과 입김으로 음정을 제어하며, 목틔김, 시레(혀치기), 노니떼, 더름 등 풍부한 전통 기법을 통해 극적인 선율미를 완성함.",s:"거칠고 당당한 성량을 바탕으로 하며, 음색의 침투력이 매우 강해 타 악기와의 앙상블 시 세밀한 밸런스 제어가 필수적임."},
+  {kr:"태평소",thumb:"data:image/jpeg;base64,__IMAGE_043__",photo:"data:image/jpeg;base64,__IMAGE_044__",en:"Taepyeongso",hasRange:true,r:"<img src=\"data:image/jpeg;base64,__IMAGE_045__\" alt=\"태평소 음역\" style=\"width:100%;max-width:800px;display:block;margin:0 auto;\">",t:"고음역대에 특화되어 있으며, 국악기 중 가장 압도적이고 날카로운 음압으로 사운드의 정점을 담당.",j:"화려한 텅잉과 꾸밈음을 구사하며, 특히 '씹는 요성'을 통해 태평소만의 시원하고 강렬한 소리를 발현함.",s:"입김의 압력에 따라 파괴적인 성량부터 애절한 음색까지 폭넓게 구현하며, 대편성에서도 공간을 뚫고 나오는 독보적인 직진성을 가짐. 밸런스보다는 '음향적 대비'에 집중하여, 곡의 도입/종결부의 임팩트나 축제적 고조를 위한 포인트 악기로 활용."},
+  {kr:"생황",thumb:"data:image/jpeg;base64,__IMAGE_046__",photo:"data:image/jpeg;base64,__IMAGE_047__",en:"Saenghwang",hasRange:true,r:"<img src=\"data:image/jpeg;base64,__IMAGE_048__\" alt=\"생황 음역\" style=\"width:100%;max-width:800px;display:block;margin:0 auto;\">",t:"중·고음역대를 담당하며, 국악기 중 유일하게 다성(Polyphonic) 연주와 화음 구현이 가능.",j:"들숨과 날숨을 모두 사용하여 끊김 없는 지속음(Pedal tone)을 구현하며, 여러 지공을 동시에 운지해 풍성한 화성을 연주.",s:"황동 떨림판 특유의 금속성 섞인 맑은 소리를 내며, 숨의 강약으로 미세한 떨림부터 화려한 광채까지 조절해 신비롭고 영적인 분위기를 연출함. 음량은 작으나 배음이 풍부해 관현악의 화성적 깊이를 더하고 색채 악기로 활용."},
+  {kr:"개량 대피리",thumb:"data:image/jpeg;base64,__IMAGE_049__",photo:"data:image/jpeg;base64,__IMAGE_050__",en:"Gaeryang Daepiri",hasRange:true,r:"<img src=\"data:image/jpeg;base64,__IMAGE_051__\" alt=\"개량 대피리 음역\" style=\"width:100%;max-width:800px;display:block;margin:0 auto;\">",t:"중·저음역대를 담당하며, 개량된 키(Key) 시스템을 통해 반음계 연주와 넓은 음역대를 안정적으로 소화함. 비청 사용가능.",j:"저음역대 악기 특유의 깊은 호흡이 필요하며, 키 메커니즘을 활용한 정확한 피치 제어와 현대적인 도약 연주에 최적화되어 있음.",s:"포근하고 두툼한 질감을 유지하면서도, 저음역에서 묵직하게 깔리는 공명감을 형성. 입술의 압력에 따라 부드러운 저음부터 질감이 강조된 강한 소리까지 조절 가능함. 저음을 보강하여 전체 사운드에 무게감을 실어주는 '뿌리' 역할을 함."},
+  {kr:"개량 저피리",thumb:"data:image/jpeg;base64,__IMAGE_052__",photo:"data:image/jpeg;base64,__IMAGE_053__",en:"Gaeryang Jeopiri",hasRange:true,t:"관악기 중 최저음역대를 담당하며, 정확한 피치와 반음계 연주가 가능.",j:"대형 서(Reed)를 활용한 깊은 호흡이 필수적이며, 키 시스템 덕분에 저음역임에도 민첩한 아티큘레이션과 안정적인 지속음(Pedal tone) 구현이 가능함.",s:"피리 특유의 질감과 깊은 공명감을 동시에 지님. 선율보다는 음향적 악기로서 대아쟁 소리와 조절을 통해 사운드의 부피를 확장함. 대형 서로 인해 발음 반응 속도가 지연될 수 있음.",r:"<img src=\"data:image/jpeg;base64,__IMAGE_054__\" alt=\"개량 저피리 음역\" style=\"width:100%;max-width:800px;\">"},
+  {kr:"나발",thumb:"data:image/jpeg;base64,__IMAGE_055__",photo:"data:image/jpeg;base64,__IMAGE_056__",en:"Nabal",hasRange:false,t:"지공(구멍)이 없어 단일한 저음(배음 포함)만을 내며, 긴 금속관을 통해 뻗어 나오는 웅장하고 직선적인 소리가 특징.",j:"입술의 떨림을 이용해 한 음을 길게 뽑아내는 지속음 연주가 기본이며, 호흡의 세기에 따라 음량을 조절.",s:"다른 국악기에서 찾아보기 힘든 금속성 저음을 가지고 있으며, 곡의 서사적 분위기를 압도하는 권위적인 음색이 특징."},
+  {kr:"나각",thumb:"data:image/jpeg;base64,__IMAGE_057__",photo:"data:image/jpeg;base64,__IMAGE_058__",en:"Nagak",hasRange:false,t:"대형 소라 껍데기를 재료로 하며, 지공이 없어 단일한 저음을 냄. 나발보다 배음이 풍부하고 울림의 잔향이 길어 공간을 채우는 능력이 탁월.",j:"입술의 떨림을 이용해 한 음을 길게 뽑아내는 지속음 연주가 기본이며, 나발이 직선적이라면 나각은 소라 내부의 굴곡을 타고 나오는 '나선형의 둥근 울림'이 특징.",s:"웅장하면서도 끝이 부드럽게 감기는 자연의 소리를 가짐. 나발과의 대비(금속성/자연물)를 통해 음향적 층위를 만들거나, 곡의 도입부에서 청중의 몰입감을 극대화하는 용도로 활용."}
+];
+const percData = [
+  {kr:"편종",thumb:"data:image/jpeg;base64,__IMAGE_059__",photo:"data:image/jpeg;base64,__IMAGE_060__",en:"Pyeonjong",hasRange:true,r:"<img src=\"data:image/jpeg;base64,__IMAGE_061__\" alt=\"편종 음역\" style=\"width:100%;max-width:800px;display:block;margin:0 auto;\">",t:"16개의 종을 2단으로 배열한 유율 타악기로, 종묘제례악 등 궁중 의례 음악을 상징. 신성하고 장엄한 울림을 부여하며 사운드의 격조를 높임. 편경에 비해 한옥타브 낮음.",j:"소뿔 재질의 '각퇴'로 종의 하단 표적을 타격함. 종의 외형적 크기가 아닌 두께에 따라 음높이가 결정되는 특성이 있음.",s:"묵직한 금속성의 무게감과 함께, 타격 시 발생하는 고음역의 배음이 소리 텍스처를 환하게 밝히는 효과를 줌. 전통 12율의 음정으로 긴 잔향을 통해 공간감이 뚜렷함."},
+  {kr:"편경",thumb:"data:image/jpeg;base64,__IMAGE_062__",photo:"data:image/jpeg;base64,__IMAGE_063__",en:"Pyeongyeong",hasRange:true,r:"<img src=\"data:image/jpeg;base64,__IMAGE_064__\" alt=\"편경 음역\" style=\"width:100%;max-width:800px;display:block;margin:0 auto;\">",t:"'ㄱ'자 모양의 석경(돌) 16개를 틀에 매달아 연주하는 유율 타악기. 금속인 편종과 짝을 이루며, 재질이 돌(옥)이기 때문에 기후 변화에도 음정이 변하지 않음.",j:"편종과 마찬가지로 소뿔로 만든 '각퇴'를 사용하여 석경의 긴 쪽(고) 끝부분을 타격함. 돌의 크기보다는 두께에 의해 음높이가 결정되며, 두꺼울수록 높은 소리가 남.",s:"금속의 날카로운 배음과는 달리, 불순물이 없는 맑고 투명한 소리가 특징. 편종보다 잔향이 짧고 깔끔하게 떨어져, 맺힌 이슬 같은 명료한 음색."},
+  {kr:"특종/특경",thumb:"data:image/jpeg;base64,__IMAGE_065__",photo:"data:image/jpeg;base64,__IMAGE_066__",en:"Teukjong/Teukgyeong",hasRange:true,r:"<img src=\"data:image/jpeg;base64,__IMAGE_067__\" alt=\"특종/특경 음역\" style=\"width:100%;max-width:800px;display:block;margin:0 auto;\">",t:"하나의 큰 종과 경을 틀에 매달아 연주하는 악기. 제례악이나 대규모 궁중 음악의 시작을 알리는 역할. 황종 C음.",j:"소뿔로 만든 '각퇴'를 사용하여 종의 정면을 타격함. 음악이 시작될 때 단 한 번 치는 것이 기본이며, 집박의 신호에 맞춰 가장 정숙하고 절도 있게 연주. 엄숙한 연주 자세가 핵심.",s:"편종보다 크기가 크고 두꺼워 깊고 묵직한 울림. 한 번의 타격으로 발생하는 진동이 매우 길고 풍부하여, 연주가 시작되기 전 무거운 정적을 깨뜨리고 음악적 공간을 확장시키는 효과."},
+  {kr:"방향",thumb:"data:image/jpeg;base64,__IMAGE_068__",photo:"data:image/jpeg;base64,__IMAGE_069__",en:"Banghyang",hasRange:true,r:"<img src=\"data:image/jpeg;base64,__IMAGE_070__\" alt=\"방향 음역\" style=\"width:100%;max-width:800px;display:block;margin:0 auto;\">",t:"16개의 철편(쇠 조각)을 틀에 매달아 연주하는 악기. 편종보다 가볍고 경쾌함. 편종·편경과 함께 궁중 음악에서 중요한 위치를 차지하며, 금속판 특유의 단단하고 높은 소리가 특징.",j:"소뿔로 만든 '각퇴'로 철편의 중앙을 타격함. 편종과 마찬가지로 철편의 크기는 같으나 두께에 따라 음높이가 달라지며, 철편이 얇을수록 낮은 소리가 나고 두꺼울수록 높은 소리가 남.",s:"종(鍾)의 울림보다 직선적이고 잔향이 짧아, 리드미컬하고 빠른 선율을 표현하기에 적합함. 뭉치지 않고 선명한 음색으로 명쾌한 느낌을 줌."},
+  {kr:"운라",thumb:"data:image/jpeg;base64,__IMAGE_071__",photo:"data:image/jpeg;base64,__IMAGE_072__",en:"Ulla",hasRange:true,r:"<img src=\"data:image/jpeg;base64,__IMAGE_073__\" alt=\"운라 음역\" style=\"width:100%;max-width:800px;display:block;margin:0 auto;\">",t:"작은 접시 모양의 구리 10개를 나무 틀에 매달아 연주하는 악기. 행진 음악(취타)에 주로 사용되며, 아주 높은 고음역의 선율을 명료하게 연주할 수 있음.",j:"작은 망치 형태의 '나무 채'로 중앙을 타격함. 10개의 접시를 아래에서 위로, 왼쪽에서 오른쪽으로 배열하여 낮은음부터 높은음까지 연주하며, 빠른 패시지나 트레몰로를 통해 극적인 장식 효과가 가능.",s:"쟁쟁거리는 맑고 높은 소리가 특징. 소리가 가볍고 경쾌하여 다른 악기들의 배음 위로 떠 오르는 듯한 느낌."},
+  {kr:"장구",thumb:"data:image/jpeg;base64,__IMAGE_074__",photo:"data:image/jpeg;base64,__IMAGE_075__",en:"Janggu",t:"왼편(북편)의 저음과 오른편(채편)의 고음이 조화를 이루며 '음양의 조화'를 상징함. 몸통의 크기, 가죽의 재질에 따라 소리가 다르며, 장르에 따라 다른 장구를 사용함. 장단장구(낮은), 사물장구(높은), 동해안 별신굿 장구(더 높은) 등이 사용.",j:"궁편, 채편, 합을 기본으로 하며, 겹채 기교와 타점(변죽/복판) 조절을 통해 리듬의 밀도와 긴장감을 정교하게 제어.",s:"북편(왼손) 가죽이 두꺼워 묵직하고 포근한 저음을 내며, 궁채 또는 손바닥으로 울림의 깊이를 조절. 채편(오른손) 가죽이 얇아 날카롭고 명쾌한 고음을 내며, 리듬의 분할과 악센트를 명확히 함. 변죽과 복판의 위치에 따라 소리가 달라짐. 조이개를 통해 전체 톤을 낮거나 높게 조절할 수 있음."},
+  {kr:"사물북",thumb:"data:image/jpeg;base64,__IMAGE_076__",photo:"data:image/jpeg;base64,__IMAGE_077__",en:"Samulbuk",t:"사물놀이(풍물)의 핵심 악기로, 리듬의 뼈대를 굵고 강하게 강조하는 역할.",j:"북채를 사용하여 북면의 복판을 강하게 타격함. 주로 한 손으로 강한 악센트를 주며, 단순하면서도 힘 있는 가락을 반복하여 연주.",s:"소리북보다 가죽을 팽팽하게 조여 훨씬 딱딱하고 명확한 타격음을 가짐. 잔향이 길게 퍼지기보다는 '쿵' 하고 단호하게 끊어지는 느낌이 강해, 빠른 템포에서도 리듬이 뭉쳐지지 않고 선명하게 전달됨."},
+  {kr:"소리북",thumb:"data:image/jpeg;base64,__IMAGE_078__",photo:"data:image/jpeg;base64,__IMAGE_079__",en:"Soribuk",t:"판소리 반주(고법)의 핵심 악기로, 협연 곡이나 민속악적 색채를 강조할 때 사용. 고음의 타격감이 특징.",j:"왼손은 손바닥으로 북면을 치고, 오른손은 북채로 북통(나무 부분)과 북면을 교차하며 타격함. 북통의 모서리를 치는 '각' 주법을 통해 명쾌한 악센트를 주며, 추임새와 함께 리듬의 긴장과 이완을 주도함. 정형화된 메트로놈 박자보다는 호흡에 의해 리듬이 굴러가는 잔가락의 유기적 연결이 특징.",s:"북면(가죽)이 둔탁하면서도 깊은 저음을 내어 안정적인 박자감을 형성. 북통(나무)에 '딱' 하는 딱딱하고 명확한 타격음을 내어 리듬의 마디를 끊어주거나 강조함."},
+  {kr:"좌고",thumb:"data:image/jpeg;base64,__IMAGE_080__",photo:"data:image/jpeg;base64,__IMAGE_081__",en:"Jwago",t:"틀에 매달려 있는 북을 앉아서 치는 형태로, 주로 관현악의 합장단(첫 박)에서 장구와 함께 연주되어 사운드의 깊이를 확장.",j:"북채를 사용하여 북면의 중앙(복판)을 타격함. 주로 첫 박이나 강조해야 할 지점에서 단발성으로 연주하며, 곡의 흐름에 따라 강약을 조절함.",s:"장구의 북편보다 더 깊고 웅장하며 여운이 긴 저음을 가짐. 북면이 크고 수직으로 세워져 있어 소리가 정면으로 뻗어 나가는 직진성과 묵직한 타격감이 특징. 장구와의 합이 어긋나지 않도록 타점의 일치감을 조절하는 것이 중요."},
+  {kr:"대고",thumb:"data:image/jpeg;base64,__IMAGE_082__",photo:"data:image/jpeg;base64,__IMAGE_083__",en:"Daego",t:"북 계열 중에서 가장 크고 무거운 저음의 에너지를 표출.",j:"채의 재질에 따라 다르지만 굵은 북채를 들고 북면의 복판을 타격하거나, 변죽을 쳐서 음색에 변화를 줌. 단발성의 강력한 타격뿐만 아니라, 양손을 빠르게 교차하여 점진적으로 소리를 키우는 '트레몰로(Roll)'를 통해 극적인 긴장감을 조성.",s:"저음의 진동과 압도적인 음압이 특징. 북의 크기에 따라 울림의 깊이가 다르며, 타격 후 공기를 타고 퍼져나가는 긴 잔향이 곡 전체에 웅장한 공간감을 부여함. 대고 특유의 딜레이(Delay)를 계산하여 타격 타이밍을 조절해야 하며, 잔향이 다른 선율을 간섭하지 않도록 손을 이용한 뮤트(Mute) 시점이 중요."},
+  {kr:"모듬북",thumb:"data:image/jpeg;base64,__IMAGE_084__",photo:"data:image/jpeg;base64,__IMAGE_085__",en:"Modeumbuk",t:"크기가 다른 여러 개의 북을 모아서 배열한 악기. 역동적인 리듬 전개가 필요한 대목에서 사용. 음 높이가 서로 다른 북의 조합을 통해 솔로타악기 역할 가능.",j:"두 개의 북채를 사용하여 여러 북면을 넘나들며 연주. 단발성의 강력한 타격뿐만 아니라, 여러 음높이를 활용한 멜로딕한 리드미컬 패시지를 구사하며, 북통(나무)을 치거나 북면을 긁는 등 현대적인 특수 주법 활용 가능.",s:"각 북의 크기와 가죽의 조임 상태에 따라 고음부터 저음까지 층위가 나뉘어 있어, 타격 시 리듬에 음정감이 부여되며 북채의 재질(나무/말렛/천) 등에 따라 음색이 달라짐. 잔향이 짧아 명료한 타격감으로 빠른 연주에서도 리듬의 윤곽이 선명."},
+  {kr:"꽹과리",thumb:"data:image/jpeg;base64,__IMAGE_086__",photo:"data:image/jpeg;base64,__IMAGE_087__",en:"Kkwaenggwari",t:"금속제 타악기 중 가장 높고 날카로운 소리를 내며, 관현악 전체의 음향 뚫고 나오는 압도적인 직진성을 가짐.",j:"왼손은 꽹과리 안쪽을 잡아 울림을 조절(개폐 주법)하고, 오른손은 채로 앞면을 타격함. 손가락으로 뒷면을 눌러 울림을 차단하는 '막음질'을 통해 리듬의 장단과 음색의 길이를 정교하게 제어함.",s:"극도로 높은 주파수의 강렬한 금속 타격음으로, 명확한 리듬을 발현. 손을 떼었을 때의 시원하게 뻗는 울림과, 손으로 막았을 때의 짧고 단단한 타격음의 대비를 통해 리듬의 탄력을 형성."},
+  {kr:"징",thumb:"data:image/jpeg;base64,__IMAGE_088__",photo:"data:image/jpeg;base64,__IMAGE_089__",en:"Jing",t:"금속 타악기 중 가장 낮고 풍부한 울림을 지님. 장단의 첫 박을 짚어 관현악에 무게감을 부여하며, 타격 자체보다 이후에 발생하는 '여운'을 통해 사운드의 깊이를 완성함. 크기에 따라 음정이 선명하게 나타남.",j:"부드러운 헝겊을 감은 징채로 복판을 타격함. 타격의 강도뿐만 아니라 타격 후 징의 떨림을 그대로 두느냐, 혹은 손으로 잡아 울림을 끊느냐에 따라 곡의 긴장감을 조절함. 징을 엎어서 천을 얇게 감은 채로 진도씻김굿에 사용하는 타격음이 강하고 리드미컬한 연주로 활용이 가능.",s:"길게 이어지는 파동과 그 속에 섞인 풍부한 배음이 특징. 둥글고 포근한 금속성을 바탕으로 압도적인 공간감을 형성."},
+  {kr:"자바라(바라)",thumb:"data:image/jpeg;base64,__IMAGE_090__",photo:"data:image/jpeg;base64,__IMAGE_091__",en:"Jabara",t:"두 개의 놋쇠판을 맞부딪쳐 소리 내는 악기로, 크기에 따라 활용법이 다름.",j:"정면 타격, 비비기, 가장자리 치기 등 다양한 기법을 구사하며, 타격 후 울림의 확산과 가슴 밀착을 통한 즉각적 뮤트(Mute)를 병행함. 잘게 쪼개는 연주를 통해 리듬의 긴장감을 극대화할 수 있음.",s:"꽹과리보다 음량이 크고 주파수 대역이 넓어, 타격 시 공중으로 흩어지는 듯한 화려하고 거친 울림이 특징임. 맞부딪친 후의 여운은 징처럼 길게 이어질 수 있으며, 잘게 연주도 가능. 시각적 퍼포먼스와 청각적 타이밍의 일치가 중요. 깨진 악기가 나는 소리를 구분할 수 있어야 함."},
+  {kr:"박",thumb:"data:image/jpeg;base64,__IMAGE_092__",photo:"data:image/jpeg;base64,__IMAGE_093__",en:"Bak",t:"6개의 얇은 박달나무를 묶어 만든 악기로, 집박이 음악의 시작(1번 타격)과 끝(3번 타격)을 알릴 때 사용. 관현악에서는 음악적 구절의 전환이나 특정 강조점에서 구조적인 이정표 역할.",j:"펼쳤다 합쳐치는 단발성 타격을 기본으로 하되, 연주 전 박을 벌릴 때 발생하는 마찰음을 활용해 예비적인 긴장감을 형성할 수 있음. 절도 있는 동작이 소리와 일치해야 함.",s:"잔향이 거의 없는 건조하고 강렬한 파열음이 특징임. 직진성이 극도로 강해 대편성의 거대한 음압 속에서도 연주자들에게 명확한 타이밍 신호를 전달."},
+  {kr:"목탁",thumb:"data:image/jpeg;base64,__IMAGE_094__",photo:"data:image/jpeg;base64,__IMAGE_095__",en:"Moktak",t:"나무의 속을 파내어 공명통을 만든 악기. 특유의 맑은 타격음으로 분위기를 전환할 때 활용. 불교 색채가 강함.",j:"나무로 만든 채(목탁채)를 사용하여 복판을 타격함. 일정한 간격으로 박을 짚어주는 연주, 반동을 활용해 점점 빨라지며 소리를 키우거나 줄이는 연주를 통해 독특한 속도감을 형성.",s:"속이 비어 있는 맑고 텅 빈 듯한 소리가 특징."},
+  
+  {kr:"축",thumb:"data:image/jpeg;base64,__IMAGE_096__",photo:"data:image/jpeg;base64,__IMAGE_097__",en:"Chuk",t:"푸른색을 칠한 사각형 나무 상자 모양의 악기로, '동쪽'과 '봄' 그리고 '시작'을 상징함. 종묘제례악이나 문묘제례악 등 국가 의례 음악의 가장 첫머리에서 음악의 개시를 알리는 신성한 역할.",j:"상자 윗면의 구멍 속으로 '지'라고 불리는 나무 방망이를 넣어 바닥면을 3번 타격함. 1번 치고 쉬고, 다시 1번 치고 쉬고, 마지막 1번을 치는 특유의 리듬적 약속이 있음.",s:"나무 상자 안에서 가둬졌다 터져 나오는 쿵 하는 낮은 울림이 특징. 명료한 타격음보다는 공간 전체를 진동시키는 효과."},
+  {kr:"어",thumb:"data:image/jpeg;base64,__IMAGE_098__",photo:"data:image/jpeg;base64,__IMAGE_099__",en:"Eo",t:"엎드린 호랑이 모양의 나무 조각 악기로, 등 위에 27개의 톱니를 긁어서 소리냄. '서쪽'과 '가을' 그리고 '종료'를 상징하며, 음악의 마지막 순간에 등장해 모든 소리를 갈무리하는 역할을 수행함.",j:"대나무 끝을 9갈래로 쪼개 만든 채(견)를 사용함. 호랑이의 머리를 세 번 타격한 뒤, 꼬리 방향으로 등의 톱니를 세 번 긁어 내리는 동작을 한 세트로 하여 총 세 번 반복.",s:"머리를 쳐서 탁, 탁 하는 건조하고 명확한 타격음과 등을 긁어 드르륵 하는 마찰음으로, 음악의 끝에서 발생하는 긴 잔향들을 시각적·청각적으로 쓸어 담는 듯한 독특한 질감이 있음."},
+  {kr:"정주",thumb:"data:image/jpeg;base64,__IMAGE_100__",photo:"data:image/jpeg;base64,__IMAGE_101__",en:"Jeongju",t:"작은 종지나 대접 모양의 금속 그릇 형태의 악기. 명상적인 도입부나 영적인 분위기를 연출할 때 공간을 울리는 공명이 있음.",j:"채로 그릇의 가장자리를 타격하거나 가장자리를 문지르며 돌려서 지속적인 울림을 만들어내는 마찰 기법을 사용.",s:"타격 후 위잉 하며 물결치듯 퍼져나가는 맥놀이 현상이 특징. 금속 특유의 서늘하면서도 맑은 잔향이 허공에 오랫동안 머물며 공간감 형성."},
+{kr:"요령",thumb:"data:image/jpeg;base64,__IMAGE_102__",photo:"data:image/jpeg;base64,__IMAGE_103__",en:"Yoryeong",t:"손잡이가 달린 작은 종 모양의 타악기. 내부에 달린 구슬이 몸체에 부딪히며 소리를 냄. 불교나 무속 의례에서 수행이나 의식의 시작을 알리는 상징성을 지님.",j:"손목의 스냅을 이용해 좌우로 흔들어 소리를 내며 단발성으로 흔들어 명료한 타점을 찍거나, 연속적으로 흔들어 소리가 허공에 비산하는 듯한 트레몰로 효과를 구현. 연주자의 흔드는 속도와 각도에 따라 잔향의 농도 조절이 가능.",s:"서늘하고 예리한 금속성 울림이 특징. 타격 후 물결처럼 퍼져나가는 맑은 배음이 공간에 신비롭고 몽환적인 텍스처를 형성."}
+];
+const auxData = [
+  {kr:"콘트라베이스",thumb:"data:image/jpeg;base64,__IMAGE_104__",photo:"data:image/jpeg;base64,__IMAGE_105__",en:"Contrabass",hasRange:true,r:"<img src=\"data:image/jpeg;base64,__IMAGE_106__\" alt=\"콘트라베이스 음역\" style=\"width:100%;max-width:800px;display:block;margin:0 auto;\">",t:"최저역대를 담당. 대아쟁보다 낮은 범위를 보완하여 화성의 기초를 형성.",j:"부드러운 활질과 깊고 낮은 피치카토 주법으로 아쟁의 거친 질감을 감싸며 긴 서스테인을 제공.",s:"묵직하고 깊은 저음. 국악기에 비해 부드러운 음색."},
+  {kr:"신디사이저",thumb:"data:image/jpeg;base64,__IMAGE_107__",photo:"data:image/jpeg;base64,__IMAGE_108__",en:"Synthesizer",hasRange:true,r:"<img src=\"data:image/jpeg;base64,__IMAGE_109__\" alt=\"신디사이저 음역\" style=\"width:100%;max-width:800px;display:block;margin:0 auto;\">",t:"최저음부터 최고음까지 전 음역대를 사용하며 서스테인 페달을 활용하여 지속음도 가능.",j:"화성적인 코드 연주로 선율 악기들을 뒷받침하거나, 아르페지오를 통해 화려한 장식미를 더함.",s:"기계적이지만 다양한 사운드를 만들어낼 수 있음. 패드(Pad) 사운드로 공간감을 확장하거나, 스트링, FX 사운드 등 광범위하게 사용."},
+  {kr:"팀파니",thumb:"data:image/jpeg;base64,__IMAGE_110__",photo:"data:image/jpeg;base64,__IMAGE_111__",en:"Timpani",hasRange:true,r:"<img src=\"data:image/jpeg;base64,__IMAGE_112__\" alt=\"팀파니 음역\" style=\"width:100%;max-width:800px;display:block;margin:0 auto;\">",t:"페달을 통해 음높이 조절이 가능한 유율 타악기.",j:"단발성 타격으로 극적인 강조점을 만들거나, 롤(Roll) 연주를 통해 곡의 에너지를 증폭시킴. 독일식 연주는 대나무 손잡이를 선호하며 두께가 조금 얇고 손바닥이 북면과 수평이 되게 연주함. 프랑스식 연주는 나무 또는 대나무 두께가 14mm로 굵으며 손바닥이 북면과 거의 수직이 되게 잡는 방식.",s:"웅장하고 압도적인 타격감. 좌고나 대고가 채우지 못하는 '정확한 음정의 타격음'을 제공."},
+  {kr:"글로겐슈필",thumb:"data:image/jpeg;base64,__IMAGE_113__",photo:"data:image/jpeg;base64,__IMAGE_114__",en:"Glockenspiel",hasRange:true,r:"<img src=\"data:image/jpeg;base64,__IMAGE_115__\" alt=\"글로겐슈필 음역\" style=\"width:100%;max-width:800px;display:block;margin:0 auto;\">",t:"최고역대의 악기로 국악기 중 운라와 음역대가 겹치지만, 더 높고 정교한 반음계 연주가 가능.",j:"딱딱한 말렛(Hard Mallet)을 사용하여 금속판의 중앙을 타격합니다. 빠른 글리산도나 트레몰로 주법으로 곡에 화려한 생동감을 줌.",s:"맑고 투명하며 차가운 금속성 울림이 특징. 소리의 직진성이 강함."},
+  {kr:"튜블라 벨",en:"Tubular Bells",hasRange:true,t:"거대한 교회의 종소리를 재현하기 위해 고안된 타악기로, 프레임에 세로로 매달린 금속 관들을 해머로 타격하여 연주하는 시각적·공간적 존재감이 뚜렷한 악기.",j:"가죽이나 플라스틱, 나무 등으로 만든 전용 해머로 금속 관의 맨 위쪽 테두리 부분을 때려 소리를 냄. 악기 하단에 장착된 댐퍼 페달이나 연주자의 손을 이용해 잔향의 길이를 정교하게 제어하며 트레몰로 주법으로 지속적인 울림을 만들어냄. 피아노 건반과 동일한 형태로 반음들이 배열되어 있어 시각적으로 음정을 구별하고 연주하기에 용이함.",s:"청량하면서도 장엄하고 신비로운 질감을 가지는데, 타격 직후 발생하는 강렬한 고주파의 금속성 어택음과 뒤이어 울리는 무겁고 풍부한 저음의 배음 구조 덕분에 실제 거대한 청동 종이 울리는 듯한 깊은 공간감을 연출."},
+  {kr:"마림바",thumb:"data:image/jpeg;base64,__IMAGE_116__",photo:"data:image/jpeg;base64,__IMAGE_117__",en:"Marimba",hasRange:true,r:"<img src=\"data:image/jpeg;base64,__IMAGE_118__\" alt=\"마림바 음역\" style=\"width:100%;max-width:800px;display:block;margin:0 auto;\">",t:"중저역부터 고역까지 폭넓은 음역. 건반 아래에 긴 공명관이 있어 나무 건반 악기 중 가장 깊고 풍부한 울림.",j:"부드러운 얀(Yarn) 말렛을 사용하여 둥글고 따뜻한 소리를 내며 명확한 리듬을 만들 수 있음. 양손에 채를 여러개 잡고 화성 연주가 가능. 트레몰로 주법을 주로 사용해서 선율을 만듬.",s:"목조악기로 속이 꽉 찬 듯하면서도 부드럽게 퍼지는 울림이 특징."},
+  {kr:"우드블럭",thumb:"data:image/jpeg;base64,__IMAGE_145__",photo:"data:image/jpeg;base64,__IMAGE_146__",en:"Wood Block",t:"목탁 계열의 나무 타악기로, 크기별 배열을 통해 음 높이의 변화를 제공함. 목가적인 서정성부터 긴박한 서사 묘사가 가능.",j:"나무 채나 딱딱한 말렛을 사용하여 상단을 타격. 여러 크기의 우드블럭을 배치해 다양한 음높이의 리듬 패시지를 연주하거나, 아주 빠른 속도로 타격하여 리듬에 탄력을 부여함.",s:"강한 직진성의 짧고 명료한 소리는 다른 악기들의 배음에 묻히지 않고 공기를 뚫고 나와 리듬의 윤곽을 선명하게 함. 소리가 아주 짧고 명확해서 박자의 오차가 가장 도드라지게 들리는 악기. 타이트한 연주가 핵심."},
+  {kr:"대북(Bass Drum)",thumb:"data:image/jpeg;base64,__IMAGE_119__",photo:"data:image/jpeg;base64,__IMAGE_120__",en:"Bass Drum",t:"특정 음고가 없는 북소리의 무율 타악기이며 악기의 크기에 따라 저음역부터 고음역까지 포괄하는 사운드를 가짐.",j:"커다란 소프트 말렛으로 중앙 혹은 약간 비껴난 지점을 타격함. 중앙으로 올수록 퍼진 소리가 나고 바깥으로 옮겨갈수록 파열음이 남. 두 개의 말렛으로 지속적인 진동을 주는 롤 주법으로 밀려오는 듯한 음향적 위압감을 형성.",s:"강도에 따라 감싸는 묵직함에서 전체를 뒤덮는 거대한 울림을 만들어냄."},
+  {kr:"톰톰",en:"Tom-Tom",t:"아메리카 원주민이나 아프리카의 전통 드럼에서 유래하여 현대 드럼 세트(Drum Kit) 및 오케스트라 타악기의 핵심으로 자리 잡은 막명악기. 드럼 세트에서는 통의 크기에 따라 하이 톰(High-tom), 미드 톰(Mid-tom), 플로어 톰(Floor-tom) 순으로 배치되어 고음역에서 저음역까지 단계적인 리듬 라인을 형성함.",j:"목재나 플라스틱으로 된 원통형 통의 양면 혹은 단면에 가죽을 팽팽하게 씌운 구조로, 나무나 플라스틱 팁이 달린 드럼 스틱, 혹은 부드러운 말렛과 브러시를 사용해 가죽 표면을 리드미컬하게 타격하여 연주.",s:"징글이나 스네어 와이어 같은 부속품이 없어 매우 순수하고 덤덤하며 묵직한 타격감을 지님. 가죽의 울림과 통의 공명이 결합하여 '둥-둥' 거리는 깊고 따뜻한 중저음의 펀치력을 만들어내며 리듬의 뼈대를 견고하게 지탱함. 가죽의 조임새를 조절하여 대략적인 음고를 조율할 수 있음."},
+  {kr:"스네어",thumb:"data:image/jpeg;base64,__IMAGE_121__",photo:"data:image/jpeg;base64,__IMAGE_122__",en:"Snare",t:"특정 음고가 없는 무율 타악기이나, 통울림에 쇳소리를 더해서 중고역대의 날카로운 파열음을 형성함.",j:"건조하면서도 날카로운 타격음이 특징임. 소리의 시작과 끝이 분명하여 리듬의 윤곽을 선명하게 드러내며, 강렬한 에너지를 통해 관현악 전체의 타격감을 주도함. 스틱으로 타격하여 빠르고 정교한 리듬 라인을 생성함. 트릴, 롤과 같은 미세한 타격음을 연속시켜 지속음을 만들거나, 헤드와 테두리(Rim)를 동시에 타격하여 총성 같은 강력한 파열음을 내는 림샷 등 에너지를 응축하거나 폭발시키는 강렬한 사운드가 특징.",s:"건조하면서도 날카로운 타격음이 특징임. 소리의 시작과 끝이 분명하여 리듬의 윤곽을 선명하게 드러냄."},
+  {kr:"서스펜 심벌",thumb:"data:image/jpeg;base64,__IMAGE_123__",photo:"data:image/jpeg;base64,__IMAGE_124__",en:"Suspended Cymbal",t:"스탠드에 고정시켜 두고 채로 치는 쇳소리의 무율 타악기. 초고역대의 배음이 매우 풍부하고 사운드를 증폭시키는 것이 특징.",j:"채로 내리쳐서 찰나의 폭발음을 만드는 Crash 주법, 음압을 확장시켜 폭발시키는 롤 주법, 타격 직후 손으로 잡아 소리를 즉시 차단하는 초크(Choke)주법이 특징.",s:"사운드를 사방으로 비산시키는 효과. 소리를 뚫고 나오는 직진성이 강해, 곡의 하이라이트를 시각적으로 형상화하는 듯한 청량감을 줌."},{kr:"심벌즈",thumb:"data:image/jpeg;base64,__IMAGE_125__",photo:"data:image/jpeg;base64,__IMAGE_126__",en:"Crash Cymbals",t:"심벌 두 개를 양 손에 하나씩 들고 맞부딪쳐서 소리를 내며, 금속성 특유의 날카롭고 높은 배음을 가진 것이 특징.",j:"양손의 스트랩을 잡고 비스듬히 스치듯 부딪쳐 소리를 냄. 공기압력을 조절하며 약간 비껴 쳐야 풍부한 울림이 생기며, 소리를 멈춰야 할 때는 연주자의 몸에 악기를 밀착시켜 진동을 차단하는 뮤트(Mute) 기술을 사용.",s:"연주방식에 따라 작은 떨림에서부터 귀를 멍하게 할 정도의 폭발적인 소리까지 표현의 폭이 매우 넓음. 특히 소리가 사라질 때까지 길게 이어지는 잔향(Sustain)은 음악의 긴장감을 고조시키거나 화려하게 마무리하는 효과를 줌."},
+  {kr:"귀로",thumb:"data:image/jpeg;base64,__IMAGE_147__",photo:"data:image/jpeg;base64,__IMAGE_148__",en:"Guiro",t:"박의 표면에 가로 홈을 파서 만든 속이 빈 타악기. 라틴 느낌의 리듬악기.",j:"전용 채인 '푸아'를 이용해 홈을 위아래로 길고 짧게 긁어 연주하며, 긁는 방향과 속도를 조절해 라틴 음악 특유의 반복적인 리듬 패턴을 만들어냄.",s:"'드르륵' 하는 건조한 마찰음이 특징이며, 재질에 따라 따뜻하거나 날카로운 소리를 내며 리듬을 선명하게 부각시킴.",hasRange:false},
+  {kr:"공(Tam-Tam)",thumb:"data:image/jpeg;base64,__IMAGE_127__",photo:"data:image/jpeg;base64,__IMAGE_128__",en:"Tam-Tam",t:"특정 음고가 없는 무율 타악기로, 금속 특유의 쇳소리가 지닌 강력한 파괴력이 특징임. 절정에서 사운드의 한계를 돌파하거나 극적인 긴장감을 조성할 때 사용됨.",j:"탐탐과 유사하게 중앙 또는 주변부를 타격하며, 극도로 절제된 은은한 떨림부터 관현악 전체를 압도하는 강력한 타격까지 다이내믹의 폭이 매우 넓음. 복판을 칠수록 온화한 소리가 나며, 바깥으로 나갈수록 파열음이 생김. 트레몰로는 밖에서 안으로 치는 것이 효과적.",s:"탐탐보다 소리의 시작이 선명하고, 뒤따라오는 잔향에 울림이 깊음. 특유의 쇳소리가 섞인 큰 울림이 특징."},
+  {kr:"탬버린",en:"Tambourine",t:"전 세계 여러 문화권에서 널리 쓰여온 대표적인 체명 및 막명 타악기로, 목재나 플라스틱으로 된 원형 틀(Shell)에 작은 금속 원반들을 박아 넣어 리듬감을 극대화한 악기.",j:"손바닥이나 주먹, 손가락으로 가죽을 때리는 타격 주법을 기본으로 하며, 악기 자체를 흔들어 금속판의 지속적인 울림을 만드는 셰이크(Shake) 주법, 엄지손가락으로 가죽 표면을 문질러 미세한 떨림을 유도하는 핑거/썸 롤 주법 등 연주자의 손기술에 따라 매우 정교한 리듬 표현이 가능.",s:"매우 밝고 경쾌하며 찰랑거리는 금속성을 지니는데, 가죽이 있는 탬버린은 둔탁하면서도 명확한 타격음이 나고, 금속 원반만 달린 탬버린은 순수한 금속성 징글의 고주파 잔향이 강조되어 오케스트라나 팝 음악의 합주 속에서도 청량하게 뚫고 나오는 탁월한 관통력이 특징. 악기 틀의 크기(보통 8~10인치)와 가죽의 텐션, 그리고 금속 징글의 재질(은, 구리, 황동 등)에 따라 전체적인 소리의 피치(High/Low)와 음색의 밝기가 다르게 결정됨."},
+  {kr:"윈드차임",thumb:"data:image/jpeg;base64,__IMAGE_129__",photo:"data:image/jpeg;base64,__IMAGE_130__",en:"Wind Chime",t:"고정된 음고보다는 초고역대의 배음이 주를 이룸. 금속 막대들의 길이에 따라 높은 주파수 대역에서 쏟아지는 듯한 소리의 층을 형성함.",j:"손가락이나 채로 금속 막대들을 훑어 소리를 냄. 왼쪽에서 오른쪽, 혹은 반대 방향으로 훑는 속도와 막대의 길이에 따라 에너지의 흐름을 조절함. 특정 지점만 살짝 건드리거나, 길게 훑어서 잔향을 길게 가져감.",s:"금속막대가 부딪히며 나는 소리로 인해 잘게 부서지는 화려한 질감의 음색. 소리의 시작보다 잔향의 끝에 남겨지는 환상적인 소리가 핵심."},
+  {kr:"트라이앵글",thumb:"data:image/jpeg;base64,__IMAGE_131__",photo:"data:image/jpeg;base64,__IMAGE_132__",en:"Triangle",t:"매우 높은 초고역대의 배음을 가진 악기. 정주와 비슷한 소리가 나며 주파수가 매우 높아서 존재감이 쉽게 드러남.",j:"금속채로 타격하여 선명한 '점'의 사운드를 만들고 트레몰로, 뮤트와 같은 주법이 가능함.",s:"짧고 명확한 쇳소리는 다른 악기들의 배음과 섞이지 않고 소리의 레이어를 분리해 높은 투과력을 가짐."},
+  {kr:"카우벨",thumb:"data:image/jpeg;base64,__IMAGE_133__",photo:"data:image/jpeg;base64,__IMAGE_134__",en:"Cowbell",t:"속이 빈 금속통 특유의 단단하고 건조한 소리가 특징. 독특한 에너지로 리듬의 선명함을 부여하며 관현악의 텍스처를 뚫고 나오는 존재감.",j:"스틱으로 몸통이나 입구를 타격하며, 텅 빈 금속성의 쇳소리를 통해 리듬의 윤곽을 선명하게 함.",s:"음의 시작이 매우 빠르고 날카로운 건조한 금속성 소리가 특징임. 강한 투과력을 지녀 대편성 연주 중에도 리듬의 타점을 명확하게 각인시킴."},
+  {kr:"클라벨",en:"Claves",t:"라틴 음악의 기본 리듬 패턴(클라베 패턴)을 연주하는 데서 이름이 유래한 체명 타악기. 두 개의 짧은 원통형 나무 막대를 서로 부딪쳐 소리를 내며, 단순한 구조에서 나오는 극도로 명확한 타격음이 특징.",j:"한 손의 손가락 위에 막대 하나를 올려놓아 공명 공간을 만들고(이 막대가 '받침'), 다른 손에 쥔 막대(타격봉)로 받침 막대의 중앙을 내려쳐 소리를 냄. 받침 손의 손가락 벌림과 손바닥 곡률에 따라 공명의 깊이가 미세하게 달라짐.",s:"극도로 건조하고 높으며 관통력이 강한 '딱!' 소리가 특징. 잔향이 거의 없고 어택이 극단적으로 짧아서 대편성 합주 속에서도 리듬의 기준점으로 또렷하게 들림. 나무의 종류(주로 로즈우드, 그라나딜라)와 밀도에 따라 피치와 밝기가 달라짐."},
+  
+  {kr:"레인스틱",thumb:"data:image/jpeg;base64,__IMAGE_135__",photo:"data:image/jpeg;base64,__IMAGE_136__",en:"Rainstick",t:"나무 통 내부에 박힌 돌기 사이로 씨앗이나 모래가 흐르며 빗소리와 물소리를 재현하는 타악기.",j:"막대를 기울이는 각도로 소리의 밀도를 조절하는 틸팅(Tilting)과 불규칙한 질감을 만드는 쉐이킹(Shaking)을 통해 지속 시간을 설계함.",s:"수천 개의 입자가 만드는 세밀한 노이즈 텍스처가 특징이며, 길고 입체적인 잔향이 특징."},
+  {kr:"오션드럼",thumb:"data:image/jpeg;base64,__IMAGE_137__",photo:"data:image/jpeg;base64,__IMAGE_138__",en:"Ocean Drum",t:"파도 소리와 바람 소리를 재현하는 효과악기로 두 개의 투명한 피(skin) 사이에 작은 금속 알갱이나 구슬이 들어 있는 원형 북.",j:"악기를 수평으로 들고 천천히 기울여 입자들이 피 면을 타고 흐르게 하는 틸팅(Tilting) 주법. 원을 그리듯 돌려 지속적인 파도 소리를 만들거나, 수평으로 강하게 흔들어 거친 에너지를 표현. 북처럼 타격하여 단발성의 묵직한 울림도 가능.",s:"수많은 알갱이가 면에 마찰하며 발생하는 광대역 노이즈 텍스처가 특징. 다이내믹의 폭이 매우 넓으며, 저역대의 공명과 고역대의 마찰음이 조화를 이뤄 신비롭고 입체적인 잔향을 형성."},
+  {kr:"쉐이커",thumb:"data:image/jpeg;base64,__IMAGE_139__",photo:"data:image/jpeg;base64,__IMAGE_140__",en:"Shaker",t:"특정 음고가 없는 무율 타악기로 내부 입자의 크기와 재질에 따라 중고역대의 다양한 노이즈 주파수를 형성.",j:"손으로 흔드는 속도와 방향, 각도를 조절하여 리듬의 악센트를 결정하며, 멈추는 동작에 따라 소리의 잔향을 즉각적으로 제어.",s:"수많은 알갱이가 부딪히며 만드는 건조하고 경쾌한 마찰음이 특징."},
+  {kr:"마라카스",thumb:"data:image/jpeg;base64,__IMAGE_141__",photo:"data:image/jpeg;base64,__IMAGE_142__",en:"Maracas",t:"야자수 열매나 플라스틱 통 속에 씨앗이나 작은 알갱이를 넣어 손잡이를 달아 만든 악기로, 주로 쌍으로 연주.",j:"위아래로 흔들어 일정한 리듬을 만드는 연주가 기본, 손목의 스냅을 이용해 특정 박자에 강한 악센트를 주거나 아주 미세하게 떨림을 주어 지속적인 소리를 만들어냄.",s:"쉐이커보다 타격감이 더 명확하고 높은 주파수의 소리를 내며 사방으로 부드럽게 퍼짐."},
+  {kr:"카바사",thumb:"data:image/jpeg;base64,__IMAGE_143__",photo:"data:image/jpeg;base64,__IMAGE_144__",en:"Cabasa",t:"원통형 몸체에 금속 구슬 사슬을 감은 타악기, 쉐이커보다 훨씬 밀도 높고 건조한 마찰음을 냄. 라틴 음악의 색채를 입히거나, 촘촘한 리듬 질감이 특징.",j:"한 손으로 손잡이를 잡고 다른 한 손바닥으로 금속 구슬을 눌러 비비며 연주. 비비는 속도와 압력에 따라 잔향의 길이 조절이 가능.",s:"치익- 하는 예리하고 건조한 마찰음이 특징. 음의 시작이 명확하여 빠른 박자에서도 리듬이 뭉치지 않으며, 소리의 입자가 고와서 선율 악기들의 배음을 방해하지 않으면서 리듬의 활력을 불어넣음."},
+  {kr:"캐스터네츠",en:"Castanets",t:"스페인의 전통 무용과 오케스트라 음악에서 리듬의 악센트를 강렬하게 표현하기 위해 널리 쓰이는 대표적인 체명 타악기. 조개껍데기 모양으로 깎은 두 개의 나무 조각을 끈으로 묶어 서로 부딪치게 만든 악기.",j:"손가락에 끈을 걸고 손바닥 안에서 손가락들로 나무 조각을 튕기듯 두드리는 전통적인 주법을 기본으로 함. 오케스트라에서는 빠른 연주를 위해 손잡이가 달린 핸들형 캐스터네츠를 손이나 허벅지에 부딪치거나 대형 스탠드형 캐스터네츠를 양손으로 정교하게 타격하여 연주.",s:"매우 건조하고 딱딱하며 명확한 타격감을 지님. 어택이 극단적으로 짧고 잔향이 거의 없어서 여러 악기가 함께 연주되는 합주 속에서도 튀어나오는 소리를 가짐. 정열적이고 이국적인 음악 분위기를 연출함. 나무 조각의 크기나 목재의 종류(주로 그라나딜라, 로즈우드, 합성 수지 등) 및 가공된 두께에 따라 미세한 피치(High/Low)와 소리의 명도 및 맑기가 다르게 결정."}];
+function makeInstItem(d) {
+  const rangeTab = d.hasRange ? '<button class="inner-tab" onclick="switchInner(event,this,3)">음역</button>' : '';
+  const rangeContent = d.hasRange ? '<div class="inner-content">'+(d.r ? d.r : '<p class="placeholder">음역 이미지 첨부 예정</p>')+'</div>' : '';
+  return '<div class="acc-item"><div class="acc-item-header" onclick="toggleAccItem(event,this)">'+(d.thumb ? '<img class="inst-photo-thumb" src="'+d.thumb+'" alt="'+d.kr+'" data-full="'+(d.photo||d.thumb)+'" onclick="event.stopPropagation();showPhoto(this.dataset.full||this.src)">' : '')+'<span class="acc-item-arrow">▶</span><div class="acc-item-name"><span class="acc-item-kr">'+d.kr+'</span><span class="acc-item-en">'+d.en+'</span></div></div><div class="acc-item-body"><div class="inner-tabs"><button class="inner-tab active" onclick="switchInner(event,this,0)">특징</button><button class="inner-tab" onclick="switchInner(event,this,1)">주법</button><button class="inner-tab" onclick="switchInner(event,this,2)">음색</button>'+rangeTab+'</div><div class="inner-content active">'+d.t+'</div><div class="inner-content">'+d.j+'</div><div class="inner-content">'+d.s+'</div>'+rangeContent+'</div></div>';
+}
+document.getElementById('wind-body').innerHTML = windData.map(makeInstItem).join('');
+document.getElementById('perc-body').innerHTML = percData.map(makeInstItem).join('');
+document.getElementById('aux-body').innerHTML = auxData.map(makeInstItem).join('');
+
+// ─── 채 · 스틱 · 말렛 · 활 ───
+const stickKrData = [
+  {kr:"궁글채",en:"Gunggeul-chae",t:"징을 치는 전용 채로, 둥글고 부드러운 타구(打球)가 특징. 타격의 강약에 따라 징의 울림을 섬세하게 조절하는 핵심 도구.",j:"나무 손잡이 끝에 헝겊이나 솜을 둥글게 감싸서 만든 타구를 부착. 타구의 크기와 감싸는 재료의 밀도에 따라 소리의 무게감이 달라짐.",s:"부드러운 타구가 징의 금속면에 넓은 접촉면을 형성하여 풍부하고 깊은 울림을 만들어냄. 타구가 단단할수록 어택이 명확해지고, 부드러울수록 둥글고 감싸는 소리가 됨."},
+  {kr:"꽹과리채",en:"Kkwaenggwari-chae",t:"꽹과리를 치는 짧고 단단한 나무채. 빠르고 정교한 가락(장단)을 수행하기 위해 가볍고 탄력적인 구조가 요구됨.",j:"단단한 나무(박달나무 등)를 깎아 만든 일체형 채. 끝이 약간 둥글게 마감되어 있으며 길이가 짧아 손목 스냅으로 조작.",s:"단단한 목재가 얇은 금속면을 타격하여 날카롭고 높은 금속성 소리를 만들어냄. 타격 지점(복판/가장자리)과 힘 조절로 음색을 변화시킴."},
+  {kr:"열채",en:"Yeol-chae",t:"장구의 채편(오른쪽)을 치는 가늘고 탄력 있는 대나무 채. '열(列)'은 대나무를 쪼개어 여러 가닥으로 만든 데서 유래.",j:"대나무를 가늘게 깎아 만들며, 끝부분이 약간 벌어지거나 그대로 뾰족한 형태. 대나무 특유의 탄성이 빠른 연타와 섬세한 다이내믹을 가능하게 함.",s:"가볍고 탄력적인 대나무가 가죽면을 타격하여 '딱-딱' 하는 높고 건조한 소리를 만듦. 손목의 힘과 각도에 따라 '더러러러' 하는 미세한 잔향(채끝 떨림)이 특징적."},
+  {kr:"궁채",en:"Gung-chae",t:"장구의 북편(왼쪽)을 치는 둥근 머리의 나무채. '궁(宮)'은 북편의 낮고 깊은 소리를 의미.",j:"나무 손잡이 끝에 둥근 나무 공이 달린 형태. 공의 크기와 무게에 따라 타격감이 달라지며, 목재의 밀도가 소리의 깊이를 좌우함.",s:"둥근 타구가 두꺼운 가죽면을 눌러치듯 타격하여 '둥-' 하는 깊고 묵직한 저음을 만들어냄. 열채의 높은 소리와 대비되어 장구의 음역 폭을 형성."},
+  {kr:"북채",en:"Buk-chae",t:"북류(소리북, 좌고, 용고, 진고 등)를 치는 단단한 나무채. 악기의 크기에 따라 채의 굵기와 길이가 달라지며, 가장 원초적이고 직접적인 타격 도구.",j:"단단한 나무(참나무, 박달나무 등)를 원통형으로 깎아 만듦. 양쪽 끝이 약간 둥글게 마감되며, 악기 크기에 비례하여 굵기와 무게를 조절.",s:"단단한 나무의 직접 타격이 가죽면의 진동을 강하게 유발하여 '둥-' 하는 깊은 울림부터 '딱!' 하는 강한 파열음까지 폭넓은 다이내믹을 형성."},
+  {kr:"편경채·편종채",en:"Pyeongyeong / Pyeonjong-chae",t:"편경(돌)과 편종(종)을 타격하는 아악(雅樂) 전용 채. 정악의 엄격한 격식에 맞는 형태와 타격법이 규정되어 있음.",j:"뿔(角)이나 단단한 나무로 만들며, 편경채는 끝이 약간 구부러진 형태. 악학궤범에 규정된 재질과 규격을 따름.",s:"경석(磬石)이나 청동의 고유 진동을 깨끗하게 살려내기 위해 적절한 경도의 채가 필수. 너무 단단하면 거친 잡음이, 너무 부드러우면 음량이 부족해짐."}
+];
+
+const stickWestData = [
+  {kr:"드럼 스틱",en:"Drum Sticks",t:"스네어, 톰톰, 심벌 등 드럼 세트와 오케스트라 타악기 전반에 사용되는 가장 기본적인 채. 팁(Tip)의 형태와 재질에 따라 다양한 소리를 만들어냄.",j:"히코리(Hickory), 메이플(Maple), 오크(Oak) 등의 목재로 제작. 팁 형태는 원형(Round), 타원형(Oval), 배럴(Barrel), 뾰족형(Pointed) 등이 있으며, 나일론 팁은 심벌에서 더 밝은 소리를 냄. 굵기와 길이 규격(5A, 5B, 7A, 2B 등)에 따라 무게와 볼륨이 달라짐.",s:"팁이 작고 가벼울수록(7A) 섬세하고 밝은 소리, 크고 무거울수록(2B) 묵직하고 큰 볼륨. 나무 팁은 따뜻하고 자연스러운 어택, 나일론 팁은 밝고 명확한 어택을 형성."},
+  {kr:"팀파니 말렛",en:"Timpani Mallets",t:"팀파니 전용 말렛으로, 머리의 경도에 따라 소프트(Soft), 미디엄(Medium), 하드(Hard)로 구분. 곡의 성격과 구간에 따라 말렛을 수시로 교체하며 연주.",j:"나무 또는 대나무 자루 끝에 코르크나 목재 코어를 펠트(Felt)로 감싼 구형 헤드. 펠트의 두께와 밀도, 코어의 경도 조합이 수십 가지 음색 팔레트를 형성.",s:"소프트 말렛은 둥글고 따뜻한 음색으로 레가토 구간에 적합하며, 하드 말렛은 어택이 명확하여 리듬의 선명도와 음정 인식을 높임. 롤 연주 시 말렛의 경도가 트레몰로의 입자감을 결정."},
+  {kr:"얀 말렛",en:"Yarn Mallets",t:"마림바, 비브라폰 등 건반 타악기에 사용하는 실(Yarn)로 감싼 부드러운 말렛. 건반 타악기의 따뜻하고 풍부한 울림을 살리는 핵심 도구.",j:"고무나 합성수지 코어에 면사(Cotton) 또는 합성사(Synthetic yarn)를 촘촘하게 감아 제작. 실의 감김 밀도와 코어 경도의 조합으로 소프트~미디엄 하드까지 단계를 나눔.",s:"실의 쿠셔닝 효과가 타격 시 고주파 잡음을 흡수하여 건반 자체의 따뜻한 공명만 살려냄. 소프트 얀은 저음역에서 깊은 울림을, 하드 얀은 고음역에서 선명한 음정을 만듦."},
+  {kr:"하드 말렛",en:"Hard Mallets",t:"글로겐슈필, 실로폰 등 고음역 건반 타악기에 사용하는 단단한 머리의 말렛. 금속이나 단단한 건반의 진동을 정확하게 살려냄.",j:"플라스틱, 하드 러버, 놋쇠, 아크릴 등 경질 소재의 구형 헤드에 라탄(Rattan)이나 자작나무 자루를 결합. 헤드의 소재에 따라 어택의 밝기가 달라짐.",s:"단단한 헤드가 금속/나무 건반과 짧은 접촉 시간을 형성하여 맑고 투명한 어택음을 생성. 놋쇠 헤드는 가장 밝고 날카로우며, 플라스틱은 적절한 밸런스를 제공."},
+  {kr:"소프트 말렛",en:"Soft Mallets",t:"대북(Bass Drum), 공(Tam-Tam), 서스펜디드 심벌 등 대형 무율 타악기에 사용하는 크고 부드러운 말렛.",j:"큰 나무 코어에 펠트, 양모, 면 등을 두껍게 감싸서 제작. 헤드가 클수록 타격 면적이 넓어져 악기 전체의 진동을 균일하게 유발.",s:"넓고 부드러운 접촉면이 금속이나 가죽의 전체 진동 모드를 고르게 활성화하여 풍부한 배음과 깊은 울림을 형성. 어택을 최소화하고 소리의 '몸체'를 극대화."},
+  {kr:"와이어 브러시",en:"Wire Brushes",t:"금속 와이어를 부채꼴로 펼친 형태의 채. 주로 스네어, 심벌, 톰톰에서 가죽면을 쓸거나 두드려서 부드럽고 섬세한 사운드를 만들어냄.",j:"가는 스틸 와이어 다발을 금속이나 고무 손잡이에 고정. 손잡이를 돌려 와이어의 펼침 정도를 조절할 수 있는 리트랙터블(Retractable) 구조가 일반적.",s:"와이어가 가죽면을 쓸 때 '쉬-쉬-' 하는 지속적인 마찰음을 형성하여 드럼 스틱의 날카로운 어택과는 대조적인 부드럽고 사라지는 듯한 소리를 만듦."},
+  {kr:"번들 스틱",en:"Bundle Sticks (Rods / Hot Rods)",t:"얇은 나무 막대 여러 개를 묶은 형태로, 드럼 스틱과 브러시의 중간 음량과 질감을 가진 채. 소규모 편성이나 어쿠스틱 환경에서 활용.",j:"얇은 자작나무 또는 대나무 막대 7~19개를 고무밴드나 열수축 튜브로 묶어 제작. 막대 수와 굵기에 따라 음량과 어택의 강도가 달라짐.",s:"다수의 얇은 막대가 분산된 접촉점을 만들어 스틱보다 부드럽지만 브러시보다 명확한 어택을 형성. '팟-팟' 하는 독특한 질감."}
+];
+
+const bowData = [
+  {kr:"아쟁활",en:"Ajaeng Bow",t:"아쟁 전용 활로, 개나리나무 등의 나뭇가지에 송진을 발라 현을 마찰시켜 소리를 내는 독특한 형태의 활. 서양 활과 달리 말총이 아닌 나무 자체가 현에 닿는 것이 특징.",j:"개나리나무 가지를 적당한 길이로 잘라 껍질을 벗긴 뒤 송진을 칠하여 사용. 가지의 굵기와 표면 거칠기가 마찰력에 영향을 주며, 송진의 양과 질이 소리의 안정성을 좌우함.",s:"나무의 거친 마찰이 현에 강한 진동을 유발하여 거칠고 깊으며 야성적인 음색을 만들어냄. 송진의 마찰 특성상 서양 활에 비해 노이즈 성분이 많아 독특한 질감이 형성됨."},
+  {kr:"해금활",en:"Haegeum Bow",t:"해금의 두 줄 사이에 끼워 연주하는 활. 활대와 말총이 분리되지 않고 두 현 사이를 지나는 구조가 서양 활과 근본적으로 다른 점.",j:"대나무 활대에 말총을 매어 만들며, 말총이 두 현 사이에 고정되어 있어 활을 빼지 않고 연주. 활대의 탄성과 말총의 장력 균형이 연주 감각을 결정.",s:"말총이 현 사이에서 양방향으로 마찰하여 밀고 당기는 음색의 차이가 자연스럽게 생김. 활의 속도와 압력에 따라 부드러운 서정성에서 날카로운 긴장감까지 폭넓은 표현이 가능."},
+  {kr:"바이올린활",en:"Violin Bow",t:"바이올린, 비올라에 사용하는 서양 찰현악기의 표준 활. 페르남부코(Pernambuco) 또는 카본 파이버 소재의 활대에 말총을 팽팽하게 걸어 현을 마찰시킴.",j:"활대는 페르남부코, 브라질우드, 카본 파이버 등으로 제작하며, 130~200가닥의 말총을 프로그(Frog)와 팁에 고정. 프로그의 스크류로 말총 장력을 미세 조절.",s:"균일한 말총 장력과 송진의 적절한 마찰력이 결합하여 깨끗하고 지속적인 진동을 만들어냄. 활의 무게 배분(밸런스 포인트)과 탄성이 레가토, 스피카토 등 다양한 보잉 기법의 반응성을 결정."},
+  {kr:"첼로활·베이스활",en:"Cello / Bass Bow",t:"첼로와 콘트라베이스에 사용하는 활로, 바이올린활보다 짧고 무거우며 말총의 폭이 넓음. 두꺼운 현을 효과적으로 진동시키기 위한 구조.",j:"활대는 바이올린활과 동일한 소재를 사용하나 더 두껍고 단단함. 베이스활은 프렌치 보(French bow)와 저먼 보(German bow) 두 가지 프로그 형태가 있어 그립 방식이 다름.",s:"넓은 말총 폭과 무거운 활대가 저음현에 충분한 마찰 에너지를 전달하여 깊고 풍부한 저음의 울림을 안정적으로 유지. 활의 무게를 활용한 자연스러운 압력 조절이 핵심."}
+];
+
+document.getElementById('stick-all-body').innerHTML = stickKrData.map(makeInstItem).join('') + stickWestData.map(makeInstItem).join('') + bowData.map(makeInstItem).join('');
+
+// ─── Scales: 국악 음계 ───
+function scTori(name,fields,scoreImg){
+  var html='<div class="sc-tori-card" onclick="toggleScTori(event,this)"><div class="sc-tori-header"><span class="t-arrow">▶</span>'+name+'</div><div class="sc-tori-body">';
+  fields.forEach(function(f){html+='<div class="sc-field"><div class="sc-label">'+f[0]+'</div><div class="sc-val">'+f[1]+'</div></div>';});
+  if(scoreImg){html+='<img src="'+scoreImg+'" style="width:100%;max-width:900px;display:block;margin:8px auto;">';}else{html+='<div class="sc-score-placeholder">♩ 음계 악보 첨부 예정</div>';}
+  html+='</div></div>';
+  return html;
+}
+function scSection(title,content){
+  return '<div class="sc-section"><div class="sc-section-header" onclick="toggleScSection(this)"><span class="g-icon">▶</span>'+title+'</div><div class="sc-section-body">'+content+'</div></div>';
+}
+
+var _sc300="data:image/jpeg;base64,__IMAGE_149__";
+var _sc301="data:image/jpeg;base64,__IMAGE_150__";
+var _sc302="data:image/jpeg;base64,__IMAGE_151__";
+var _sc303="data:image/jpeg;base64,__IMAGE_152__";
+var _sc304="data:image/jpeg;base64,__IMAGE_153__";
+var _sc305="data:image/jpeg;base64,__IMAGE_154__";
+var _sc306="data:image/jpeg;base64,__IMAGE_155__";
+
+var gsc = '';
+// 정악 음계 (당악계 / 풍류계)
+var jc = '';
+
+jc += '<div class="ja-tab-bar"><button class="ja-tab-btn active" onclick="switchJaTab(0)">黃 ≒ C 계통</button><button class="ja-tab-btn" onclick="switchJaTab(1)">黃 ≒ E♭ 계통</button><button class="ja-tab-btn" onclick="switchJaTab(2)">예외</button></div>';
+
+// ════════════════════════════════════════
+// TAB 1: 黃 ≒ C 계통
+// ════════════════════════════════════════
+var tabC = '';
+tabC += '<div class="sc-desc">당악계 음악은 고려시대 중국 송나라에서 유입된 음악에서 비롯되었으며, <b>당피리</b>가 중심 선율 악기이다. 황종(黃) = C를 기본음으로 함.</div>';
+tabC += '<img src="data:image/jpeg;base64,__IMAGE_156__" style="width:100%;max-width:900px;display:block;margin:8px auto;">';
+
+tabC += '<div class="ja-mode-tabs">';
+
+tabC += '<div class="ja-mode-tab" onclick="toggleJaMode(this)"><span class="t-arrow">▶</span>평조 (黃–太–仲–林–南)</div>';
+tabC += '<div class="ja-mode-body">';
+tabC += '<img src="data:image/jpeg;base64,__IMAGE_157__" style="width:100%;max-width:900px;display:block;margin:8px auto;">';
+tabC += '<div class="sc-desc"><ul style="margin:0;padding-left:1.2em;line-height:1.8;">';
+tabC += '<li>낙양춘 (기수영창지곡)</li>';
+tabC += '<li>보허자 (장춘불로지곡)</li>';
+tabC += '<li>여민락만 (경록무강지곡)</li>';
+tabC += '<li>여민락령 / 본령 (태평춘지곡)</li>';
+tabC += '<li>해령 (서일화지곡)</li>';
+tabC += '<li>정동방곡</li>';
+tabC += '<li>유황곡</li>';
+tabC += '<li>풍안지악</li>';
+tabC += '<li>전폐희문</li>';
+tabC += '<li>종묘제례악 보태평</li>';
+tabC += '</ul></div></div>';
+
+tabC += '<div class="ja-mode-tab" onclick="toggleJaMode(this)"><span class="t-arrow">▶</span>계면조 (黃–夾–仲–林–無)</div>';
+tabC += '<div class="ja-mode-body">';
+tabC += '<img src="data:image/jpeg;base64,__IMAGE_158__" style="width:100%;max-width:900px;display:block;margin:8px auto;">';
+tabC += '<div class="sc-desc"><ul style="margin:0;padding-left:1.2em;line-height:1.8;">';
+tabC += '<li>종묘제례악 정대업</li>';
+tabC += '</ul></div></div>';
+
+tabC += '</div>';
+jc += '<div class="ja-panel active">' + tabC + '</div>';
+
+// ════════════════════════════════════════
+// TAB 2: 黃 ≒ E♭ 계통
+// ════════════════════════════════════════
+var tabEb = '';
+tabEb += '<div class="sc-desc">향피리 중심 음악으로, 실음 E♭을 황종(黃)으로 사용하며, 악곡에 따라 조옮김이 이루어져 다양한 음계 구성이 나타남.</div>';
+tabEb += '<img src="data:image/jpeg;base64,__IMAGE_159__" style="width:100%;max-width:900px;display:block;margin:8px auto;">';
+
+tabEb += '<div class="ja-mode-tabs">';
+
+tabEb += '<div class="ja-mode-tab" onclick="toggleJaMode(this)"><span class="t-arrow">▶</span>평조 (黃–太–仲–林–南)</div>';
+tabEb += '<div class="ja-mode-body">';
+tabEb += '<img src="data:image/jpeg;base64,__IMAGE_160__" style="width:100%;max-width:900px;display:block;margin:8px auto;">';
+tabEb += '<div class="sc-desc"><ul style="margin:0;padding-left:1.2em;line-height:1.8;">';
+tabEb += '<li>여민락 (승평만세지곡)</li>';
+tabEb += '<li>평조회상 (군악 제외)</li>';
+tabEb += '<li>밑도드리 (수연장지곡)</li>';
+tabEb += '<li>웃도드리 (송구여지곡)</li>';
+tabEb += '<li>현악 보허자 (황하청)</li>';
+tabEb += '<li>가곡 우조</li>';
+tabEb += '<li>자진한잎 — 경풍년 ~ 변조두거 3장</li>';
+tabEb += '<li>천년만세 — 양청도드리·우조가락도드리</li>';
+tabEb += '</ul></div></div>';
+
+tabEb += '<div class="ja-mode-tab" onclick="toggleJaMode(this)"><span class="t-arrow">▶</span>태주 평조 (太–姑–林–南–黃)</div>';
+tabEb += '<div class="ja-mode-body">';
+tabEb += '<img src="data:image/jpeg;base64,__IMAGE_161__" style="width:100%;max-width:900px;display:block;margin:8px auto;">';
+tabEb += '<div class="sc-desc"><ul style="margin:0;padding-left:1.2em;line-height:1.8;">';
+tabEb += '<li>영산회상 3종의 군악 (현악·평조·관악 모두)</li>';
+tabEb += '<li>길군악 (절화) 돌장 2장까지</li>';
+tabEb += '</ul></div></div>';
+
+tabEb += '<div class="ja-mode-tab" onclick="toggleJaMode(this)"><span class="t-arrow">▶</span>계면조 (黃–夾–仲–林–無)</div>';
+tabEb += '<div class="ja-mode-body">';
+tabEb += '<img src="data:image/jpeg;base64,__IMAGE_162__" style="width:100%;max-width:900px;display:block;margin:8px auto;">';
+tabEb += '<div class="sc-desc"><ul style="margin:0;padding-left:1.2em;line-height:1.8;">';
+tabEb += '<li>향당교주</li>';
+tabEb += '<li>관악영산회상 (표정만방지곡) (군악 제외)</li>';
+tabEb += '<li>동동</li>';
+tabEb += '<li>자진한잎 — 변조두거 중여음 ~ 수룡음</li>';
+tabEb += '<li>취타 (만파정식지곡)</li>';
+tabEb += '<li>길군악 (절화) 돌장 이후 4장</li>';
+tabEb += '<li>길타령 (일승월항지곡)</li>';
+tabEb += '</ul></div></div>';
+
+tabEb += '<div class="ja-mode-tab" onclick="toggleJaMode(this)"><span class="t-arrow">▶</span>중려 계면조 (仲–林–無–黃–太)</div>';
+tabEb += '<div class="ja-mode-body">';
+tabEb += '<img src="data:image/jpeg;base64,__IMAGE_163__" style="width:100%;max-width:900px;display:block;margin:8px auto;">';
+tabEb += '<div class="sc-desc"><ul style="margin:0;padding-left:1.2em;line-height:1.8;">';
+tabEb += '<li>현악영산회상 (중광지곡) (군악 제외)</li>';
+tabEb += '<li>가곡 계면조</li>';
+tabEb += '<li>천년만세 — 계면가락도드리</li>';
+tabEb += '</ul></div></div>';
+
+tabEb += '</div>';
+jc += '<div class="ja-panel">' + tabEb + '</div>';
+
+// ════════════════════════════════════════
+// TAB 3: 예외
+// ════════════════════════════════════════
+var tabEx = '';
+
+tabEx += '<div class="ja-mode-tabs">';
+
+tabEx += '<div class="ja-mode-tab" onclick="toggleJaMode(this)"><span class="t-arrow">▶</span>수제천 (정읍) — 남려 계면조</div>';
+tabEx += '<div class="ja-mode-body">';
+tabEx += '<div class="sc-desc">남려 계면조 — <b>南–黃–太–姑–林</b><br>5음 계면조이지만 남려(南)를 기본음으로 삼는 독특한 조성을 가짐. 느린 속도와 장대한 호흡이 특징.</div>';
+tabEx += '<div class="sc-score-placeholder">♩ 음계 악보 첨부 예정</div>';
+tabEx += '</div>';
+
+tabEx += '<div class="ja-mode-tab" onclick="toggleJaMode(this)"><span class="t-arrow">▶</span>금전악·별우조타령</div>';
+tabEx += '<div class="ja-mode-body">';
+tabEx += '<div class="sc-desc">별도 검토 필요 — 일반적인 정악 음계 분류에 포함하기 어려운 특수한 조성 구조를 가지며, 추가 연구가 필요한 악곡.</div>';
+tabEx += '<div class="sc-score-placeholder">♩ 음계 악보 첨부 예정</div>';
+tabEx += '</div>';
+
+tabEx += '<div class="ja-mode-tab" onclick="toggleJaMode(this)"><span class="t-arrow">▶</span>문묘제례악 — 7음 7궁</div>';
+tabEx += '<div class="ja-mode-body">';
+tabEx += '<div class="sc-desc">7음 음계 체계 — 7궁(黃鍾宮·大呂宮·太簇宮·夾鍾宮·姑洗宮·仲呂宮·蕤賓宮)으로 구성되며, 정악의 5음 체계와는 구별되는 독자적인 아악 체계.</div>';
+tabEx += '<div class="sc-score-placeholder">♩ 음계 악보 첨부 예정</div>';
+tabEx += '</div>';
+
+tabEx += '</div>';
+jc += '<div class="ja-panel">' + tabEx + '</div>';
+
+gsc += scSection("정악(正樂) 음계", jc);
+
+// 경기
+gsc += scSection("서울·경기 지역",
+  scTori("경토리 (진경토리)",[["음계 유형","솔 음계"],["구성음","솔–라–도–레–미"],["종지음","솔"],["시김새 특징","맑고 경쾌, 좁은 요성, 순차진행 다수"],["대표 악곡","창부타령, 노랫가락, 늴리리야"]],_sc300)+
+  scTori("반경토리",[["음계 유형","라 음계"],["구성음","라–도–레–미–솔"],["종지음","라"],["시김새 특징","서정적, 부드러운 선율 진행"],["대표 악곡","베틀가, 한강수타령, 경복궁타령"]],_sc301)+
+  scTori("신경토리",[["음계 유형","도 음계"],["구성음","솔–라–도–레–미"],["종지음","도"],["시김새 특징","도 종지가 특징, 개화기 이후 통속민요·신민요에 나타남"],["대표 악곡","방아타령, 도라지타령, 아리랑"]],_sc302)+
+  scTori("경기대풍류",[["음계 유형","솔 음계 (당악: 도′ 종지)"],["구성음","솔–라–도–레–미"],["종지음","솔 / 도′"],["시김새 특징","경토리 기반이나 허튼타령에서 수심가토리적 시김새 혼재"],["대표 악곡","긴염불, 굿거리, 허튼타령, 당악"]])
+);
+
+// 서도
+gsc += scSection("서도 지역 (평안도·황해도)",
+  scTori("수심가토리 (평안도)",[["음계 유형","레 음계"],["구성음","레–미–(솔)–라–도"],["종지음","레"],["시김새 특징","조름목(비성)이 핵심, 평안도 중심"],["대표 악곡","수심가, 배따라기, 몽금포타령"]],_sc303)+
+  scTori("반수심가토리 (황해도)",[["음계 유형","라 음계"],["구성음","라–도–(레)–미–솔"],["종지음","라"],["시김새 특징","황해도 중심, 수심가토리보다 밝은 정서"],["대표 악곡","긴난봉가, 장산곶타령, 사설난봉가"]],_sc304)
+);
+
+// 남도
+gsc += scSection("남도 지역 (전라도)",
+  scTori("육자배기토리",[["음계 유형","미 음계"],["구성음","미–솔–라–시–도–레"],["종지음","라 (변격 Mi)"],["시김새 특징","꺾는소리(도→시 반음하행)가 핵심, 슬프고 극적"],["대표 악곡","육자배기, 흥타령, 진도아리랑, 농부가"]],_sc305)+
+  scTori("남도경토리",[["음계 유형","도 음계"],["구성음","도–레–미–솔–라"],["종지음","도"],["시김새 특징","남도 내 밝은 계열"],["대표 악곡","성주풀이, 남도굿거리"]])
+);
+
+// 동부
+gsc += scSection("동부 지역 (강원·경상·충청)",
+  scTori("메나리토리",[["음계 유형","미 음계"],["구성음","미–(솔)–라–도–레"],["종지음","라 / 미"],["시김새 특징","하행 주도(레→도→라), 음군 시김새 특징적"],["대표 악곡","정선아리랑, 밀양아리랑, 한오백년, 쾌지나칭칭"]],_sc306)+
+  scTori("어사용토리",[["음계 유형","미 음계 변이형"],["구성음","미(↑)–솔–라–도–레"],["종지음","라 / 미"],["시김새 특징","메나리 변이형, 미음이 반음↑, 경북 내륙 집중"],["대표 악곡","어사용, 정자소리"]])+
+  scTori("아라리토리",[["음계 유형","미 음계 하층위"],["구성음","미–(솔)–라–도–레"],["종지음","라 / 미"],["시김새 특징","메나리 하층위, 강원 대표, 음역 좁고 소박"],["대표 악곡","강원도아라리, 엮음아라리"]])
+);
+
+// 제주
+gsc += scSection("제주 지역",
+  scTori("제주토리",[["음계 유형","혼합형"],["구성음","B♭–D♭–E♭–G♭–A♭"],["종지음","혼재 (솔·라·도·레 종지)"],["시김새 특징","여러 선법 혼재, 독자적 선율형"],["대표 악곡","오돌또기, 이어도사나, 너영나영"]])
+);
+
+
+document.getElementById('scale-sub-0').innerHTML = gsc;
+
+// ─── 동양 음계 ───
+var esc = '';
+// 중국
+esc += scSection("중국 (Chinese)",
+  '<div class="sc-desc">중국 음계는 명확한 5음 구조를 바탕으로 하며, 도약이 크고 장식음이 화려한 것이 특징.</div>'+
+  scTori("중국 5음",[["핵심 구조","1, 2, 3, 5, 6"],["음정 예시 (C 기준)","도 - 레 - 미 - 솔 - 라"],["느낌 및 특징","가장 표준적인 5음. 대륙적인 웅장함과 화사함, 선명한 멜로디 라인 설계에 적합."]])
+);
+// 일본
+esc += scSection("일본 (Japanese)",
+  '<div class="sc-desc">일본 음계는 단2도(반음)를 배치하는 방식에 따라 정적이면서도 서늘한 특유의 색채를 가짐.</div>'+
+  scTori("히라조시",[["핵심 구조","1, 2, b3, 5, b6"],["음정 예시 (A 기준)","라 - 시 - 도 - 미 - 파"],["느낌 및 특징","일본의 상징적인 음계. 날카롭고 절제된 긴장감, 차가운 정적을 표현할 때 필수적."]])+
+  scTori("인센 (In-sen)",[["핵심 구조","1, b2, 4, 5, b7"],["음정 예시 (A 기준)","라 - 시b - 레 - 미 - 솔"],["느낌 및 특징","시작부터 떨어지는 반음이 핵심. 어둡고 비장하며 도시적인 어둠을 묘사."]])+
+  scTori("요 (Yo) 선법",[["핵심 구조","1, 2, 4, 5, 6"],["음정 예시","레 - 미 - 솔 - 라 - 도"],["느낌 및 특징","반음이 없는 밝은 5음. 민요나 축제의 건강한 활력, 소박한 즐거움을 표현."]])
+);
+// 민속 음계
+esc += scSection("민속 음계 (Ethnic)",
+  scTori("헝가리안 마이너",[["핵심 구조","1, 2, b3, #4, 5, b6, 7"],["음정 예시","라-시-도-레#-미-파-솔#"],["느낌 및 특징","집시 음악의 상징. 매우 정열적이고 비장하며, 현악기의 화려한 기교를 극대화할 때 사용."]])+
+  scTori("스페인 프리지안",[["핵심 구조","1, b2, 3, 4, 5, b6, b7"],["음정 예시","미-파-솔#-라-시-도-레"],["느낌 및 특징","프리지안의 어두움에 밝은 3음을 더함. 정열적이고 강렬한 비장미, 플라멩코풍 사운드 설계에 최적."]])+
+  scTori("인도 라가 (Raga)",[["핵심 구조","22미분음 (Sruti) 체계"],["음정 예시","서양 음정 재현 불가"],["느낌 및 특징","시간과 계절에 따른 엄격한 선율 법칙. 음 사이를 미끄러지듯 연결하는 주법이 핵심이며 명상적 공간감 조성에 활용."]])
+);
+document.getElementById('scale-sub-1').innerHTML = esc;
+
+// ─── 서양 음계 ───
+var wsc = '';
+// 다이아토닉
+wsc += scSection("다이아토닉",
+  '<div class="jd-table-wrap"><table class="sc-table"><thead><tr><th>음계명</th><th>반음의 위치</th><th>구조적 특징 및 느낌</th></tr></thead><tbody>'+
+  '<tr><td>메이저 (Major)</td><td>3-4, 7-8</td><td>장음계. 가장 밝고 안정적임. 7음이 8음으로 해결되려는 성질이 강함.</td></tr>'+
+  '<tr><td>내추럴 마이너 (Natural Minor)</td><td>2-3, 5-6</td><td>자연 단음계. 서정적이고 내향적인 슬픔. 7음과 8음 사이가 온음이라 종지가 부드럽고 여운이 남음.</td></tr>'+
+  '</tbody></table></div>'
+);
+// 교회 선법
+wsc += scSection("교회 선법",
+  '<div class="jd-table-wrap"><table class="sc-table"><thead><tr><th>선법명</th><th>반음의 위치</th><th>특징적 음정 및 느낌</th></tr></thead><tbody>'+
+  '<tr><td>아이오니안 (Ionian)</td><td>3-4, 7-8</td><td>장음계와 동일. 명확한 질서와 긍정적이고 확신에 찬 느낌. 밝음</td></tr>'+
+  '<tr><td>리디안 (Lydian)</td><td>4-5, 7-8</td><td>#4(증4도) 포함. 현실을 벗어난 듯 환상적이고 신비로운 부유감. 밝음</td></tr>'+
+  '<tr><td>믹솔리디안 (Mixolydian)</td><td>3-4, 6-7</td><td>b7(단7도) 포함. 밝은 느낌 속에 자유롭고 세련된 개방감 부여. 밝음</td></tr>'+
+  '<tr><td>도리안 (Dorian)</td><td>2-3, 6-7</td><td>#6(장6도) 포함. 마이너 기반이나 묘하게 밝고 중세적인 고풍스러움. 어두움</td></tr>'+
+  '<tr><td>에올리안 (Aeolian)</td><td>2-3, 5-6</td><td>단음계와 동일. 서정적이고 내향적이며 보편적인 고독과 슬픔. 어두움</td></tr>'+
+  '<tr><td>프리지안 (Phrygian)</td><td>1-2, 5-6</td><td>b2(단2도) 포함. 시작부터 강한 충돌로 어둡고 비장한 긴장감 형성. 어두움</td></tr>'+
+  '<tr><td>로크리안 (Locrian)</td><td>1-2, 4-5</td><td>b2, b5 포함. 가장 불안정하며 해결되지 않는 파멸적인 어두움.</td></tr>'+
+  '</tbody></table></div>'
+);
+// 단음계 변형
+wsc += scSection("단음계 변형",
+  '<div class="sc-desc">기능적인 선율 보완과 가장 원초적인 형태의 음계.</div>'+
+  scTori("화성 단음계",[["반음의 위치","2-3, 5-6, 7-8"],["특징","7음의 강한 종지로 고전적인 비극과 이국적 선율미 강조."]])+
+  scTori("가락 단음계",[["반음의 위치","상행 시 2-3, 7-8"],["특징","도약을 매끄럽게 하여 세련되고 우아한 선율 흐름 형성."]])
+);
+// 펜타토닉
+wsc += scSection("펜타토닉",
+  scTori("메이저 펜타토닉",[["구성","1-2-3-5-6 (반음 없음)"],["특징","걸림 없는 평온함과 대중적이고 민요적인 안정감."]])+
+  scTori("마이너 펜타토닉",[["구성","1-3-4-5-7 (반음 없음)"],["특징","고독하지만 현대적인 세련미와 강한 리듬적 그루브."]])
+);
+// 대칭적 및 특수 음계
+wsc += scSection("대칭적 및 특수 음계",
+  '<div class="sc-desc">수학적 질서를 통해 조성의 중력을 벗어나거나 특정 장르의 색채를 극대화.</div>'+
+  '<div class="jd-table-wrap"><table class="sc-table"><thead><tr><th>음계명</th><th>간격 구조</th><th>음악적 특징 및 활용</th></tr></thead><tbody>'+
+  '<tr><td>홀톤 (Whole-tone)</td><td>전체 온음</td><td>반음이 없어 방향성이 상실됨. 으뜸음 없는 몽환적 무중력 상태.</td></tr>'+
+  '<tr><td>디미니쉬드 (Octatonic)</td><td>온음-반음 교차</td><td>감화음의 중첩. 극도의 서스펜스와 공포, 현대적인 불안감 묘사.</td></tr>'+
+  '<tr><td>크로매틱 (Chromatic)</td><td>전체 반음</td><td>12반음 모두 사용. 조성의 경계가 무너지며 화려한 기교나 혼란 표현.</td></tr>'+
+  '<tr><td>블루스 (Blues)</td><td>b3, b5, b7 포함</td><td>마이너 펜타토닉에 b5 블루 노트 추가. 거칠고 인간적인 애환 표현.</td></tr>'+
+  '<tr><td>얼터드 (Altered)</td><td>불규칙적 충돌</td><td>변형 텐션음 사용(♭9, ♯9, ♯11, ♭13). 해결 전의 극심한 긴장과 재즈적인 세련미.</td></tr>'+
+  '<tr><td>리디안 도미넌트</td><td>#4, b7 포함</td><td>신비로운 리디안과 세련된 믹솔리디안의 결합. 판타지적인 고조감.</td></tr>'+
+  '<tr><td>스페인 프리지안</td><td>b2, 3 포함</td><td>프리지안의 어두움에 3음의 밝음을 섞어 정열적이고 이국적인 비장미.</td></tr>'+
+  '</tbody></table></div>'
+);
+document.getElementById('scale-sub-2').innerHTML = wsc;
+
+// Build jangdan table row
+function jdR(name,beat,tempo){return '<tr><td>'+name+'</td><td>'+beat+'</td><td>'+tempo+'</td></tr>';}
+function jdSH(title){return '<tr class="jd-section-header"><td colspan="3">'+title+'</td></tr>';}
+// 굿/농악용: 테이블 + 악보 첨부 자리
+function jdTbl(rows,note){return '<div class="jd-table-wrap"><table class="jd-table"><thead><tr><th>장단명</th><th>박자 구조</th><th>박자표기 / 템포</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+(note?'<div class="jd-note">※ '+note+'</div>':'')+'<div class="jd-score"><span class="jd-score-icon">♩</span> 장단 악보 첨부 예정</div>';}
+// 분박계열별용: 각 행 클릭 시 악보 표시
+var _jdId=0;
+
+
+
+function jdRCI(name,beat,tempo,scoreImg){var rows='<tr><td>'+name+'</td><td>'+beat+'</td><td>'+tempo+'</td></tr>';if(scoreImg){rows+='<tr><td colspan="3"><img src="'+scoreImg+'" style="width:100%;max-width:900px;display:block;margin:8px auto;"></td></tr>';}return rows;}
+function jdRI(items,groupName,scoreImg){var rows='';for(var i=0;i<items.length;i++){rows+='<tr><td>'+items[i][0]+'</td><td>'+items[i][1]+'</td><td>'+items[i][2]+'</td></tr>';}if(scoreImg){rows+='<tr><td colspan="3"><img src="'+scoreImg+'" style="width:100%;max-width:900px;display:block;margin:8px auto;"></td></tr>';}return rows;}
+function jdRI2(items,groupName,scoreImg,mugaText){var rows='';for(var i=0;i<items.length;i++){rows+='<tr><td>'+items[i][0]+'</td><td>'+items[i][1]+'</td><td>'+items[i][2]+'</td></tr>';}var muga=mugaText||'없음';rows+='<tr><td colspan="3" style="background:rgba(255,255,255,0.03);font-size:0.92em;line-height:1.6;padding:10px 12px;"><b style="color:var(--accent-rhythm,#d4a574);">무가 : </b>'+muga+'</td></tr>';if(scoreImg){rows+='<tr><td colspan="3"><img src="'+scoreImg+'" style="width:100%;max-width:900px;display:block;margin:8px auto;"></td></tr>';}return rows;}
+function jdRG(items,groupName,scoreImg){var id='jds'+(_jdId++);var rows='';for(var i=0;i<items.length;i++){rows+='<tr><td>'+items[i][0]+'</td><td>'+items[i][1]+'</td><td>'+items[i][2]+'</td></tr>';}var scoreContent=scoreImg?'<img src="'+scoreImg+'" style="width:100%;max-width:900px;display:block;margin:8px auto;">':'<span class="jd-score-icon">\u266A</span> '+(groupName||items[0][0])+' 악보 첨부 예정';rows+='<tr class="jd-row-clickable" onclick="toggleJdScore(this,\''+id+'\')"><td colspan="3" style="text-align:center;font-size:0.8rem;">\u25B6 '+(groupName||items[0][0])+' 악보 보기</td></tr><tr class="jd-inline-score" id="'+id+'"><td colspan="3">'+scoreContent+'</td></tr>';return rows;}
+function jdRC(name,beat,tempo,scoreImg){var id='jds'+(_jdId++);var scoreContent=scoreImg?'<img src="'+scoreImg+'" style="width:100%;max-width:900px;display:block;margin:8px auto;">':'<span class="jd-score-icon">♩</span> '+name+' 악보 첨부 예정';return '<tr class="jd-row-clickable" onclick="toggleJdScore(this,\''+id+'\')"><td>'+name+'</td><td>'+beat+'</td><td>'+tempo+'</td></tr><tr class="jd-inline-score" id="'+id+'"><td colspan="3">'+scoreContent+'</td></tr>';}
+function jdTblC(rows,note){return '<div class="jd-table-wrap"><table class="jd-table"><thead><tr><th>장단명</th><th>박자 구조</th><th>박자표기 / 템포</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+(note?'<div class="jd-note">※ '+note+'</div>':'');}
+
+// ─── PART 1: 굿 장단 ───
+// 굿장단 악보 이미지
+var _gs0="data:image/jpeg;base64,__IMAGE_164__";
+var _gs1="data:image/jpeg;base64,__IMAGE_165__";
+var _gs3="data:image/jpeg;base64,__IMAGE_166__";
+var _gs4="data:image/jpeg;base64,__IMAGE_167__";
+var _gs5="data:image/jpeg;base64,__IMAGE_168__";
+var _gs6="data:image/jpeg;base64,__IMAGE_169__";
+var _gs7="data:image/jpeg;base64,__IMAGE_170__";
+var _gs8="data:image/jpeg;base64,__IMAGE_171__";
+var _gs9="data:image/jpeg;base64,__IMAGE_172__";
+var _gs10="data:image/jpeg;base64,__IMAGE_173__";
+var _gs11="data:image/jpeg;base64,__IMAGE_174__";
+var _gs12="data:image/jpeg;base64,__IMAGE_175__";
+var _gs13="data:image/jpeg;base64,__IMAGE_176__";
+var _gs14="data:image/jpeg;base64,__IMAGE_177__";
+var _gs18="data:image/jpeg;base64,__IMAGE_178__";
+var _gs30="data:image/jpeg;base64,__IMAGE_179__";
+var _gs31="data:image/jpeg;base64,__IMAGE_180__";
+var _gs32="data:image/jpeg;base64,__IMAGE_181__";
+var _gs33="data:image/jpeg;base64,__IMAGE_182__";
+var _gs35="data:image/jpeg;base64,__IMAGE_183__";
+var _gs36="data:image/jpeg;base64,__IMAGE_184__";
+var _gs37="data:image/jpeg;base64,__IMAGE_185__";
+var _gs38="data:image/jpeg;base64,__IMAGE_186__";
+var _gs39="data:image/jpeg;base64,__IMAGE_187__";
+var _gs40="data:image/jpeg;base64,__IMAGE_188__";
+var _gs42="data:image/jpeg;base64,__IMAGE_189__";
+var _gs44="data:image/jpeg;base64,__IMAGE_190__";
+var _gs46="data:image/jpeg;base64,__IMAGE_191__";
+var _gs47="data:image/jpeg;base64,__IMAGE_192__";
+var _gs53="data:image/jpeg;base64,__IMAGE_193__";
+var _gs54="data:image/jpeg;base64,__IMAGE_194__";
+var _gs66="data:image/jpeg;base64,__IMAGE_195__";
+var _gs67="data:image/jpeg;base64,__IMAGE_196__";
+var _gs69="data:image/jpeg;base64,__IMAGE_197__";
+var _gs70="data:image/jpeg;base64,__IMAGE_198__";
+var _gs74="data:image/jpeg;base64,__IMAGE_199__";
+
+
+var _gs100="data:image/jpeg;base64,__IMAGE_200__";
+var _gs101="data:image/jpeg;base64,__IMAGE_201__";
+var _gs102="data:image/jpeg;base64,__IMAGE_202__";
+var _gs103="data:image/jpeg;base64,__IMAGE_203__";
+var _gs104="data:image/jpeg;base64,__IMAGE_204__";
+var _gs105="data:image/jpeg;base64,__IMAGE_205__";
+var _gs106="data:image/jpeg;base64,__IMAGE_206__";
+var _gs107="data:image/jpeg;base64,__IMAGE_207__";
+var _gs108="data:image/jpeg;base64,__IMAGE_208__";
+var _gs109="data:image/jpeg;base64,__IMAGE_209__";
+var _gs110="data:image/jpeg;base64,__IMAGE_210__";
+var _gs111="data:image/jpeg;base64,__IMAGE_211__";
+var _gs112="data:image/jpeg;base64,__IMAGE_212__";
+var _gs114="data:image/jpeg;base64,__IMAGE_213__";
+var _gs116="data:image/jpeg;base64,__IMAGE_214__";
+var _gs117="data:image/jpeg;base64,__IMAGE_215__";
+var _gs118="data:image/jpeg;base64,__IMAGE_216__";
+var _gs119="data:image/jpeg;base64,__IMAGE_217__";
+var _gs120="data:image/jpeg;base64,__IMAGE_218__";
+var _gs121="data:image/jpeg;base64,__IMAGE_219__";
+var _gs122="data:image/jpeg;base64,__IMAGE_220__";
+var _gs123="data:image/jpeg;base64,__IMAGE_221__";
+var _gs124="data:image/jpeg;base64,__IMAGE_222__";
+var _gs125="data:image/jpeg;base64,__IMAGE_223__";
+var _gs127="data:image/jpeg;base64,__IMAGE_224__";
+var _gs128="data:image/jpeg;base64,__IMAGE_225__";
+var _gs129="data:image/jpeg;base64,__IMAGE_226__";
+var _gs130="data:image/jpeg;base64,__IMAGE_227__";
+var _gs131="data:image/jpeg;base64,__IMAGE_228__";
+var _gs132="data:image/jpeg;base64,__IMAGE_229__";
+var _gs134="data:image/jpeg;base64,__IMAGE_230__";
+var _gs135="data:image/jpeg;base64,__IMAGE_231__";
+var _gs137="data:image/jpeg;base64,__IMAGE_232__";
+var _gs138="data:image/jpeg;base64,__IMAGE_233__";
+var _gs200="data:image/jpeg;base64,__IMAGE_234__";
+var _gs201="data:image/jpeg;base64,__IMAGE_235__";
+
+var _gs202="data:image/jpeg;base64,__IMAGE_236__";var _gs126="data:image/jpeg;base64,__IMAGE_237__";
+var _gs133="data:image/jpeg;base64,__IMAGE_238__";
+var gut1_1 = [
+  {n:"집안굿 (9거리)", cats:[
+    {n:"1. 황토물림",rows:jdRI([["자진굿거리","12/8 (3×4)","♩.=110~130"],["당악","12/8 (3×4)","♩.=100"],["길군악","12/8 (3×4)","♩.=120"],["자진모리","12/8 (빠름)","♪=200~240"]],"황토물림",_gs134),isC:true},
+    {n:"2. 부정청배",rows:jdRI([["청배 (오니섭채)","4/4 (2+2+2+2)","♩=100"],["모리","12/8 (3×4)","♪=200"],["발뻐드래","올림채 연타 변이","♪=300~350"]],"부정청배",_gs128),isC:true},
+    {n:"3. 시루청배",rows:jdRI([["민염불","6/4 (3+3)","♩=60"],["반염불","6/4 (3+3)","♩=80"],["느린허튼타령","12/8 (3×4)","♪=160"]],"시루청배",_gs131),isC:true},
+    {n:"4. 제석청배",rows:jdRI([["부정놀이","10/8 (3+2+3+2)","♪=180~240"],["섭채(도살풀이+모리)","12/8 (변칙)","♪=180"],["굿거리","12/8 (3×4)","♩.=90"],["노랫가락","5/8+8/8 (혼합)","♪=240"]],"제석청배",_gs132),isC:true},
+    {n:"5. 손굿",rows:jdRI([["도살풀이","12/8 (3×4)","♩.=80~90"],["자진굿거리","12/8 (빠름)","♩.=110~130"],["당악","12/8 (3×4)","♩.=100"]],"손굿",_gs130),isC:true},
+    {n:"6. 조상청배",rows:jdRI([["가래조","16/8 (3+2+3+3+2+3)","♪=180"],["자진모리","12/8 (빠름)","♪=200~240"],["당악","12/8 (3×4)","♩.=100"]],"조상청배",_gs133),isC:true},
+    {n:"7. 도살풀이",rows:jdRI([["도살풀이 (신방곡)","12/8 (3×4)","♩.=80~90"]],"도살풀이",_gs126),isC:true},
+    {n:"8. 새 성주굿",rows:jdRI([["푸살","15/8 (3×5)","♪=180"],["굿거리","12/8 (3×4)","♩.=90"],["중모리","12/4 (3×4)","♩=80~90"],["자진모리","12/8 (빠름)","♪=200~240"]],"새 성주굿",_gs129),isC:true},
+    {n:"9. 뒷전",rows:jdRI([["자진굿거리","12/8 (빠름)","♩.=110~130"],["당악","12/8 (3×4)","♩.=100"]],"뒷전",_gs127),isC:true}
+  ]},
+  {n:"도당굿 (7거리)", cats:[
+    {n:"10. 장승막이",rows:jdRI([["길군악(낙궁)","12/8 (3×4)","♪=240"],["허튼타령","12/8 (3×4)","♪=160~180"]],"장승막이",_gs107),isC:true},
+    {n:"11. 취타",rows:jdRI([["취타","12/8 (취타형)","♩.=55~60"]],"취타",_gs109),isC:true},
+    {n:"12. 터벌림",rows:jdRI([["터벌림","15/8 (3+2+3+2+2+3)","♪=160"],["올림채","10/8 (3+2+2+3 → 3+2+3+2)","♪=300"],["넘김채","12/8 (3×4)","♪=220"],["겹마치기","12/8 (빠름)","♪=260"]],"터벌림",_gs110),isC:true},
+    {n:"13. 손굿",rows:jdRI([["터벌림(반서름)","12/8 (3×4)","♪=150"],["올림채","10/8 (3+2+2+3 → 3+2+3+2)","♪=300"],["넘김채","12/8 (3×4)","♪=220"],["자진굿거리","12/8 (빠름)","♩.=110~130"],["삼공잽이","18/8 (3×6)","♪=180"]],"손굿",_gs106),isC:true},
+    {n:"14. 군웅굿",rows:jdRI([["부정놀이","10/8 (3+2+3+2)","♪=180~240"],["올림채","10/8 (3+2+2+3)","♪=300~350"],["올림채모리","올림채 연타 (다드래기)","♪=350 이상"],["넘김채","12/8 (3×4)","♪=220"],["발뻐드래","올림채 극한 연타 변이","♪=350+"]],"군웅굿",_gs104),isC:true},
+    {n:"15. 진쇠",rows:jdRI([["진쇠","10/8 (3+2+2+3) × 3단락","♪=220"],["엇모리","10/8 (3+2+3+2)","♪=240"]],"진쇠",_gs108),isC:true},
+    {n:"16. 뒷전",rows:jdRI([["허튼타령","12/8 (3×4)","♪=160~180"],["자진굿거리","12/8 (빠름)","♩.=110"],["당악","12/8 (3×4)","♩.=150"]],"뒷전",_gs200),isC:true}
+  ]}
+];
+
+var gut2 = {n:"진도 씻김굿 (22거리)", cats:[
+  {n:"1. 조왕반",rows:jdRI2([["흘림 (무장단)","무장단 (징 자유)","♩=70 (가변)"]],"조왕반",_gs124,"조왕반(중모리, 중중모리): 부엌 신에게 굿의 시작을 고하며 정화를 기원함."),isC:true},
+  {n:"2. 안당",rows:jdRI2([["흘림","무장단 (장고 궁편)","♩=70 (가변)"]],"안당",_gs119,"안당(중모리, 중중모리): 안방 가신들에게 문안 인사를 올리고 축원함."),isC:true},
+  {n:"3. 혼맞이",rows:jdRI2([["무장단","징 자유 연주","가변"]],"혼맞이",_gs137,"(노래 없음): 대문 밖에서 망자의 넋을 맞이하여 굿당으로 모시는 의례 행위."),isC:true},
+  {n:"4. 초가망석",rows:jdRI2([["진양조","18/8 (3×6)","♪=50"],["흘림","무장단 (장고 궁편)","♩=70"],["자진굿거리","12/8 (3×4)","♩.=110~130"]],"초가망석",_gs135,"초가망석(진양조, 중모리): 망자의 영혼을 굿판으로 처음 불러들이는 엄숙한 소리."),isC:true},
+  {n:"5. 손님굿(무장단)",rows:jdRI2([["처올리기","무장단","가변"]],"손님굿(무장단)",_gs117,"손님굿(무장단): 장단 없이 사설로만 진행하며 역신(손님)을 배송함."),isC:true},
+  {n:"6. 손님굿(손님풀이)",rows:jdRI2([["살풀이","12/8 (3+3+3+3)","♩.=65"]],"손님굿(손님풀이)",_gs116,"손님굿(중중모리): 마마신을 대접하여 액운을 막아달라고 청함."),isC:true},
+  {n:"7. 제석굿",rows:jdRI2([["진양조","18/8 (3×6)","♪=35~45"],["살풀이","12/8 (3+3+3+3)","♩.=65"],["엇모리","10/8 (3+2+3+2)","♪=240"]],"제석굿",_gs122,"제석풀이(중모리): 제석신의 내력을 풀이하며 자손의 복을 빎."),isC:true},
+  {n:"8. 시주받기",rows:jdRI2([["중모리","12/4 (3×4)","♩=80~90"]],"시주받기",_gs118,"(노래 없음): 제석굿 도중 시주를 받는 의례 행위."),isC:true},
+  {n:"9. 성주경/벼슬궁",rows:jdRI2([["성주경 (엇모리)","10/8 (3+2+3+2)","♪=240"],["벼슬궁 (자진모리)","12/8 (빠름)","♪=200~240"]],"성주경/벼슬궁",_gs201,"성주경(중모리): 집안의 성주신을 모시고 가문의 번영을 축원함."),isC:true},
+  {n:"10. 노적청",rows:jdRI2([["중모리","12/4 (3×4)","♩=80~90"],["엇모리 (군웅엇모리)","10/8 (3+2+3+2)","♪=240"],["살풀이 (액막음)","12/8 (3+3+3+3)","♩.=65"],["자진굿거리","12/8 (빠름)","♩.=110~130"]],"노적청",_gs103,"노적풀이(중중모리): 재물과 곡식이 가득하기를 비는 경쾌한 노래."),isC:true},
+  {n:"11. 명당터잡기",rows:jdRI2([["지경다지기 (중모리형)","12/4 (3×4)","♩=85"],["집짓기 (살풀이)","12/8 (유연)","♩.=65~70"]],"명당터잡기",_gs112,"명당풀이(중모리): 좋은 터를 잡아 가문이 일어설 것을 기원함."),isC:true},
+  {n:"12. 조상굿",rows:jdRI2([["진양조","18/8 (3×6)","♪=35~45"],["굿거리","12/8 (3×4)","♩.=90"]],"조상굿",_gs123,"조상풀이(중모리, 중중모리): 집안의 여러 조상을 불러 대접하고 한을 달램."),isC:true},
+  {n:"13. 고풀이",rows:jdRI2([["흘림","무장단","♩=70"],["살풀이","12/8 (잉어걸이 변이)","♩.=75"]],"고풀이",_gs100,"고풀이(중모리): 무명천 매듭을 풀며 망자의 한을 상징적으로 해소함."),isC:true},
+  {n:"14. 영돈말이",rows:jdRI2([["엇모리","10/8 (3+2+3+2)","♪=240"],["흘림","무장단","♩=70"],["굿거리","12/8 (3×4)","♩.=90"]],"영돈말이",_gs120,"(노래 없음): 망자의 옷으로 영혼의 상징물(영돈)을 만드는 의례 행위."),isC:true},
+  {n:"15. 이슬털기",rows:jdRI2([["장단 정보 추후 입력","-","-"]],"이슬털기","","씻김소리(중모리): 향물과 쑥물로 영혼을 정화하기 시작함."),isC:true},
+  {n:"16. 영게씻김",rows:jdRI2([["장단 정보 추후 입력","-","-"]],"영게씻김","","씻김소리(중모리): 망자의 몸과 영혼을 깨끗이 닦아내는 씻김의 핵심 소리."),isC:true},
+  {n:"17. 왕풀이",rows:jdRI2([["자진굿거리","12/8 (3×4)","♩.=80~90"]],"왕풀이",_gs121,"왕풀이(중모리, 중중모리): 씻김을 마친 후 망자의 영혼이 왕처럼 귀하게 대접받길 비는 노래."),isC:true},
+  {n:"18. 넋풀이",rows:jdRI2([["흘림","무장단","♩=70"],["살풀이","12/8 (빠름)","♩.=110~130"]],"넋풀이",_gs102,"넋올리기(진양조): 넋대를 흔들며 마지막으로 망자의 혼을 달래는 애절한 대목."),isC:true},
+  {n:"19. 동갑풀이",rows:jdRI2([["무장단","징 자유 연주","가변"]],"동갑풀이",_gs111,"동갑풀이(중모리): 망자의 동갑내기 영혼들을 불러 저승길 동무로 배려함."),isC:true},
+  {n:"20. 희설",rows:jdRI2([["장단 정보 추후 입력","-","-"]],"희설","","희설 본문(중모리) — 념불(진양조) — 뒷염불(중중모리): 저승 여정을 묘사하며 극락왕생을 권유하는 긴 서사 무가."),isC:true},
+  {n:"21. 길닦음",rows:jdRI2([["진양조","18/8 (가변적)","♪=35"],["중모리","12/4 (3×4)","♩=80~90"],["자진굿거리","12/8 (빠름)","♩.=110~130"],["살풀이","12/8 (유연)","♩.=65~70"]],"길닦음",_gs101,"나무아미타불(진양조) — 하적(진양조~중모리) — 제화(중모리) — 고풀이(중중모리) — 관음(중중모리) — 천궁(중중모리~자진모리) — 어넘(자진모리): 망자를 저승으로 보내는 가장 극적인 메들리."),isC:true},
+  {n:"22. 종천",rows:jdRI2([["흘림","무장단","♩=70 (가변)"]],"종천맥이",_gs125,"종천맥이(중중모리): 모든 의례를 마치고 신과 영혼을 보내는 작별의 소리."),isC:true}
+]};
+
+var gut3 = {n:"동해안 별신굿 (16거리)", cats:[
+  {n:"1. 부정굿",rows:jdRI([["선부정 (푸너리 3장 동일)","12/8 → 2분박 연타 변이","♩.=140"]],"부정굿",_gs114),isC:true},
+  {n:"2. 골매기굿",rows:jdRG([["푸너리 1장","12/8 (3+3+3+3)","♩.=60"],["푸너리 2장","12/8 (약간 빠름)","♩.=80"],["푸너리 3장","12/8 (빠름/연타)","♩.=140"]],"푸너리 1~3장",_gs7)+jdRG([["청보 1~3장","10/8 (3+3+2×5) / 3/4","♩=80~100"],["청보 4~5장 (도깨끼)","10/8 (빠름) / 12/8","♩.=185"]],"청보 1~5장",_gs6)+jdRC("시설","가변","가변",_gs5)+jdRC("덩덕궁이","12/8 (3×4)","♩.=80~95",_gs3)+jdRC("사자풀이","12/8","♩.=90",_gs4),isC:true},
+  {n:"3. 성황당 맞이굿",rows:jdRG([["재배장단","12/8","♩.=60"],["휘모리형","4/4 (2분박)","♩=120 이상"]],"재배장단·휘모리형",_gs36)+jdRC("동살풀이","4/4 (2분박)","♩=120",_gs35),isC:true},
+  {n:"4. 화해굿",rows:jdRG([["푸너리 1~2장","12/8","♩.=60~80"]],"푸너리 1~2장",_gs74)+jdRG([["청보 1~5장","10/8 → 12/8 (가속)","♩=80 → ♩.=185"]],"청보 1~5장",_gs202),isC:true},
+  {n:"5. 세존굿(당고마기)",rows:jdRC("푸너리 2~3장","12/8","♩.=80~140",_gs40)+jdRG([["제마수 1장","12/8 (3+3+2+3+3+2)","♩.=50"],["제마수 2장","12/8 (중모리형)","♩.=80"],["제마수 3장","12/8 (빠름)","♩.=130"]],"제마수 1~3장",_gs39)+jdRC("삼오장 1~3장","12/8 (가속)","♩.=110",_gs38)+jdRC("거무장 2~3장","12/8 (빠름)","♩.=130",_gs37),isC:true},
+  {n:"6. 조상굿",rows:jdRC("푸너리 2~3장","12/8","♩.=80~140",_gs54)+jdRC("청보 1~5장","10/8 → 12/8 (가속)","♩=80 → ♩.=185",_gs53),isC:true},
+  {n:"7. 성조굿(성주굿)",rows:jdRC("푸너리 1~2장","12/8","♩.=60~80",_gs33)+jdRC("청보 1~5장","10/8 → 12/8 (가속)","♩=80 → ♩.=185",_gs32),isC:true},
+  {n:"8. 군웅장수굿",rows:jdRC("푸너리 1~2장","12/8","♩.=60~80",_gs14)+jdRC("청보 1~5장","10/8 → 12/8 (가속)","♩=80 → ♩.=185",_gs13)+jdRC("덩덕궁이","12/8 (3×4)","♩.=80~95",_gs12),isC:true},
+  {n:"9. 천왕굿",rows:jdRC("푸너리 2~3장","12/8","♩.=80~140",_gs67)+jdRC("청보 1~5장","10/8 → 12/8 (가속)","♩=80 → ♩.=185",_gs66),isC:true},
+  {n:"10. 심청굿",rows:jdRC("푸너리 2~3장","12/8","♩.=80~140",_gs47)+jdRC("제마수 2~3장","12/8","♩.=80~130",_gs46),isC:true},
+  {n:"11. 토지지신굿",rows:jdRC("푸너리 2~3장","12/8","♩.=80~140",_gs70)+jdRC("청보 1~5장","10/8 → 12/8 (가속)","♩=80 → ♩.=185",_gs69),isC:true},
+  {n:"12. 손님굿",rows:jdRC("푸너리 2~3장","12/8","♩.=80~140",_gs44)+jdRC("제마수 1~2장","12/8","♩.=50~80",_gs42),isC:true},
+  {n:"13. 사해용왕굿",rows:jdRC("푸너리 2~3장","12/8","♩.=80~140",_gs31)+jdRC("청보 1~5장","10/8 → 12/8 (가속)","♩=80 → ♩.=185",_gs30),isC:true},
+  {n:"14. 걸립굿",rows:jdRC("푸너리 2~3장","12/8","♩.=80~140",_gs1)+jdRC("제마수 1~3장","12/8","♩.=50~130",_gs0),isC:true},
+  {n:"15. 대거리굿",rows:jdRC("동살풀이","4/4 (2분박)","♩=120",_gs18)+jdRC("자진모리","12/8 (빠름)","♪=200~240"),isC:true},
+  {n:"16. 국사성황당맞이굿",rows:jdRC("푸너리 2~3장","12/8","♩.=80~140",_gs10)+jdRC("선부정","12/8 (느린 도입)","♩.=45",_gs8)+jdRC("휘모리형","4/4 (2분박)","♩=120 이상",_gs11)+jdRC("청보 1~5장","10/8 → 12/8 (가속)","♩=80 → ♩.=185",_gs9),isC:true}
+]};
+
+// ─── PART 2: 농악 장단 (개별 장단명 클릭 시 악보) ───
+var nongak = [
+  {n:"1. 영남농악 (경상도)", cats:[
+    {"_direct":true,isC:true,rows:jdRC("길군악","8/4 (2×4)","♩=100~110")+jdRC("반길군악","빠른 4박 (8/4)","♩=120~130")+jdRC("다드래기","4/4 (2분박 연타)","♩=140~160")+jdRC("영산다드래기","12/8 (3×4)","♩.=80~90")+jdRC("별달거리(사설)","12/8 (3×4)","♩.=80~90")+jdRC("넘김채","4/4 또는 12/8","♩=120 / ♩.=90")+jdRC("쌍진풀이","빠른 4/4","♩=140~160")+jdRC("법고놀이 가락","12/8 (3×4)","♩.=90")+jdRC("막음장단","단발성 집단 타격","—"),isC:true}
+  ]},
+  {n:"2. 호남 우도농악 (전라 서해안)", cats:[
+    {"_direct":true,isC:true,rows:jdRC("내드림","신호 (불규칙)","♩.=가변")+jdRC("일채","4/4 (2×4)","♩=100")+jdRC("이채 (머리곡)","12/8 (3×4)","♩.=80")+jdRC("오채질굿","10박 (2+3+2+3) / 9박 혼합","♪=118~120")+jdRC("좌질굿 (빠른오채)","10박 (가속)","♪=140")+jdRC("풍류굿","12/8 (느린 3분박)","♩.=60~70")+jdRC("양산도","9/8 (3+3+3)","♩.=80")+jdRC("삼채 (긴삼채)","12/8 (3×4)","♩.=85")+jdRC("호허굿(느린삼채)","12/8 (느린 삼채)","♩.=70")+jdRC("덩덕궁이 (빠른삼채)","12/8 (3×4) 매우 빠름","♩.=130~140")+jdRC("연풍대 가락","빠른 4/4 또는 8/4","♩=140~160")+jdRC("굿거리","12/8 (3×4)","♩.=90")+jdRC("소고놀이 가락","12/8 (경쾌한 개인 기량)","♩.=100~120")+jdRC("진오방진 가락","12/8 (매우 빠름)","♩.=130~140")+jdRC("날당산 (퇴장)","12/8 (경쾌한 삼채)","♩.=100~110"),isC:true}
+  ]},
+  {n:"3. 호남 좌도농악 (전라 산간)", cats:[
+    {"_direct":true,isC:true,rows:jdRC("질굿 (입장)","12/8 (느린 삼채)","♩.=60~70")+jdRC("채굿 일채","4/4 (2분박)","♩=100")+jdRC("채굿 이채","8/4","♩=110")+jdRC("채굿 삼채","12/8 (3×4)","♩.=80")+jdRC("채굿 사채~칠채","각 숫자에 따른 박자","♩.=100~130(점점 빨라짐)")+jdRC("호허굿","12/8 (호흡 조절)","♩.=70~80")+jdRC("돌석기","빠른 4/4","♩=140~160")+jdRC("영산가락","12/8 (느린 3분박)","♩.=70~80")+jdRC("영산다드래기","12/8 (빠른 분할)","♩.=100~110")+jdRC("삼채","12/8 (3×4)","♩.=90~100")+jdRC("미지기 가락","12/8 (삼채 변형)","♩.=100~110")+jdRC("짝드르기 (진풀이)","빠른 4/4 또는 8/4","♩=140~160")+jdRC("대동놀이 장단 (퇴장)","12/8 (경쾌한 삼채)","♩.=100~110"),isC:true}
+  ]},
+  {n:"4. 웃다리농악 (충청·경기)", cats:[
+    {"_direct":true,isC:true,rows:jdRC("점고","신호 (불규칙)","♩.=가변")+jdRC("길군악 (입장)","8/4 (2×4)","♩=100~110")+jdRC("일채 (지드래기)","4/4 (2분박)","♩=120")+jdRC("이채 (덩덕궁이)","12/8 (3×4)","♩.=80~90")+jdRC("삼채","12/8 (3×4)","♩.=90~100")+jdRC("사채","빠른 4/4","♩=130~140")+jdRC("육채","12/8 (빠른 3분박)","♩.=110~120")+jdRC("칠채 (36박)","36박 혼합 (모인 박자)","♪=110~120")+jdRC("마당일채","12/8","♩.=100~110")+jdRC("쩍쩍이","탄력 있는 12/8","♩.=90~100")+jdRC("짝쇠","빠른 2/4 (엇박 대화)","♩=160~180")+jdRC("퇴장장단","12/8 (경쾌한 삼채)","♩.=100~110"),isC:true}
+  ]}
+];
+
+var nongak6 = [
+  {n:"5-1. 진주삼천포농악 (국가무형유산 11-1호)", cats:[
+    {"_direct":true,isC:true,rows:jdRC("길군악","8/4 (또는 16/4)","♩=100~110")+jdRC("반길군악","빠른 4/4","♩=120~130")+jdRC("덧배기","12/8 (느린 삼채)","♩.=70~80")+jdRC("자진덧배기","12/8 (빠른 삼채)","♩.=100~110")+jdRC("다드래기","4/4 (2분박 연타)","♩=140~160")+jdRC("영산다드래기","12/8 (3×4)","♩.=80~90")+jdRC("연풍대 가락","빠른 4/4","♩=140~160")+jdRC("막음장단","단발성 집단 타격","—"),isC:true}
+  ]},
+  {n:"5-2. 평택농악 (국가무형유산 11-2호)", cats:[
+    {"_direct":true,isC:true,rows:jdRC("점고","신호","가변")+jdRC("길군악","8/4","♩=100~110")+jdRC("이채 (덩덕궁이)","12/8 (3×4)","♩.=80~90")+jdRC("삼채","12/8 (3×4)","♩.=90~100")+jdRC("칠채 (36박)","36박 혼합 (모인 박자)","♪=110~120")+jdRC("쩍쩍이","탄력 있는 12/8","♩.=90~100")+jdRC("무동 가락","12/8 (경쾌한 춤 가락)","♩.=100~110")+jdRC("짝쇠","빠른 2/4 (꽹과리 엇박 대화, 최절정)","♩=160~180")+jdRC("퇴장장단","12/8 (삼채)","♩.=100~110"),isC:true}
+  ]},
+  {n:"5-3. 이리농악 (국가무형유산 11-3호)", cats:[
+    {n:"① 다스름굿 (준비 단계)",isC:true,rows:jdRC("일채","12/8 (3×4)","♩.=80")+jdRC("이채","12/8 (3×4)","♩.=90")+jdRC("매도지 중간","12/8 (빠르게 몰아침)","♩.=130")+jdRC("인사굿 첫마디","18/8 (3×6, 차분한 마무리)","♩.=80"),isC:true},
+    {n:"② 첫째마당 (오채질굿)",isC:true,rows:jdRC("입장굿","12/8 (3×4)","♩.=80~90")+jdRC("인사굿","18/8 (3×6)","♩.=80")+jdRC("오채질굿","10박(2+3+2+3)/9박 혼합","♪=118~120")+jdRC("좌질굿","빠른 10박","♪=140")+jdRC("우질굿","빠른 10박","♪=140")+jdRC("양산도","9/8 (3+3+3)","♩.=80")+jdRC("이음굿","12/8","♩.=90")+jdRC("긴삼채","12/8 (3×4)","♩.=85~90")+jdRC("짧은삼채","12/8 (빠름)","♩.=100~110")+jdRC("변형삼채","12/8 (빠름)","♩.=110~120")+jdRC("긴매도지","12/8 (최고조로 몰아침)","♪=180"),isC:true},
+    {n:"③ 둘째마당 (오방진)",isC:true,rows:jdRC("오방진","12/8 (3×4)","♩.=80~90")+jdRC("진오방진","12/8 (역동적 진풀이)","♩.=110~120")+jdRC("긴삼채","12/8","♩.=85~90")+jdRC("짧은삼채","12/8 (빠름)","♩.=100~110")+jdRC("이리매도지 (종지)","12/8 (매우 빠름)","♪=180"),isC:true},
+    {n:"④ 셋째마당 (호호굿)",isC:true,rows:jdRC("일채","12/8 (3×4)","♩.=90~100")+jdRC("낸드래미","9/8 (3×3)","♩.=90~100")+jdRC("호호굿","12/8+10/8+18/8 변박 (호흡 조절, 독특한 긴장감)","♩.=70~80")+jdRC("달어치기","12/8 (3×4)","♩.=90~100")+jdRC("쌍방울진","12/8","♩.=90~100")+jdRC("가세치기","12/8 (가위질하듯 진을 나눔)","♩.=100~110")+jdRC("짧은매도지 (종지)","12/8 (빠름)","♪=180"),isC:true},
+    {n:"⑤ 뒷굿 (개인놀이 및 퇴장)",isC:true,rows:jdRC("일광놀이","삼채·이채·어름굿 혼용 (개인 기량)","♩.=90~100")+jdRC("구정놀이","삼채계열 (개인 기량)","♩.=90~110")+jdRC("인사굿","18/8 (3×6)","♩.=80")+jdRC("삼채 (퇴장)","12/8 (경쾌한 마무리)","♩.=90~100"),isC:true}
+  ]},
+  {n:"5-4. 강릉농악 (국가무형유산 11-4호)", cats:[
+    {"_direct":true,isC:true,rows:jdRC("길놀이","12/8 (3×4)","♩.=90~100")+jdRC("농사풀이 가락","가변 (모내기~타작 등 농사 전 과정을 묘사)","♩=90~100")+jdRC("두드러기","빠른 연타 (집단 타격의 절정)","♩=140 이상")+jdRC("십자풀이","빠른 4/4 (빠른 진풀이 가락)","♩=130~140")+jdRC("소고놀이 가락","12/8 (경쾌한 개인 기량)","♩.=100~120")+jdRC("퇴장 가락","12/8 (경쾌)","♩.=100~110"),isC:true}
+  ]},
+  {n:"5-5. 임실필봉농악 (국가무형유산 11-5호)", cats:[
+    {"_direct":true,isC:true,rows:jdRC("질굿","12/8 (느린 삼채)","♩.=60~70")+jdRC("채굿 (일채~칠채)","각 숫자의 박자 단계","♩.=60에서 130까지 단계적 가속")+jdRC("호허굿","12/8 (호흡 조절)","♩.=70~80")+jdRC("영산가락","12/8 (느린 3분박)","♩.=70~80")+jdRC("영산다드래기","12/8 (빠른 분할)","♩.=100~110")+jdRC("돌석기","빠른 4/4","♩=140~160")+jdRC("삼채","12/8 (3×4)","♩.=90~100")+jdRC("짝드르기","빠른 4/4","♩=140~160")+jdRC("대동놀이 장단 (퇴장)","12/8 (경쾌)","♩.=100~110"),isC:true}
+  ]},
+  {n:"5-6. 구례잔수농악 (국가무형유산 11-6호)", cats:[
+    {"_direct":true,isC:true,rows:jdRC("당산굿","느리고 장중 (마을 신께 올리는 경건한 시작)","♩.=60~70")+jdRC("문굿","12/8 (마을 진입을 알리는 신호)","♩.=80~90")+jdRC("채굿 (일채~칠채)","4/4 ~ 12/8 변화 (장단 구조의 변주)","♩.=80에서 130까지 점진적 가속")+jdRC("질굿","12/8 (흥겨운 행진 가락)","♩.=90~100")+jdRC("소고놀이 가락","12/8 (대동단결의 춤사위)","♩.=100~110")+jdRC("퇴장굿","12/8 (차분하고 여운 있는 갈무리)","♩.=70~80"),isC:true}
+  ]}
+];
+
+// ─── PART 3: 분박 계열별 장단 ───
+var bunbak = [
+  {n:"• 3분박 기본 장단", cats:[
+    {n:"느린 3분박 (♩. 단위)",rows:jdRC("상령산","20박 (6·4·4·6)","♩.≒20")+jdRC("세령산","10박 (3·2·2·3)","♩.≒30")+jdRC("가곡 16박","16박 (3·3·2)×2","♩.≒20~50")+jdRC("가곡 편 10박","(2·2·1)×2","♩.≒60")+jdRC("시조 8박","8박 (3·2·3)","♩.≒30")+jdRC("시조 5박","5박 (3·2)","♩.≒30")+jdRC("긴염불","6박 (3+3)","♩.≒20")+jdRC("진양조","6박 (4+2 / 3+3)","♩.≒30~40")+jdRC("도드리","6박 (3+3 / 2+2+2)","♩.≒40~60")+jdRC("가사","6박 (3+3)","♩.≒30~60")+jdRC("취타","12박 (2×6)","♩.≒60~70")+jdRC("절화·길군악","8박 (2×4)","—")+jdRC("터벌림","10박 (3·2·3·2)","♩.≒104~108")+jdRC("봉등채","5박 (3+2)","♩.≒96"),isC:true},
+    {n:"보통~빠른 3분박 (♩. 또는 ♩ 단위)",rows:jdRC("엇중모리","6박 (3+3)","♩≒60~80")+jdRC("푸살","15박 (3×5)","♩≒72")+jdRC("중모리","12박 (3×4)","♩≒70~80")+jdRC("세마치","3박","♩.≒100~110")+jdRC("굿거리","4박 (3분박×4)","♩.≒50~60")+jdRC("중중모리","4박 (3분박×4)","♪≒180~200")+jdRC("타령","4박 (3분박×4)","♪≒180~200")+jdRC("자진모리","4박 (3분박×4)","♩≒100~110"),isC:true}
+  ]},
+  {n:"• 2분박 기본 장단", cats:[
+    {n:"2분박 장단 (♩ 또는 ♪ 단위)",rows:jdRC("도살풀이","6박 (2+2+2)","♩≒72")+jdRC("반염불","6박 (3+3)","♩.≒35~40")+jdRC("엇중모리","6박 (3+3)","♩≒60~80")+jdRC("푸살","15박 (3×5)","♩≒72")+jdRC("중모리","12박 (3×4)","♩≒70~80")+jdRC("흘림","4박 (2분박×4)","♩≒72")+jdRC("동살풀이","4박 (2분박×4)","♩≒90~120")+jdRC("휘모리","4박 (2분박×4)","♩≒110~120")+jdRC("푸너리(진도)","10박 (3·2·3·2)","♩≒126"),isC:true}
+  ]},
+  {n:"• 혼합박 장단", cats:[
+    {n:"3과 2의 불균등 결합 (♪ 단위)",rows:jdRC("진쇠","10박 (3·2·2·3) 3행","♪≒200")+jdRC("권선","10박 (3·2·2·3) 2행","♪≒168")+jdRC("올림채","10박 (3·2·2·3) 1행","♪≒200~208")+jdRC("엇모리","10박 (3·2·3·2)","♪≒200~208")+jdRC("부정청배","8박 (3·3·2)","♪≒208")+jdRC("가래조","8박 (3·2·3)","♪≒138")+jdRC("노랫가락","8박","♪≒200~210"),isC:true},
+    {n:"모인 박자",rows:jdRC("오채질굿","10박×3 + 9박×2 혼합","—")+jdRC("길군악칠채","5박×2 + 6박 + 5박×4 혼합","—"),isC:true}
+  ]}
+];
+
+// ─── Build Rhythm HTML ───
+function buildGutSection(data){
+  return data.cats.map(function(c){
+    var tbl = c.isC ? jdTblC(c.rows) : jdTbl(c.rows);
+    if(c._direct) return tbl;
+    return '<div class="tree-node" onclick="toggleTreeNode(this)">'+c.n+'<span class="node-arrow">▶</span></div><div class="tree-sub">'+tbl+'</div>';
+  }).join('');
+}
+
+var gutDescs = [
+  '<div class="gut-info"><div class="gut-info-title">경기도 도당굿</div><div class="gut-info-row"><span class="gut-info-label">개요</span><span class="gut-info-value">경기도 한강 이남의 평야·해안 지역(부천, 인천, 수원 등)에서 세습무들이 주관해온 마을굿으로, 마을의 안녕과 풍요를 빌고 재앙을 물리치는 목적을 지닌다.</span></div><div class="gut-info-row"><span class="gut-info-label">특징</span><span class="gut-info-value">삼현육각의 기악 반주가 중심이며, 의식·무가·춤에 쓰이는 장단이 뚜렷하게 분화되어 있고, 도살풀이·터벌림·진쇠·겹마치기 등 경기도당굿 고유의 장단이 다채로운 혼합성과 즉흥성을 보여준다.</span></div><div class="gut-info-row"><span class="gut-info-label">편성</span><span class="gut-info-value">삼현육각(피리, 대금, 해금) + 장고, 북, 징</span></div></div>',
+  '<div class="gut-info"><div class="gut-info-title">진도 씻김굿</div><div class="gut-info-row"><span class="gut-info-label">개요</span><span class="gut-info-value">진도에서 전승되는 망자 천도굿으로, \'씻김\'은 이승에서 맺힌 원한을 씻어준다는 뜻이다. 세습무인 당골에 의해 진행되며 불교적 성격이 강하고, 박덕인 가계를 중심으로 전승된다.</span></div><div class="gut-info-row"><span class="gut-info-label">특징</span><span class="gut-info-value">전반부는 흘림장단(외장고)이 중심이고 후반부에 다양한 장단이 등장한다. 당골의 무가가 거의 끊임없이 연행되며, 선율악기의 수성가락(즉흥 꾸밈선율)이 무가를 감싸고, 노래를 할 때(진양·중모리·굿거리)와 춤을 출 때(엇모리·살풀이·자진모리)의 장단이 구분된다.</span></div><div class="gut-info-row"><span class="gut-info-label">편성</span><span class="gut-info-value">선율악기(대금, 피리, 해금, 소아쟁) + 타악기(장고, 징, 북, 바라, 정주)</span></div></div>',
+  '<div class="gut-info"><div class="gut-info-title">동해안 별신굿</div><div class="gut-info-row"><span class="gut-info-label">개요</span><span class="gut-info-value">강원도 고성부터 부산에 이르는 동해안 해안선의 자연부락에서 매년 정기적으로 마을의 평화·안녕·풍어·다산을 빌기 위해 행하는 마을굿으로, 김씨 세습무 집단에 의해 전승된다.</span></div><div class="gut-info-row"><span class="gut-info-label">특징</span><span class="gut-info-value">야외 바닷가 환경에서 행해져 기악보다 타악기 비중이 압도적이며, 장단이 음악을 주도한다. 푸너리(1~3장)→청보(1~5장)라는 \'장(章)\' 구조의 장단 체계가 특징적이고, 태평소 선율은 장단에 절대적으로 종속된다.</span></div><div class="gut-info-row"><span class="gut-info-label">편성</span><span class="gut-info-value">장고, 징, 꽹과리, 바라 (타악기 중심) + 태평소</span></div></div>'
+];
+
+var nongakDescs = [
+  '<div class="gut-info"><div class="gut-info-title">영남농악 (경상도 지역)</div><div class="gut-info-row"><span class="gut-info-label">개요</span><span class="gut-info-value">낙동강 유역의 군사 및 농경 문화가 결합한 농악으로 군악적 기상이 강함.</span></div><div class="gut-info-row"><span class="gut-info-label">특징</span><span class="gut-info-value">가락이 간결하고 힘차며, 장단이 빠르고 명쾌함. 단음 중심의 강렬한 타격감과 길군악에서 다드래기로 이어지는 속도 변화가 일품임.</span></div><div class="gut-info-row"><span class="gut-info-label">편성</span><span class="gut-info-value">북 연주자가 많고 북 놀음이 발달하여 타격감이 강조된 구성을 보임.</span></div></div>',
+  '<div class="gut-info"><div class="gut-info-title">호남 우도농악 (전라 서해안 지역)</div><div class="gut-info-row"><span class="gut-info-label">개요</span><span class="gut-info-value">전라도 서해안 평야 지대를 중심으로 발달한 섬세한 농악임.</span></div><div class="gut-info-row"><span class="gut-info-label">특징</span><span class="gut-info-value">가락이 아기자기하고 잔가락이 많아 예술적 기교가 돋보임. 풍류굿과 양산도에서 보여주는 느린 호흡과 빠른 삼채의 대비가 명확함.</span></div><div class="gut-info-row"><span class="gut-info-label">편성</span><span class="gut-info-value">장구의 비중이 매우 높으며 설장구 놀음이 연주의 백미를 이룸.</span></div></div>',
+  '<div class="gut-info"><div class="gut-info-title">호남 좌도농악 (전라 산간 지역)</div><div class="gut-info-row"><span class="gut-info-label">개요</span><span class="gut-info-value">전라도 동쪽 산간 지대의 마을 신앙과 결합한 남성적인 농악임.</span></div><div class="gut-info-row"><span class="gut-info-label">특징</span><span class="gut-info-value">우도에 비해 선이 굵고 힘차며 채굿 중심의 체계적인 흐름을 가짐. 일채부터 칠채까지 단계적으로 빨라지는 채굿의 수직적 상승 구조가 특징임.</span></div><div class="gut-info-row"><span class="gut-info-label">편성</span><span class="gut-info-value">영기와 기수단이 포함되어 장엄한 분위기를 연출하며 상모놀이가 발달함.</span></div></div>',
+  '<div class="gut-info"><div class="gut-info-title">웃다리농악 (경기·충청 지역)</div><div class="gut-info-row"><span class="gut-info-label">개요</span><span class="gut-info-value">서울, 경기, 충청도를 포함한 중부 지역의 경쾌한 농악임.</span></div><div class="gut-info-row"><span class="gut-info-label">특징</span><span class="gut-info-value">맺고 끊음이 분명한 가락과 꽹과리끼리 주고받는 짝쇠 가락이 핵심임. 쩍쩍이의 탄력 있는 리듬과 칠채의 복잡한 36박 혼합 박자가 음악적 재미를 줌.</span></div><div class="gut-info-row"><span class="gut-info-label">편성</span><span class="gut-info-value">꽹과리가 전체 연주를 주도하며 무동타기와 같은 퍼포먼스가 발달함.</span></div></div>',
+];
+
+var nongak6Descs = [
+  '<div class="gut-info"><div class="gut-info-title">진주삼천포농악 (국가무형유산 11-1호)</div><div class="gut-info-row"><span class="gut-info-label">개요</span><span class="gut-info-value">영남 농악을 대표하는 종목으로 군대적인 절도와 기상이 핵심임.</span></div><div class="gut-info-row"><span class="gut-info-label">특징</span><span class="gut-info-value">덧배기 가락에 맞춘 힘찬 춤사위와 자진덧배기의 몰아치는 속도감이 특징임. 영산다드래기 구간의 독특한 변주와 연풍대 가락에서의 폭발적인 에너지가 돋보임.</span></div><div class="gut-info-row"><span class="gut-info-label">편성</span><span class="gut-info-value">전원이 상모를 돌리며 역동적인 진풀이를 보여주는 대규모 구성을 갖춤.</span></div></div>',
+  '<div class="gut-info"><div class="gut-info-title">평택농악 (국가무형유산 11-2호)</div><div class="gut-info-row"><span class="gut-info-label">개요</span><span class="gut-info-value">경기·충청 웃다리 농악을 대표하며 사물놀이 형성에 큰 영향을 줌.</span></div><div class="gut-info-row"><span class="gut-info-label">특징</span><span class="gut-info-value">무동타기 공연이 매우 발달했으며 가락이 명확하고 절도가 있음. 상쇠의 날카로운 쇠가락과 무동들의 경쾌한 무동 가락이 어우러져 시각적, 청각적 즐거움을 동시에 줌.</span></div><div class="gut-info-row"><span class="gut-info-label">편성</span><span class="gut-info-value">화려한 무동들의 퍼포먼스와 꽹과리의 절묘한 리드가 결합된 편성임.</span></div></div>',
+  '<div class="gut-info"><div class="gut-info-title">이리농악 (국가무형유산 11-3호)</div><div class="gut-info-row"><span class="gut-info-label">개요</span><span class="gut-info-value">전북 익산을 중심으로 전승되는 호남 우도농악의 정수임.</span></div><div class="gut-info-row"><span class="gut-info-label">특징</span><span class="gut-info-value">오채질굿의 독특한 10박 구조와 치밀하게 짜인 장단 구성이 일품임. 호호굿의 복잡한 변박과 매도지의 극한의 속도감이 완벽한 조화를 이룸.</span></div><div class="gut-info-row"><span class="gut-info-label">편성</span><span class="gut-info-value">상쇠의 부포놀이와 장구잽이들의 화려한 퍼포먼스가 강조된 구성을 보임.</span></div></div>',
+  '<div class="gut-info"><div class="gut-info-title">강릉농악 (국가무형유산 11-4호)</div><div class="gut-info-row"><span class="gut-info-label">개요</span><span class="gut-info-value">강원도 영동 지역의 농사 과정을 묘사하는 농경 중심 농악임.</span></div><div class="gut-info-row"><span class="gut-info-label">특징</span><span class="gut-info-value">농사풀이 가락과 빠른 연타 장단인 두드러기가 시원한 소리를 냄. 모내기, 김매기 등 실제 농사 동작을 묘사하는 가락의 현장감과 십자풀이의 짜임새 있는 진풀이가 특징임.</span></div><div class="gut-info-row"><span class="gut-info-label">편성</span><span class="gut-info-value">소고잽이가 많아 소고놀이가 활발하며 씩씩하고 소박한 구성을 보임.</span></div></div>',
+  '<div class="gut-info"><div class="gut-info-title">임실필봉농악 (국가무형유산 11-5호)</div><div class="gut-info-row"><span class="gut-info-label">개요</span><span class="gut-info-value">전북 임실 필봉마을에서 전승되는 대표적인 호남 좌도농악임.</span></div><div class="gut-info-row"><span class="gut-info-label">특징</span><span class="gut-info-value">영산가락의 깊은 호흡과 짝드르기의 날카로운 타격감이 대비를 이룸. 쇠가락의 맺고 끊음이 분명하며 뒷굿의 개인놀이를 통해 연주자의 기량을 극대화함.</span></div><div class="gut-info-row"><span class="gut-info-label">편성</span><span class="gut-info-value">꽹과리와 장구의 잔가락이 강조되며 관객과 함께 호흡하는 푸진 굿 형태임.</span></div></div>',
+  '<div class="gut-info"><div class="gut-info-title">구례잔수농악 (국가무형유산 11-6호)</div><div class="gut-info-row"><span class="gut-info-label">개요</span><span class="gut-info-value">전남 구례 잔수마을에서 전승되는 제의적 성격의 두레농악임.</span></div><div class="gut-info-row"><span class="gut-info-label">특징</span><span class="gut-info-value">당산굿 중심의 엄숙한 시작과 차분하고 서정적인 마무리가 특징임. 마을 굿 특유의 소박함을 유지하며 문굿과 질굿에서 보여주는 공동체적 흥겨움이 살아있음.</span></div><div class="gut-info-row"><span class="gut-info-label">편성</span><span class="gut-info-value">마을 공동체 중심의 소박한 구성을 유지하며 기교보다 울림에 집중함.</span></div></div>',
+];
+
+
+var rhythmHTML = '<div style="display:flex;flex-direction:column;gap:1rem;">';
+
+// ═══ 분박 계열별 장단 (▶ 펼침) ═══
+rhythmHTML += '<div class="tree-branch"><div class="tree-branch-header" onclick="toggleTreeBranch(this)"><span class="g-icon">▶</span>분박 계열별 장단의 분류</div><div class="tree-branch-body">';
+bunbak.forEach(function(section){
+  rhythmHTML += '<div class="tree-node" onclick="toggleTreeNode(this)" style="font-weight:600;color:var(--accent-rhythm)">'+section.n+'<span class="node-arrow">▶</span></div><div class="tree-sub">'+buildGutSection(section)+'</div>';
+});
+rhythmHTML += '</div></div>';
+
+// ═══ 정악 및 민속악 장단 (▶ 펼침) ═══
+rhythmHTML += '<div class="tree-branch"><div class="tree-branch-header" onclick="toggleTreeBranch(this)"><span class="g-icon">▶</span>정악 및 민속악 장단</div><div class="tree-branch-body">';
+rhythmHTML += '<div class="rhy-tab-bar"><button class="rhy-tab-btn" onclick="switchRhyTab(this,0)">정악 장단</button><button class="rhy-tab-btn" onclick="switchRhyTab(this,1)">민속악 장단</button></div>';
+
+// ── 정악 장단 패널 ──
+rhythmHTML += '<div class="rhy-tab-panel">';
+rhythmHTML += '<div class="jd-table-wrap"><table class="jd-table jd-clickable"><thead><tr><th>장단명</th><th>박자 배열</th><th>템포</th><th>대표 악곡</th></tr></thead><tbody>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>20박 장단</td><td>20박 (6+4+4+6)</td><td>♩.=12~18</td><td>상령산, 중령산, 여민락(1~3장)</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>10박 장단</td><td>10박 (3+2+2+3)</td><td>♩.=30~40</td><td>세령산, 가락덜이, 상현환입, 염불도드리</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>12박 장단</td><td>12박 (3분박 4박)</td><td>♩.=60~80</td><td>타령, 군악</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>16박 장단</td><td>16박 (11+5 또는 10+6)</td><td>♩.=20~30</td><td>남창 및 여창 가곡 전반</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>10박 편장단</td><td>10박 (가곡 편)</td><td>♩.=40~60</td><td>편수대엽, 편락</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>6박 장단</td><td>6박 (2분박 6박)</td><td>♩.=40~60</td><td>밑도드리, 웃도드리, 양청도드리</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>시조 장단</td><td>5박/8박 혼합 배열</td><td>♩.=40~50</td><td>평시조, 사설시조, 지름시조</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>취타</td><td>12박 (3분박 4박)</td><td>♩.=60~90</td><td>대취타, 만파정식지곡</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '</tbody></table></div>';
+rhythmHTML += '</div>';
+
+// ── 민속악 장단 패널 ──
+rhythmHTML += '<div class="rhy-tab-panel">';
+rhythmHTML += '<div class="jd-table-wrap"><table class="jd-table jd-clickable"><thead><tr><th>장단명</th><th>박자 배열</th><th>템포</th><th>대표 악곡</th></tr></thead><tbody>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>진양조</td><td>18박 또는 24박 (6박 단위)</td><td>♩.=15~25</td><td>산조 진양조, 판소리 슬픈 대목</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>중모리</td><td>12박 (2분박 12박)</td><td>♩=80~95</td><td>산조 중모리, 판소리 쑥대머리</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>중중모리</td><td>12박 (3분박 4박)</td><td>♩.=100~120</td><td>진도아리랑, 강강술래, 범피중류</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>굿거리</td><td>12박 (3분박 4박)</td><td>♩.=100~115</td><td>창부타령, 늴리리야, 살풀이 반주</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>노랫가락</td><td>5박/8박 혼합 (유동적)</td><td>♩.=45~55</td><td>경기민요 노랫가락</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>세마치</td><td>3분박 3박 (9박)</td><td>♩.=110~130</td><td>대중적인 민요의 핵심 장단</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>자진모리</td><td>12박 (3분박 4박)</td><td>♩.=120~150</td><td>산조 자진모리, 군밤타령, 옹헤야</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>엇모리</td><td>10박 (3+2+3+2)</td><td>♩.=130~150</td><td>판소리 수궁가(토끼 등장 대목)</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>엇중모리</td><td>6박 (2분박 6박)</td><td>♩.=70~80</td><td>판소리 끝부분 및 뒷풀이 대목</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>동살풀이</td><td>4박 (2분박 4박)</td><td>♩.=130~140</td><td>남도민요(개고리 개골청)</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>휘모리</td><td>4박 (2분박 4박 반복)</td><td>♩.=160~200</td><td>산조 휘모리, 판소리 돈타령</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>단모리</td><td>4박 (휘모리보다 급한 반복)</td><td>♩.=180~220</td><td>가야금 산조(김죽파류) 단모리</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>길군악</td><td>8박 또는 12박</td><td>♩.=100~120</td><td>행진악, 농악 및 연희 이동 시</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>세산조시</td><td>4박 (매우 빠름)</td><td>♩.=200~230</td><td>산조의 극한 마감 대목</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>긴염불</td><td>6박 (2분박 6박, 경기대풍류 도입부, 매우 느리고 장중)</td><td>♩.=30~40</td><td>경기대풍류</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>반염불</td><td>6박 (2분박 6박, 긴염불보다 빠른 가교 역할)</td><td>♩.=50~70</td><td>경기대풍류</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>삼현타령</td><td>12박 (3분박 4박, 삼현육각 편성, 절도 있고 씩씩한 기세)</td><td>♩.=60~80</td><td>경기대풍류</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>느린허튼타령</td><td>12박 (3분박 4박, 타령 대목의 시작, 여유롭고 안정적)</td><td>♩.=70~80</td><td>경기대풍류</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>중허튼타령</td><td>12박 (3분박 4박, 리듬의 밀도가 높아지며 경쾌함)</td><td>♩.=80~90</td><td>경기대풍류</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>자진허튼타령</td><td>12박 (3분박 4박, 타령 중 가장 빠름, 몰아치는 리듬감)</td><td>♩.=90~110</td><td>경기대풍류</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>자진굿거리</td><td>12박 (3분박 4박, 유연하고 탄력 있는 가락으로 흥 고조)</td><td>♩.=110~130</td><td>경기대풍류</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+rhythmHTML += '<tr onclick="toggleScoreRow(this)"><td><span class="t-arrow">▶</span>당악</td><td>4박 (매우 빠름, 경기대풍류 마무리, 최고조의 속도감)</td><td>♩.=180~210</td><td>경기대풍류</td></tr><tr class="score-row"><td colspan="4"><div class="score-area">♩ 악보 이미지 삽입 예정</div></td></tr>';
+
+rhythmHTML += '</tbody></table></div>';
+rhythmHTML += '</div>';
+
+rhythmHTML += '</div></div>';
+
+// ═══ 굿 장단 (▶ 펼침) ═══
+rhythmHTML += '<div class="tree-branch"><div class="tree-branch-header" onclick="toggleTreeBranch(this)"><span class="g-icon">▶</span>무속(굿) 장단</div><div class="tree-branch-body">';
+rhythmHTML += '<div class="rhy-tab-bar"><button class="rhy-tab-btn" onclick="switchRhyTab(this,0)">경기도당굿</button><button class="rhy-tab-btn" onclick="switchRhyTab(this,1)">진도씻김굿</button><button class="rhy-tab-btn" onclick="switchRhyTab(this,2)">동해안별신굿</button></div>';
+var gutData = [gut1_1, [gut2], [gut3]];
+gutData.forEach(function(gArr, gi){
+  rhythmHTML += '<div class="rhy-tab-panel">';
+  rhythmHTML += '<div class="rhy-sub-tabs"><button class="rhy-sub-btn active" onclick="switchRhySub(this,0)">특징</button><button class="rhy-sub-btn" onclick="switchRhySub(this,1)">거리별</button></div>';
+  rhythmHTML += '<div class="rhy-sub-panel active">'+gutDescs[gi]+'</div>';
+  rhythmHTML += '<div class="rhy-sub-panel">';
+  gArr.forEach(function(section){
+    if(section.cats){
+      rhythmHTML += '<div class="tree-node" onclick="toggleTreeNode(this)" style="font-weight:600;color:var(--accent-rhythm)">'+section.n+'<span class="node-arrow">▶</span></div><div class="tree-sub">'+buildGutSection(section)+'</div>';
+    }
+  });
+  rhythmHTML += '</div></div>';
+});
+rhythmHTML += '</div></div>';
+
+// ═══ 농악 장단 (▶ 펼침) ═══
+rhythmHTML += '<div class="tree-branch"><div class="tree-branch-header" onclick="toggleTreeBranch(this)"><span class="g-icon">▶</span>농악(연희) 장단</div><div class="tree-branch-body">';
+rhythmHTML += '<div class="rhy-tab-bar"><button class="rhy-tab-btn" onclick="switchRhyTab(this,0)">권역별 농악</button><button class="rhy-tab-btn" onclick="switchRhyTab(this,1)">국가무형유산 6대 농악</button></div>';
+
+// 권역별
+rhythmHTML += '<div class="rhy-tab-panel">';
+var nongakNames = ["영남농악","호남 우도","호남 좌도","웃다리"];
+rhythmHTML += '<div class="rhy-tab-bar">';
+nongakNames.forEach(function(nm, i){
+  rhythmHTML += '<button class="rhy-tab-btn'+(i===0?' active':'')+'" onclick="switchRhyTab(this,'+i+')">'+nm+'</button>';
+});
+rhythmHTML += '</div>';
+nongak.forEach(function(section, idx){
+  var isActive = idx===0 ? ' active' : '';
+  rhythmHTML += '<div class="rhy-tab-panel'+isActive+'">';
+  rhythmHTML += '<div class="rhy-sub-tabs"><button class="rhy-sub-btn active" onclick="switchRhySub(this,0)">특징</button><button class="rhy-sub-btn" onclick="switchRhySub(this,1)">장단 순서</button></div>';
+  rhythmHTML += '<div class="rhy-sub-panel active">'+nongakDescs[idx]+'</div>';
+  rhythmHTML += '<div class="rhy-sub-panel">'+buildGutSection(section)+'</div>';
+  rhythmHTML += '</div>';
+});
+rhythmHTML += '</div>';
+
+// 6대농악
+rhythmHTML += '<div class="rhy-tab-panel">';
+var n6Names = ["진주삼천포","평택","이리","강릉","임실필봉","구례잔수"];
+rhythmHTML += '<div class="rhy-tab-bar">';
+n6Names.forEach(function(nm, i){
+  rhythmHTML += '<button class="rhy-tab-btn'+(i===0?' active':'')+'" onclick="switchRhyTab(this,'+i+')">'+nm+'</button>';
+});
+rhythmHTML += '</div>';
+nongak6.forEach(function(section, idx){
+  var isActive = idx===0 ? ' active' : '';
+  rhythmHTML += '<div class="rhy-tab-panel'+isActive+'">';
+  rhythmHTML += '<div class="rhy-sub-tabs"><button class="rhy-sub-btn active" onclick="switchRhySub(this,0)">특징</button><button class="rhy-sub-btn" onclick="switchRhySub(this,1)">장단 순서</button></div>';
+  rhythmHTML += '<div class="rhy-sub-panel active">'+nongak6Descs[idx]+'</div>';
+  rhythmHTML += '<div class="rhy-sub-panel">'+buildGutSection(section)+'</div>';
+  rhythmHTML += '</div>';
+});
+rhythmHTML += '</div>';
+
+rhythmHTML += '</div></div>';
+
+
+
+
+rhythmHTML += '</div>';
+document.getElementById('rhythm-panel').innerHTML = rhythmHTML;
+
+function switchTab(id){document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active')});document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active')});document.querySelector('[data-tab="'+id+'"]').classList.add('active');document.getElementById(id+'-panel').classList.add('active');}
+
+function switchRhyTab(btn,idx){
+  var bar=btn.parentElement;
+  var wasActive=btn.classList.contains('active');
+  bar.querySelectorAll('.rhy-tab-btn').forEach(function(b){b.classList.remove('active');});
+  var panels=bar.parentElement.querySelectorAll(':scope>.rhy-tab-panel');
+  panels.forEach(function(p){p.classList.remove('active');});
+  if(!wasActive){
+    btn.classList.add('active');
+    var p=panels[idx];if(p)p.classList.add('active');
+  }
+}
+
+function toggleScoreRow(tr){
+  var next=tr.nextElementSibling;
+  if(next && next.classList.contains('score-row')){
+    next.classList.toggle('open');
+    tr.classList.toggle('score-active');
+  }
+}
+
+function switchRhySub(btn,idx){
+  var tabs=btn.parentElement;
+  tabs.querySelectorAll('.rhy-sub-btn').forEach(function(b,i){b.classList.toggle('active',i===idx);});
+  var panels=tabs.parentElement.querySelectorAll(':scope>.rhy-sub-panel');
+  panels.forEach(function(p,i){p.classList.toggle('active',i===idx);});
+}
+
+function toggleAccGroup(h){var g=h.parentElement;g.classList.toggle('open');var icon=h.querySelector('.g-icon');if(icon)icon.textContent=g.classList.contains('open')?'▼':'▶';}
+function toggleAccItem(e,header){e.stopPropagation();var item=header.closest('.acc-item');item.classList.toggle('open');}
+function switchInner(e,btn,idx){e.stopPropagation();var body=btn.closest('.acc-item-body');body.querySelectorAll('.inner-tab').forEach(function(t){t.classList.remove('active')});body.querySelectorAll('.inner-content').forEach(function(c){c.classList.remove('active')});btn.classList.add('active');body.querySelectorAll('.inner-content')[idx].classList.add('active');}
+function toggleTreeNode(n){n.classList.toggle('expanded');var s=n.nextElementSibling;if(s&&s.classList.contains('tree-sub'))s.classList.toggle('open');}
+function toggleJdScore(row,id){row.classList.toggle('jd-open');var el=document.getElementById(id);if(el)el.classList.toggle('open');}
+function switchScaleSub(idx){document.querySelectorAll('.scale-sub-btn').forEach(function(b){b.classList.remove('active')});document.querySelectorAll('.scale-sub-panel').forEach(function(p){p.classList.remove('active')});document.querySelectorAll('.scale-sub-btn')[idx].classList.add('active');document.getElementById('scale-sub-'+idx).classList.add('active');}
+function toggleScTori(e,card){e.stopPropagation();card.classList.toggle('open');}
+function toggleJaMode(el){el.classList.toggle('open');}
+function switchJaTab(idx){
+  var bar=event.target.parentElement;
+  bar.querySelectorAll('.ja-tab-btn').forEach(function(b,i){b.classList.toggle('active',i===idx);});
+  var panels=bar.parentElement.querySelectorAll(':scope>.ja-panel');
+  panels.forEach(function(p,i){p.classList.toggle('active',i===idx);});
+}
+
+function switchEbTone(idx){
+  var bar=event.target.parentElement;
+  bar.querySelectorAll('.eb-tone-btn').forEach(function(b,i){b.classList.toggle('active',i===idx);});
+  var panels=bar.parentElement.querySelectorAll(':scope>.eb-tone-panel');
+  panels.forEach(function(p,i){p.classList.toggle('active',i===idx);});
+}
+
+function switchJaInner(btn,idx){
+  var bar=btn.parentElement;
+  bar.querySelectorAll('.ja-inner-btn').forEach(function(b,i){b.classList.toggle('active',i===idx);});
+  var panels=[];
+  var sib=bar.nextElementSibling;
+  while(sib && sib.classList.contains('ja-inner-panel')){panels.push(sib);sib=sib.nextElementSibling;}
+  panels.forEach(function(p,i){p.classList.toggle('active',i===idx);});
+}
+function toggleScSection(h){var s=h.parentElement;s.classList.toggle('open');var icon=h.querySelector('.g-icon');if(icon)icon.textContent=s.classList.contains('open')?'▼':'▶';}
+function selectJangdan(leaf,name){document.querySelectorAll('.tree-leaf').forEach(function(l){l.classList.remove('selected')});leaf.classList.add('selected');document.getElementById('jangdan-detail-title').textContent=name;var p=document.getElementById('jangdan-detail');p.classList.add('open');p.scrollIntoView({behavior:'smooth',block:'nearest'});}
+function closeJangdanDetail(){document.getElementById('jangdan-detail').classList.remove('open');document.querySelectorAll('.tree-leaf').forEach(function(l){l.classList.remove('selected')});}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeJangdanDetail();});
+
+function showPhoto(src){var m=document.getElementById('photoModal');document.getElementById('photoModalImg').src=src;m.style.display='flex';}
+
+function toggleTreeBranch(h){var b=h.parentElement;b.classList.toggle('open');var icon=h.querySelector('.g-icon');if(icon)icon.textContent=b.classList.contains('open')?'▼':'▶';}
+
+// ── 음의 원리 JS ──
+
+function openBranch(which){
+var tA=document.getElementById('T_main_a');
+var tB=document.getElementById('T_main_b');
+var bA=document.getElementById('branchA');
+var bB=document.getElementById('branchB');
+
+if(which==='a'){
+var isOpen=!bA.classList.contains('hidden');
+if(isOpen){bA.classList.add('hidden');tA.classList.remove('active');resetA();}
+else{bA.classList.remove('hidden');tA.classList.add('active');bB.classList.add('hidden');tB.classList.remove('active');resetB();showA0();}
+}else{
+var isOpen=!bB.classList.contains('hidden');
+if(isOpen){bB.classList.add('hidden');tB.classList.remove('active');resetB();}
+else{bB.classList.remove('hidden');tB.classList.add('active');bA.classList.add('hidden');tA.classList.remove('active');resetA();}
+}
+}
+
+function showA0(){
+document.getElementById('CA1').classList.remove('hidden');
+document.getElementById('LA1').classList.remove('hidden');
+}
+
+function resetA(){
+for(var i=1;i<=3;i++){
+var c=document.getElementById('CA'+i);
+var l=document.getElementById('LA'+i);
+var p=document.getElementById('PA'+i);
+var t=document.getElementById('TA'+i);
+if(c)c.classList.add('hidden');
+if(l)l.classList.add('hidden');
+if(p)p.classList.add('hidden');
+if(t)t.classList.remove('active');
+}
+}
+
+function toggleA(n){
+var t=document.getElementById('TA'+n);
+var p=document.getElementById('PA'+n);
+var isOpen=!p.classList.contains('hidden');
+if(isOpen){
+p.classList.add('hidden');t.classList.remove('active');
+for(var i=n+1;i<=3;i++){
+var c=document.getElementById('CA'+i);var l=document.getElementById('LA'+i);
+var pp=document.getElementById('PA'+i);var tt=document.getElementById('TA'+i);
+if(c)c.classList.add('hidden');if(l)l.classList.add('hidden');
+if(pp)pp.classList.add('hidden');if(tt)tt.classList.remove('active');
+}
+}else{
+p.classList.remove('hidden');t.classList.add('active');
+var nc=document.getElementById('CA'+(n+1));
+var nl=document.getElementById('LA'+(n+1));
+if(nc)nc.classList.remove('hidden');
+if(nl)nl.classList.remove('hidden');
+}
+}
+
+function resetB(){
+for(var i=1;i<=5;i++){
+var p=document.getElementById('PB'+i);
+var s=document.getElementById('SB'+i);
+if(p)p.classList.add('hidden');
+if(s)s.classList.remove('active');
+if(i>=2){var l=document.getElementById('LB'+i);if(l)l.classList.add('hidden');}
+}
+}
+
+function toggleB(n){
+var s=document.getElementById('SB'+n);
+var p=document.getElementById('PB'+n);
+var isOpen=!p.classList.contains('hidden');
+if(isOpen){
+p.classList.add('hidden');s.classList.remove('active');
+for(var i=n+1;i<=5;i++){
+var ll=document.getElementById('LB'+i);
+var pp=document.getElementById('PB'+i);
+var ss=document.getElementById('SB'+i);
+if(ll)ll.classList.add('hidden');
+if(pp)pp.classList.add('hidden');
+if(ss)ss.classList.remove('active');
+}
+}else{
+p.classList.remove('hidden');s.classList.add('active');
+var nl=document.getElementById('LB'+(n+1));
+if(nl)nl.classList.remove('hidden');
+}
+}
+
+// ─── 음악용어 (Music Terms) Data & Build ───
+
+function tmTbl(headers, rows){
+  var h='<thead><tr>';
+  headers.forEach(function(t){h+='<th>'+t+'</th>';});
+  h+='</tr></thead><tbody>'+rows+'</tbody>';
+  return '<div style="overflow-x:auto;border-radius:var(--radius-md);border:1px solid var(--border-subtle);margin-bottom:0.5rem;"><table class="tm-table">'+h+'</table></div>';
+}
+function tmR(){return '<tr>'+Array.prototype.slice.call(arguments).map(function(c){return '<td>'+c+'</td>';}).join('')+'</tr>';}
+function termGroup(title,content,openByDefault){
+  var cls=openByDefault?'term-group open':'term-group';
+  var icon=openByDefault?'▼':'▶';
+  return '<div class="'+cls+'"><div class="term-group-header" onclick="toggleTermGroup(this)"><span class="g-icon">'+icon+'</span>'+title+'</div><div class="term-group-body">'+content+'</div></div>';
+}
+
+var tempoBase=tmTbl(['용어','음악적 뜻','BPM','원어 뜻'],
+  tmR('Grave','극히 느리고 장중하게','~40 이하','무겁다, 심각하다')+tmR('Largo','매우 느리고 폭넓게','40–60','넓다, 폭넓게')+tmR('Lento','느리게','45–60','느리다')+tmR('Adagio','느리고 편안하게','55–70','편안하게, 안락하게')+tmR('Andante','걷는 빠르기로','73–77','걷다 (andare)')+tmR('Andantino','Andante보다 약간 빠르게','78–83','작은 걸음으로')+tmR('Moderato','보통 빠르기로','86–97','절제된, 적당한')+tmR('Allegretto','조금 빠르게','98–109','조금 즐거운')+tmR('Allegro','빠르게','110–132','즐거운, 명랑한')+tmR('Vivace','생기 있고 빠르게','132–140','생생한, 활기찬')+tmR('Vivo','빠르고 생생하게','140–168','살아있는 <span style="color:var(--text-muted);font-size:0.7rem">(cf. Vivace보다 직접적)</span>')+tmR('Presto','매우 빠르게','168–177','빠른, 즉시')+tmR('Prestissimo','가능한 한 빠르게','178+','가장 빠른')
+);
+var tempoMod=tmTbl(['용어','뜻'],
+  tmR('a tempo','원래 빠르기로 돌아가서 <span style="color:var(--text-muted);font-size:0.7rem">(속도 복귀. cf. in tempo는 박자 엄수)</span>')+tmR('accelerando <span style="color:var(--text-muted);font-size:0.72rem">(accel.)</span>','점점 빠르게')+tmR('allargando','점점 느리고 폭넓게')+tmR('calando','점점 느리고 여리게 <span style="color:var(--text-muted);font-size:0.7rem">(가라앉듯 차분하게. cf. morendo보다 부드러움)</span>')+tmR('in tempo','정확한 박자 안에서 연주 <span style="color:var(--text-muted);font-size:0.7rem">(박자 엄수. cf. a tempo는 속도 복귀)</span>')+tmR('meno mosso','더 느리게')+tmR('morendo','사라지듯 완전히 소멸 <span style="color:var(--text-muted);font-size:0.7rem">(속도+음량. cf. calando보다 극단적)</span>')+tmR('più mosso','더 빠르게')+tmR('rallentando <span style="color:var(--text-muted);font-size:0.72rem">(rall.)</span>','점점 느리게 <span style="color:var(--text-muted);font-size:0.7rem">(속도+분위기가 함께 이완. cf. rit.보다 자연스러운 풀림)</span>')+tmR('ritardando <span style="color:var(--text-muted);font-size:0.72rem">(rit.)</span>','점점 느리게 <span style="color:var(--text-muted);font-size:0.7rem">(순수한 속도 감소. cf. rall.보다 기계적)</span>')+tmR('ritenuto <span style="color:var(--text-muted);font-size:0.72rem">(riten.)</span>','즉시 느리게 <span style="color:var(--text-muted);font-size:0.7rem">(점진적이 아닌 즉각적 변화. cf. rit.은 점점)</span>')+tmR('rubato','자유롭게 신축하며')+tmR('stringendo','긴박하게 빨라지며')+tmR('tempo primo <span style="color:var(--text-muted);font-size:0.72rem">(Tempo I)</span>','처음 빠르기로')
+);
+document.getElementById('term-sub-0').innerHTML=termGroup('기본 빠르기 (Base Tempo)',tempoBase,true)+termGroup('빠르기 변화 (Tempo Modification)',tempoMod,false);
+
+var dynBase=tmTbl(['기호','용어','뜻'],
+  tmR('ppp','pianississimo','가능한 한 여리게')+tmR('pp','pianissimo','매우 여리게')+tmR('p','piano','여리게 <span style="color:var(--text-muted);font-size:0.7rem">(원뜻: 평평한, 부드러운)</span>')+tmR('mp','mezzo piano','조금 여리게')+tmR('mf','mezzo forte','조금 세게')+tmR('f','forte','세게 <span style="color:var(--text-muted);font-size:0.7rem">(원뜻: 강한, 힘센)</span>')+tmR('ff','fortissimo','매우 세게')+tmR('fff','fortississimo','가능한 한 세게')
+);
+var dynMod=tmTbl(['기호/용어','뜻'],
+  tmR('crescendo <span style="color:var(--text-muted);font-size:0.72rem">(cresc.)</span>','점점 세게 <span style="color:var(--text-muted);font-size:0.7rem">(원뜻: 자라다)</span>')+tmR('decrescendo <span style="color:var(--text-muted);font-size:0.72rem">(decresc.)</span>','점점 여리게 <span style="color:var(--text-muted);font-size:0.7rem">(순수한 음량 감소. cf. dim.보다 기계적)</span>')+tmR('diminuendo <span style="color:var(--text-muted);font-size:0.72rem">(dim.)</span>','점점 여리게 <span style="color:var(--text-muted);font-size:0.7rem">(음량+에너지·긴장감도 함께 감소. 원뜻: 줄어들다)</span>')+tmR('forte-piano <span style="color:var(--text-muted);font-size:0.72rem">(fp)</span>','세게 후 즉시 여리게')+tmR('sforzando <span style="color:var(--text-muted);font-size:0.72rem">(sfz)</span>','그 한 음을 갑자기 강하게 <span style="color:var(--text-muted);font-size:0.7rem">(순간적 강조. 원뜻: 힘을 가하다)</span>')+tmR('sforzato <span style="color:var(--text-muted);font-size:0.72rem">(sf)</span>','힘을 실어 강조 <span style="color:var(--text-muted);font-size:0.7rem">(cf. sfz보다 약간 넓은 범위의 강조)</span>')+tmR('sotto voce','소곤거리듯 낮은 소리로')+tmR('subito forte <span style="color:var(--text-muted);font-size:0.72rem">(sub. f)</span>','갑자기 세게')+tmR('subito piano <span style="color:var(--text-muted);font-size:0.72rem">(sub. p)</span>','갑자기 여리게')
+);
+document.getElementById('term-sub-1').innerHTML=termGroup('기본 셈여림',dynBase,true)+termGroup('셈여림 변화 및 특수 셈여림',dynMod,false);
+
+var exprChar=tmTbl(['용어','뜻'],
+  tmR('agitato','격앙되어, 흥분하여')+tmR('alla marcia','행진곡풍으로 <span style="color:var(--text-muted);font-size:0.7rem">(원뜻: 행진)</span>')+tmR('animato','생기 있게 <span style="color:var(--text-muted);font-size:0.7rem">(템포도 약간 빨라지는 경향. cf. con brio는 템포 변화 없음)</span>')+tmR('appassionato','열정적으로')+tmR('brillante','화려하게, 빛나게')+tmR('cantabile','노래하듯이 <span style="color:var(--text-muted);font-size:0.7rem">(원뜻: 노래할 수 있는)</span>')+tmR('con anima','영혼을 담아')+tmR('con brio','생기 있게, 불꽃처럼 <span style="color:var(--text-muted);font-size:0.7rem">(에너지를 높임. cf. animato는 템포도 변화)</span>')+tmR('con fuoco','불같이, 열정적으로')+tmR('con moto','움직임을 가지고')+tmR('con spirito','활기차게')+tmR('dolce','부드럽고 달콤하게')+tmR('doloroso','슬프게, 아프게')+tmR('energico','에너지 넘치게')+tmR('espressivo <span style="color:var(--text-muted);font-size:0.72rem">(espr.)</span>','표현력 있게')+tmR('giocoso','유쾌하게, 익살스럽게')+tmR('grandioso','웅장하게, 장대하게')+tmR('grazioso','우아하게')+tmR('leggiero','가볍게')+tmR('maestoso','장엄하게, 위엄 있게')+tmR('misterioso','신비롭게')+tmR('pesante','무겁게')+tmR('risoluto','단호하게, 결연하게')+tmR('scherzando','장난스럽게 <span style="color:var(--text-muted);font-size:0.7rem">(원뜻: 농담하다)</span>')+tmR('sostenuto','음을 충분히 유지하며 <span style="color:var(--text-muted);font-size:0.7rem">(원뜻: 지탱하다)</span>')+tmR('tranquillo','고요하게')
+);
+var exprArt=tmTbl(['용어','뜻'],
+  tmR('a1 <span style="color:var(--text-muted);font-size:0.72rem">(a uno)</span>','두 파트 중 한 파트만 연주')+tmR('a2 <span style="color:var(--text-muted);font-size:0.72rem">(a due)</span>','두 파트가 같은 선율을 함께 연주')+tmR('accent <span style="color:var(--text-muted);font-size:0.72rem">(&gt;)</span>','그 음을 강조하여')+tmR('arco','활로 돌아가서')+tmR('con sordino','약음기를 끼고')+tmR('divisi <span style="color:var(--text-muted);font-size:0.72rem">(div.)</span>','한 파트가 나뉘어 각각 다른 음 연주')+tmR('legato','매끄럽게 이어서')+tmR('marcato','분명하게 강조하여')+tmR('pizzicato <span style="color:var(--text-muted);font-size:0.72rem">(pizz.)</span>','현을 손가락으로 튕겨서 <span style="color:var(--text-muted);font-size:0.7rem">(원뜻: 꼬집다)</span>')+tmR('senza sordino','약음기를 빼고')+tmR('spiccato','활을 튀기듯 <span style="color:var(--text-muted);font-size:0.7rem">(원뜻: 떼어내다)</span>')+tmR('staccato','짧게 끊어서 <span style="color:var(--text-muted);font-size:0.7rem">(원뜻: 분리된)</span>')+tmR('tenuto <span style="color:var(--text-muted);font-size:0.72rem">(ten.)</span>','음가를 충분히 유지하며')
+);
+document.getElementById('term-sub-2').innerHTML=termGroup('표현 / 성격 (Character & Expression)',exprChar,true)+termGroup('아티큘레이션 (Articulation)',exprArt,false);
+
+// ── SVG 음악 기호 ──
+var svgStyle='display:inline-block;vertical-align:middle;margin:0 3px;';
+var svgSegno='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" viewBox="0 0 16 18" style="'+svgStyle+'"><line x1="2" y1="17" x2="14" y2="1" stroke="var(--accent-term)" stroke-width="1.2"/><path d="M8 3C5 3 4 5 4 6.5C4 8 5.5 9 8 9C10.5 9 12 10 12 11.5C12 13 11 15 8 15C5 15 4 13 4 11.5" fill="none" stroke="var(--accent-term)" stroke-width="1.3"/><circle cx="5" cy="5" r="1.3" fill="var(--accent-term)"/><circle cx="11" cy="13" r="1.3" fill="var(--accent-term)"/></svg>';
+var svgCoda='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" viewBox="0 0 16 18" style="'+svgStyle+'"><circle cx="8" cy="9" r="5" fill="none" stroke="var(--accent-term)" stroke-width="1.3"/><line x1="8" y1="2" x2="8" y2="16" stroke="var(--accent-term)" stroke-width="1.2"/><line x1="1.5" y1="9" x2="14.5" y2="9" stroke="var(--accent-term)" stroke-width="1.2"/></svg>';
+var svgFermNorm='<svg xmlns="http://www.w3.org/2000/svg" width="18" height="14" viewBox="0 0 18 14" style="'+svgStyle+'"><path d="M1 13 A8 10 0 0 1 17 13" fill="none" stroke="var(--accent-term)" stroke-width="1.4"/><circle cx="9" cy="11" r="1.5" fill="var(--accent-term)"/></svg>';
+var svgFermLong='<svg xmlns="http://www.w3.org/2000/svg" width="18" height="14" viewBox="0 0 18 14" style="'+svgStyle+'"><rect x="1" y="3" width="16" height="10" rx="1" fill="none" stroke="var(--accent-term)" stroke-width="1.3"/><circle cx="9" cy="10" r="1.5" fill="var(--accent-term)"/></svg>';
+var svgFermShort='<svg xmlns="http://www.w3.org/2000/svg" width="18" height="14" viewBox="0 0 18 14" style="'+svgStyle+'"><polygon points="9,1 1,13 17,13" fill="none" stroke="var(--accent-term)" stroke-width="1.3"/><circle cx="9" cy="11" r="1.5" fill="var(--accent-term)"/></svg>';
+var svgRepeatL='<svg xmlns="http://www.w3.org/2000/svg" width="12" height="18" viewBox="0 0 12 18" style="'+svgStyle+'"><line x1="2" y1="1" x2="2" y2="17" stroke="var(--accent-term)" stroke-width="2"/><line x1="5" y1="1" x2="5" y2="17" stroke="var(--accent-term)" stroke-width="1"/><circle cx="9" cy="7" r="1.3" fill="var(--accent-term)"/><circle cx="9" cy="11" r="1.3" fill="var(--accent-term)"/></svg>';
+var svgRepeatR='<svg xmlns="http://www.w3.org/2000/svg" width="12" height="18" viewBox="0 0 12 18" style="'+svgStyle+'"><circle cx="3" cy="7" r="1.3" fill="var(--accent-term)"/><circle cx="3" cy="11" r="1.3" fill="var(--accent-term)"/><line x1="7" y1="1" x2="7" y2="17" stroke="var(--accent-term)" stroke-width="1"/><line x1="10" y1="1" x2="10" y2="17" stroke="var(--accent-term)" stroke-width="2"/></svg>';
+
+var structData=tmTbl(['용어','뜻'],
+  tmR('al Coda '+svgCoda,'코다로 이동하여')+tmR('al Fine','Fine까지 연주')+tmR('attacca','쉬지 않고 바로 다음 악장으로 <span style="color:var(--text-muted);font-size:0.7rem">(원뜻: 공격하다)</span>')+tmR('bis','해당 구간을 한 번 반복 <span style="color:var(--text-muted);font-size:0.7rem">(원뜻: 두 번)</span>')+tmR('Coda '+svgCoda,'종결부로 이동 <span style="color:var(--text-muted);font-size:0.7rem">(원뜻: 꼬리)</span>')+tmR('Da Capo <span style="color:var(--text-muted);font-size:0.72rem">(D.C.)</span>','처음부터 다시 <span style="color:var(--text-muted);font-size:0.7rem">(원뜻: 머리부터)</span>')+tmR('Dal Segno <span style="color:var(--text-muted);font-size:0.72rem">(D.S.)</span> '+svgSegno,'세뇨(Segno) 기호부터 다시')+tmR('fermata','멈추다. 음 또는 쉼표를 박자 이상으로 유지<br><span style="color:var(--text-muted);font-size:0.72rem">일반'+svgFermNorm+' · long'+svgFermLong+' · short'+svgFermShort+'</span>')+tmR('Fine','끝 (여기서 마침)')+tmR('General Pause <span style="color:var(--text-muted);font-size:0.72rem">(G.P.)</span>','전체 오케스트라가 동시에 쉼')+tmR('repeat '+svgRepeatR+svgRepeatL,'반복')+tmR('Segno '+svgSegno,'D.S.에서 되돌아갈 기호 위치')
+);
+document.getElementById('term-sub-3').innerHTML=termGroup('구조 · 형식 지시 (Structure)',structData,true);
+
+var modData=tmTbl(['용어','뜻','사용 예'],
+  tmR('assai','대단히','Allegro assai')+tmR('ben','충분히, 잘','ben marcato')+tmR('con','~와 함께','con brio, con sordino')+tmR('ma','그러나','Adagio ma non troppo')+tmR('meno','덜','meno forte')+tmR('molto','매우','molto rit.')+tmR('non troppo','지나치지 않게','Allegro ma non troppo')+tmR('più','더','più forte')+tmR('poco','조금','poco cresc.')+tmR('poco a poco','조금씩','poco a poco accel.')+tmR('sempre','항상, 계속','sempre legato')+tmR('senza','~없이','senza sordino')+tmR('simile','같은 방식으로 계속','(앞의 패턴 유지)')+tmR('subito','갑자기','subito piano')+tmR('un poco','조금 <span style="color:var(--text-muted);font-size:0.7rem">(= poco와 동의. 악보에서 더 자주 사용)</span>','un poco sostenuto')
+);
+document.getElementById('term-sub-4').innerHTML=termGroup('수식어 (Modifiers)',modData,true);
+
+function switchTermSub(idx){
+  document.querySelectorAll('.term-sub-btn').forEach(function(b){b.classList.remove('active')});
+  document.querySelectorAll('.term-sub-panel').forEach(function(p){p.classList.remove('active')});
+  document.querySelectorAll('.term-sub-btn')[idx].classList.add('active');
+  document.getElementById('term-sub-'+idx).classList.add('active');
+}
+function toggleTermGroup(h){var g=h.parentElement;g.classList.toggle('open');var icon=h.querySelector('.g-icon');if(icon)icon.textContent=g.classList.contains('open')?'▼':'▶';}
+
+
+// ─── 검색 ───
+var searchIndex = [];
+function buildSearchIndex(){
+  function addItems(arr, group){
+    arr.forEach(function(d){
+      searchIndex.push({kr:d.kr,en:d.en||'',text:[d.t,d.j,d.s,d.r||''].join(' '),tab:'instruments',group:group});
+    });
+  }
+  addItems(windData,'관악기');
+  addItems(percData,'타악기');
+  addItems(auxData,'보조악기');
+  addItems(stickKrData,'채');
+  addItems(stickWestData,'스틱·말렛');
+  addItems(bowData,'활');
+  // 음악용어 테이블에서 추출
+  document.querySelectorAll('.tm-table tbody tr').forEach(function(tr){
+    var cells=tr.querySelectorAll('td');
+    if(cells.length>=2){
+      var name=cells[0].textContent.trim();
+      var txt=Array.from(cells).map(function(c){return c.textContent}).join(' ');
+      searchIndex.push({kr:name,en:'',text:txt,tab:'terms',group:'음악용어'});
+    }
+  });
+  // 장단 - 테이블 행에서 장단명 추출
+  document.querySelectorAll('#rhythm-panel .jd-table tbody tr:not(.jd-section-header):not(.jd-row-clickable):not(.jd-inline-score)').forEach(function(tr){
+    var cells=tr.querySelectorAll('td');
+    if(cells.length>=2){
+      var name=cells[0].textContent.trim();
+      var beat=cells[1]?cells[1].textContent.trim():'';
+      var tempo=cells[2]?cells[2].textContent.trim():'';
+      if(name)searchIndex.push({kr:name,en:'',text:name+' '+beat+' '+tempo,tab:'rhythm',group:'장단'});
+    }
+  });
+  // 장단 - 클릭형 행에서도 추출
+  document.querySelectorAll('#rhythm-panel .jd-row-clickable').forEach(function(tr){
+    var cells=tr.querySelectorAll('td');
+    if(cells.length>=2){
+      var name=cells[0].textContent.trim();
+      var beat=cells[1]?cells[1].textContent.trim():'';
+      var tempo=cells[2]?cells[2].textContent.trim():'';
+      if(name && name.indexOf('악보')<0)searchIndex.push({kr:name,en:'',text:name+' '+beat+' '+tempo,tab:'rhythm',group:'장단'});
+    }
+  });
+  // 장단 - 트리 노드 (카테고리명)
+  document.querySelectorAll('#rhythm-panel .tree-node').forEach(function(el){
+    var name=el.textContent.replace('▶','').trim();
+    if(name)searchIndex.push({kr:name,en:'',text:name,tab:'rhythm',group:'장단'});
+  });
+  // 장단 - 브랜치 헤더 (굿장단, 농악 등 대분류)
+  document.querySelectorAll('#rhythm-panel .tree-branch-header').forEach(function(el){
+    var name=el.textContent.replace('▶','').trim();
+    if(name)searchIndex.push({kr:name,en:'',text:name,tab:'rhythm',group:'장단'});
+  });
+  // 장단 - 굿/농악 정보에서도 추출
+  document.querySelectorAll('#rhythm-panel .gut-info-title').forEach(function(el){
+    var name=el.textContent.trim();
+    var parent=el.closest('.gut-info');
+    var txt=parent?parent.textContent:'';
+    if(name)searchIndex.push({kr:name,en:'',text:txt,tab:'rhythm',group:'장단'});
+  });
+  // 음계에서 추출
+  document.querySelectorAll('.sc-tori-card').forEach(function(el){
+    var name=el.querySelector('.sc-tori-header')?.textContent.trim()||'';
+    var body=el.querySelector('.sc-tori-body')?.textContent.trim()||'';
+    searchIndex.push({kr:name,en:'',text:name+' '+body,tab:'scales',group:'음계'});
+  });
+}
+setTimeout(buildSearchIndex,800);
+
+var tagColors={
+  '관악기':'var(--accent-inst)','타악기':'var(--accent-inst)','보조악기':'var(--accent-inst)',
+  '채':'var(--accent-stick)','스틱·말렛':'var(--accent-stick)','활':'var(--accent-stick)',
+  '음악용어':'var(--accent-term)','장단':'var(--accent-rhythm)','음계':'var(--accent-scale)'
+};
+
+function doSearch(q){
+  var box=document.getElementById('searchResults');
+  var clr=document.getElementById('searchClear');
+  q=q.trim();
+  if(!q){box.className='search-results';box.innerHTML='';clr.style.display='none';return;}
+  clr.style.display='block';
+  var ql=q.toLowerCase();
+  var results=searchIndex.filter(function(item){
+    return item.kr.toLowerCase().indexOf(ql)>-1||item.en.toLowerCase().indexOf(ql)>-1||item.text.toLowerCase().indexOf(ql)>-1;
+  }).slice(0,20);
+  if(!results.length){
+    box.innerHTML='<div class="sr-empty">검색 결과가 없습니다.</div>';
+    box.className='search-results active';
+    return;
+  }
+  box.innerHTML=results.map(function(r){
+    var snippet=getSnippet(r.text,ql);
+    var tc=tagColors[r.group]||'var(--text-muted)';
+    return '<div class="sr-item" onclick="goToResult(\''+r.tab+'\',\''+escAttr(r.kr)+'\')"><div class="sr-name">'+highlight(r.kr,ql)+(r.en?' <em>'+highlight(r.en,ql)+'</em>':'')+'<span class="sr-tag" style="background:'+tc+'22;color:'+tc+'">'+r.group+'</span></div>'+(snippet?'<div class="sr-snippet">'+snippet+'</div>':'')+'</div>';
+  }).join('');
+  box.className='search-results active';
+}
+
+function getSnippet(text,q){
+  var clean=text.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ');
+  var idx=clean.toLowerCase().indexOf(q);
+  if(idx<0)return '';
+  var start=Math.max(0,idx-30);
+  var end=Math.min(clean.length,idx+q.length+60);
+  var s=(start>0?'…':'')+clean.substring(start,end)+(end<clean.length?'…':'');
+  return highlight(s,q);
+}
+
+function highlight(text,q){
+  if(!q)return text;
+  var re=new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+  return text.replace(re,'<mark>$1</mark>');
+}
+
+function escAttr(s){return s.replace(/'/g,"\\'").replace(/"/g,'&quot;');}
+
+function goToResult(tab,name){
+  clearSearch();
+  switchTab(tab);
+  setTimeout(function(){
+    var selectors='#'+tab+'-panel .acc-item-kr, #'+tab+'-panel .tree-node, #'+tab+'-panel .tree-leaf, #'+tab+'-panel .sc-tori-header, #'+tab+'-panel .tm-table td:first-child, #'+tab+'-panel .jd-table td:first-child, #'+tab+'-panel .jd-row-clickable td:first-child, #'+tab+'-panel .tree-branch-header, #'+tab+'-panel .gut-info-title';
+    var items=document.querySelectorAll(selectors);
+    for(var i=0;i<items.length;i++){
+      if(items[i].textContent.trim().indexOf(name)>-1){
+        var el=items[i];
+
+        // 음계 서브탭 열기
+        var scaleSub=el.closest('.scale-sub-panel');
+        if(scaleSub){
+          var sIdx=Array.from(document.querySelectorAll('.scale-sub-panel')).indexOf(scaleSub);
+          if(sIdx>-1)switchScaleSub(sIdx);
+        }
+
+        // 음악용어 서브탭 열기
+        var termSub=el.closest('.term-sub-panel');
+        if(termSub){
+          var tIdx=Array.from(document.querySelectorAll('.term-sub-panel')).indexOf(termSub);
+          if(tIdx>-1)switchTermSub(tIdx);
+        }
+
+        // 장단 - rhy-tab-panel 열기
+        var rhyPanel=el.closest('.rhy-tab-panel');
+        if(rhyPanel){
+          var bar=rhyPanel.parentElement.querySelector('.rhy-tab-bar');
+          if(bar){
+            var panels=rhyPanel.parentElement.querySelectorAll(':scope>.rhy-tab-panel');
+            var rIdx=Array.from(panels).indexOf(rhyPanel);
+            if(rIdx>-1){
+              var btns=bar.querySelectorAll('.rhy-tab-btn');
+              if(btns[rIdx])switchRhyTab(btns[rIdx],rIdx);
+            }
+          }
+        }
+
+        // 장단 - 트리 브랜치 열기
+        var branch=el.closest('.tree-branch');
+        if(branch&&!branch.classList.contains('open')){
+          var bhdr=branch.querySelector('.tree-branch-header');
+          if(bhdr)bhdr.click();
+        }
+        // 장단 - 트리 서브 열기
+        var sub=el.closest('.tree-sub');
+        if(sub&&!sub.classList.contains('open')){
+          var node=sub.previousElementSibling;
+          if(node&&node.classList.contains('tree-node'))node.click();
+        }
+
+        // 음계 - 토리 카드 열기
+        var toriCard=el.closest('.sc-tori-card');
+        if(toriCard&&!toriCard.querySelector('.sc-tori-body').style.display){
+          el.click();
+        }
+
+        // 악기 그룹 열기
+        var group=el.closest('.acc-group');
+        if(group&&!group.classList.contains('open')){
+          var hdr=group.querySelector('.acc-group-header');
+          if(hdr)hdr.click();
+        }
+        // 악기 아이템 열기
+        var item=el.closest('.acc-item');
+        if(item&&!item.classList.contains('open')){
+          var ihdr=item.querySelector('.acc-item-header');
+          if(ihdr)setTimeout(function(){ihdr.click();},100);
+        }
+
+        // 용어 그룹 열기
+        var termGrp=el.closest('.term-group');
+        if(termGrp&&!termGrp.classList.contains('open')){
+          var tghdr=termGrp.querySelector('.term-group-header');
+          if(tghdr)tghdr.click();
+        }
+
+        // 하이라이트 효과
+        var target=item||el.closest('tr')||toriCard||el;
+        target.style.transition='background 0.3s';
+        target.style.background='var(--accent-inst-dim)';
+        setTimeout(function(){target.style.background='';},2000);
+        setTimeout(function(){target.scrollIntoView({behavior:'smooth',block:'center'});},250);
+        break;
+      }
+    }
+  },150);
+}
+
+function clearSearch(){
+  document.getElementById('searchInput').value='';
+  document.getElementById('searchResults').className='search-results';
+  document.getElementById('searchResults').innerHTML='';
+  document.getElementById('searchClear').style.display='none';
+}
+
+// 외부 클릭 시 결과 닫기
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.search-wrap')){
+    document.getElementById('searchResults').className='search-results';
+  }
+});
+
+</script>
+
+<div id="photoModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:9999;justify-content:center;align-items:center;cursor:pointer;" onclick="this.style.display='none'">
+<img id="photoModalImg" style="max-width:90vw;max-height:85vh;min-width:300px;border-radius:12px;box-shadow:0 4px 30px rgba(0,0,0,0.5);object-fit:contain;">
+</div>
+</body>
+</html>
