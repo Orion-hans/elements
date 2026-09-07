@@ -419,25 +419,23 @@ body{font-family:var(--font);background:var(--bg-deep);color:var(--text-primary)
   /* 모바일: 제목·헤더 겹침 방지 */
   .header h1{line-height:1.45;letter-spacing:0.03em;word-break:keep-all;padding:0 0.5rem;}
   .header p{line-height:1.6;word-break:keep-all;}
-  /* 모바일: 탭 버튼 가로 스크롤 (겹침 방지) */
+  /* 모바일: 탭 버튼 줄바꿈 + 폭 채우기 (스크롤 없이) */
   .tab-nav{
-    display:flex;
-    flex-wrap:nowrap;
-    justify-content:flex-start;
-    overflow-x:auto;
-    overflow-y:hidden;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:5px;
     padding:1rem 0.8rem 0.3rem;
-    gap:4px;
+    overflow:visible;
   }
-  .tab-nav::-webkit-scrollbar{display:none;}
   .tab-btn{
+    padding:0.55rem 0.4rem;
+    font-size:0.82rem;
     white-space:nowrap;
-    flex:0 0 auto;
-    padding:0.5rem 0.9rem;
-    font-size:0.86rem;
-    min-width:max-content;
+    min-width:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
   }
   .tab-dot{flex-shrink:0;}
   .acc-group-header{line-height:1.5;word-break:keep-all;min-height:auto;align-items:flex-start;}
@@ -453,7 +451,8 @@ body{font-family:var(--font);background:var(--bg-deep);color:var(--text-primary)
 }
 @media(max-width:400px){
   .header h1{font-size:1.15rem;letter-spacing:0.04em;}
-  .tab-btn{padding:0.45rem 0.7rem;font-size:0.84rem;flex:0 0 auto;white-space:nowrap;min-width:max-content;}
+  .tab-btn{padding:0.5rem 0.3rem;font-size:0.76rem;white-space:nowrap;min-width:0;}
+  .tab-dot{width:5px;height:5px;margin-right:4px;}
   .inst-group .acc-item-header{padding:0.5rem 0.6rem;}
   .inst-group .acc-item-kr{font-size:0.88rem;}
 }
