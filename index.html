@@ -28,10 +28,10 @@ html{font-size:18px;}
 body{font-family:var(--font);background:var(--bg-deep);color:var(--text-primary);min-height:100vh;overflow-x:hidden;}
 .header{padding:2.5rem 2rem 1.8rem;text-align:center;position:relative;}
 .header::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60px;height:1px;background:var(--border-medium);}
-.header h1{font-size:1.5rem;font-weight:600;letter-spacing:0.08em;}
+.header h1{font-size:1.5rem;font-weight:600;letter-spacing:0.08em;line-height:1.4;word-break:keep-all;}
 .header p{font-size:0.8rem;color:var(--text-muted);margin-top:0.4rem;letter-spacing:0.04em;}
-.tab-nav{display:flex;justify-content:center;gap:4px;padding:1.5rem 2rem 0;}
-.tab-btn{padding:0.65rem 1.8rem;border:none;background:transparent;color:var(--text-muted);font-family:var(--font);font-size:0.86rem;font-weight:500;cursor:pointer;border-radius:var(--radius-md);transition:all var(--med);letter-spacing:0.03em;}
+.tab-nav{display:flex;justify-content:center;gap:4px;padding:1.5rem 2rem 0;flex-wrap:wrap;}
+.tab-btn{padding:0.65rem 1.8rem;border:none;background:transparent;color:var(--text-muted);font-family:var(--font);font-size:0.86rem;font-weight:500;cursor:pointer;border-radius:var(--radius-md);transition:all var(--med);letter-spacing:0.03em;white-space:nowrap;}
 .tab-btn:hover{color:var(--text-secondary);background:var(--bg-hover);}
 .tab-btn.active{color:var(--text-primary);background:var(--bg-surface);box-shadow:0 1px 3px rgba(0,0,0,0.08),0 0 0 1px var(--border-medium);}
 .tab-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:8px;vertical-align:middle;opacity:0.5;transition:opacity var(--med);}
@@ -116,7 +116,17 @@ body{font-family:var(--font);background:var(--bg-deep);color:var(--text-primary)
 .inst-group .inner-tab.active::after{background:var(--accent-inst);}
 .scale-group .inner-tab.active::after{background:var(--accent-scale);}
 .inner-content{display:none;padding:1.2rem 1.4rem;min-height:80px;font-size:0.84rem;line-height:1.8;color:var(--text-secondary);}
-.inner-content.active{display:block;}
+/* 가독성: 서술형 본문 글줄 길이 제한 (이미지·표는 예외) */
+.inner-content img{max-width:100%;}
+.intro-box{max-width:70ch;}
+.sc-desc{max-width:68ch;}
+.ja-scale-info{max-width:68ch;}
+.sc-tori-body{max-width:70ch;}
+/* 한글 줄바꿈 자연스럽게 */
+.inner-content,.intro-box,.sc-desc,.ja-scale-info,.sc-tori-body,.detail-value{word-break:keep-all;overflow-wrap:break-word;}
+.inner-content.active{display:block;max-width:62ch;}
+/* 음역 악보 등 이미지가 포함된 탭은 폭 제한 해제 */
+.inner-content.active:has(img){max-width:100%;}
 .placeholder{color:var(--text-muted);font-style:italic;font-size:0.8rem;opacity:0.6;text-align:center;padding:1.5rem 0;}
 
 /* ─── 큰 화면 (패드·노트북) 최적화 ─── */
@@ -310,6 +320,9 @@ body{font-family:var(--font);background:var(--bg-deep);color:var(--text-primary)
   /* 카드가 좁아 답답하지 않도록 2열 + 넉넉한 간격 */
   .inst-group .acc-group-body{grid-template-columns:repeat(2,1fr);gap:10px;padding:8px;}
   .stick-group .acc-group-body{grid-template-columns:repeat(2,1fr);gap:10px;padding:8px;}
+  .acc-item-name{min-width:0;flex:1;}
+  .acc-item-kr{word-break:keep-all;line-height:1.45;}
+  .acc-item-en{word-break:break-word;line-height:1.35;}
 
   /* 장단 */
   .tree-node{font-size:1.05rem;padding:0.75rem 1rem;}
@@ -393,10 +406,54 @@ body{font-family:var(--font);background:var(--bg-deep);color:var(--text-primary)
   .ja-scale-info{font-size:0.86rem;}
   .ja-mode-tab{font-size:0.84rem;}
   .footer{padding:1.2rem;font-size:0.68rem;}
+
+  /* 모바일: 카드 1열 + 이름 세로 배치로 글자 겹침 방지 */
+  .inst-group .acc-group-body{grid-template-columns:1fr;gap:6px;}
+  .stick-group .acc-group-body{grid-template-columns:1fr;gap:6px;}
+  .acc-item-name{display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-width:0;flex:1;}
+  .acc-item-kr{margin-left:0;word-break:keep-all;line-height:1.4;}
+  .acc-item-en{margin-left:0 !important;line-height:1.3;word-break:break-word;}
+  .acc-item-header{align-items:center;}
+  .inst-photo-thumb{flex-shrink:0;}
+
+  /* 모바일: 제목·헤더 겹침 방지 */
+  .header h1{line-height:1.45;letter-spacing:0.03em;word-break:keep-all;padding:0 0.5rem;}
+  .header p{line-height:1.6;word-break:keep-all;}
+  /* 모바일: 탭 버튼 가로 스크롤 (겹침 방지) */
+  .tab-nav{
+    display:flex;
+    flex-wrap:nowrap;
+    justify-content:flex-start;
+    overflow-x:auto;
+    overflow-y:hidden;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    padding:1rem 0.8rem 0.3rem;
+    gap:4px;
+  }
+  .tab-nav::-webkit-scrollbar{display:none;}
+  .tab-btn{
+    white-space:nowrap;
+    flex:0 0 auto;
+    padding:0.5rem 0.9rem;
+    font-size:0.86rem;
+    min-width:max-content;
+  }
+  .tab-dot{flex-shrink:0;}
+  .acc-group-header{line-height:1.5;word-break:keep-all;min-height:auto;align-items:flex-start;}
+  .acc-group-header .g-icon{flex-shrink:0;margin-top:0.2rem;}
+  .term-group-header{line-height:1.5;word-break:keep-all;}
+  .sc-section-header{line-height:1.5;word-break:keep-all;}
+  .sc-tori-header{line-height:1.5;word-break:keep-all;}
+  .tree-branch-header{line-height:1.5;word-break:keep-all;}
+  .tree-node{line-height:1.5;word-break:keep-all;}
+  .tree-leaf{line-height:1.5;word-break:keep-all;}
+  .intro-box .intro-title{line-height:1.5;word-break:keep-all;}
+  .search-row{flex-wrap:nowrap;}
 }
 @media(max-width:400px){
   .header h1{font-size:1.15rem;letter-spacing:0.04em;}
-  .tab-btn{padding:0.45rem 0.7rem;font-size:0.84rem;}
+  .tab-btn{padding:0.45rem 0.7rem;font-size:0.84rem;flex:0 0 auto;white-space:nowrap;min-width:max-content;}
   .inst-group .acc-item-header{padding:0.5rem 0.6rem;}
   .inst-group .acc-item-kr{font-size:0.88rem;}
 }
@@ -569,6 +626,14 @@ to{opacity:1;transform:translateY(0)}
 .score-area{text-align:center;color:var(--text-sec,#888);padding:20px 10px;font-size:0.85rem;background:var(--card-bg,#faf8f4);border-radius:8px;}
 /* Search */
 .search-wrap{max-width:1400px;margin:1rem auto 0;padding:0 1.5rem;position:relative;}
+.search-row{display:flex;gap:8px;align-items:stretch;}
+.search-row .search-box{flex:1;}
+.reset-btn{flex-shrink:0;padding:0.5rem 1rem;border:1px solid var(--border-medium);background:var(--bg-surface);color:var(--text-muted);font-family:var(--font);font-size:0.85rem;font-weight:500;border-radius:var(--radius-lg);cursor:pointer;transition:all var(--fast);white-space:nowrap;}
+.reset-btn:hover{border-color:var(--accent-inst);color:var(--accent-inst);background:var(--accent-inst-dim);}
+.reset-btn:active{transform:scale(0.97);}
+@media(min-width:768px) and (max-width:1023px){.reset-btn{font-size:0.95rem;padding:0.6rem 1.2rem;}}
+@media(min-width:1024px){.reset-btn{font-size:0.95rem;padding:0.6rem 1.3rem;}}
+@media(max-width:600px){.reset-btn{font-size:0.82rem;padding:0.5rem 0.8rem;}}
 .search-box{display:flex;align-items:center;background:var(--bg-surface);border:1px solid var(--border-medium);border-radius:var(--radius-lg);padding:0.5rem 1rem;gap:8px;transition:border-color var(--fast),box-shadow var(--fast);}
 .search-box:focus-within{border-color:var(--accent-inst);box-shadow:0 0 0 3px var(--accent-inst-dim);}
 .search-icon{font-size:0.85rem;opacity:0.5;flex-shrink:0;}
@@ -606,10 +671,13 @@ to{opacity:1;transform:translateY(0)}
 </nav>
 
 <div class="search-wrap">
-  <div class="search-box">
-    <span class="search-icon">🔍</span>
-    <input type="text" id="searchInput" class="search-input" placeholder="악기, 음계, 장단, 용어 검색..." oninput="doSearch(this.value)">
-    <button class="search-clear" id="searchClear" onclick="clearSearch()" style="display:none;">✕</button>
+  <div class="search-row">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" class="search-input" placeholder="악기, 음계, 장단, 용어 검색..." oninput="doSearch(this.value)">
+      <button class="search-clear" id="searchClear" onclick="clearSearch()" style="display:none;">✕</button>
+    </div>
+    <button class="reset-btn" onclick="resetAll()" title="열린 항목 모두 닫기">↺ 초기화</button>
   </div>
   <div class="search-results" id="searchResults"></div>
 </div>
@@ -2125,6 +2193,59 @@ function goToResult(tab,name){
       }
     }
   },150);
+}
+
+function resetAll(){
+  // 검색어 지우기
+  clearSearch();
+  // 악기·채 아코디언 그룹 닫기
+  document.querySelectorAll('.acc-group').forEach(function(g){
+    g.classList.remove('open');
+    var icon=g.querySelector('.acc-group-header .g-icon');
+    if(icon)icon.textContent='▶';
+  });
+  // 개별 악기 아이템 닫기 + 내부 탭 첫 번째로
+  document.querySelectorAll('.acc-item').forEach(function(it){
+    it.classList.remove('open');
+    var tabs=it.querySelectorAll('.inner-tab');
+    var conts=it.querySelectorAll('.inner-content');
+    tabs.forEach(function(t,i){t.classList.toggle('active',i===0)});
+    conts.forEach(function(c,i){c.classList.toggle('active',i===0)});
+  });
+  // 음악용어 그룹 닫기
+  document.querySelectorAll('.term-group').forEach(function(g){
+    g.classList.remove('open');
+    var icon=g.querySelector('.term-group-header .g-icon');
+    if(icon)icon.textContent='▶';
+  });
+  // 음계 토리 카드 닫기
+  document.querySelectorAll('.sc-tori-card').forEach(function(c){
+    c.classList.remove('open');
+    var a=c.querySelector('.t-arrow');
+    if(a)a.textContent='▶';
+  });
+  // 음계 섹션 닫기
+  document.querySelectorAll('.sc-section').forEach(function(s){
+    s.classList.remove('open');
+    var icon=s.querySelector('.sc-section-header .g-icon');
+    if(icon)icon.textContent='▶';
+  });
+  // 장단 트리 브랜치·서브 닫기
+  document.querySelectorAll('.tree-branch').forEach(function(b){b.classList.remove('open')});
+  document.querySelectorAll('.tree-sub').forEach(function(s){s.classList.remove('open')});
+  document.querySelectorAll('.tree-node').forEach(function(n){n.classList.remove('open')});
+  document.querySelectorAll('.tree-leaf').forEach(function(l){l.classList.remove('selected')});
+  // 장단 상세 패널 닫기
+  var jd=document.getElementById('jangdan-detail');
+  if(jd)jd.classList.remove('open');
+  // 장단 서브탭 닫기
+  document.querySelectorAll('.rhy-tab-btn').forEach(function(b){b.classList.remove('active')});
+  document.querySelectorAll('.rhy-tab-panel').forEach(function(p){p.classList.remove('active')});
+  // 악보 행 닫기
+  document.querySelectorAll('.score-row').forEach(function(r){r.classList.remove('open')});
+  document.querySelectorAll('.score-active').forEach(function(r){r.classList.remove('score-active')});
+  // 맨 위로
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 function clearSearch(){
